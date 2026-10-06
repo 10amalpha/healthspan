@@ -272,7 +272,11 @@ const RESEARCH = {
   so:"No hay fármaco que proponer ni que rechazar. La contrapropuesta es comida: más proteína, ventanas más cortas en días de entrenamiento, y repetir con ayuno de 12 horas antes de sacar conclusiones."}
 ],
   CP:[
- {name:"ApoB (y LDL)", cur:176, unit:"mg/dL", goal:80, hab:[132,158], drug:[88,114], lowerBetter:true,
+ {name:"ApoB (y LDL)", cur:176, premise:{t:"Bajar la ApoB reduce el riesgo de infarto.", st:"en disputa", why:"Consenso en cardiología (genética, ensayos de eventos). Cuestionado por el modelo del coágulo y por la ausencia de beneficio en mortalidad en prevención primaria."},
+  alt:{label:"No acepto la premisa: primero placa", verdict:"Pendiente de dato",
+   you:[["Score de calcio coronario ahora; si es >0, angiotomografía para ver placa blanda","A","el dato que aceptan los dos modelos"],["Repetir ApoB y LDL en condiciones estándar solo para conocer la línea base, sin actuar sobre ellos","A",""],["Sostener lo que ya está bien: insulina 4.2, TG 100, PCR 0.1, entrenamiento, poco carbohidrato","B",""]],
+   vtxt:"Si no aceptás que bajar la ApoB es deseable, no hay nada que contraproponer sobre la dieta: la pregunta pasa a ser si hay placa. Con calcio 0 a los 51 tras años de LDL >230, tu posición queda respaldada por tu propia arteria; con placa, la premisa vuelve a la mesa.",
+   test:"Score de calcio; si es 0, repetir en 3–5 años.", when:"Si calcio >100 o placa blanda en angio-TC, la discusión deja de ser sobre la premisa y pasa a ser sobre qué hacer con placa real."}, unit:"mg/dL", goal:80, hab:[132,158], drug:[88,114], lowerBetter:true,
   doc:"Estatina de intensidad moderada o alta, posiblemente con ezetimiba.",
   you:[
    ["Sustituir mantequilla, coco y grasa de carne por oliva, pescado, nueces, aguacate. El queso sube el LDL bastante menos que la misma grasa en mantequilla (efecto matriz)","A","ApoB −10 a −15%"],
@@ -286,13 +290,17 @@ const RESEARCH = {
     src:["Minnesota Coronary Experiment, reanálisis Ramsden 2016, BMJ: 9,423 pacientes, el colesterol bajó, la mortalidad no mejoró","Sydney Diet Heart, Ramsden 2013, BMJ: 458 hombres, más mortalidad en el grupo con aceites vegetales","Hooper 2020, Cochrane: reducir saturadas baja ~17% los eventos cardiovasculares; sin efecto en mortalidad total ni cardiovascular"]},
    {q:"¿El LDL/ApoB causa placa y eventos?", a:"Sí. La evidencia más fuerte es genética y no depende de dieta ni de fármacos.", ev:"A",
     src:["Cohen 2006, NEJM: variantes de pérdida de función en PCSK9 (LDL bajo de por vida) → hasta 88% menos enfermedad coronaria","Ference 2017, Eur Heart J, consenso EAS: randomización mendeliana con relación dosis-respuesta entre exposición acumulada a LDL y eventos","Hipercolesterolemia familiar: LDL alto desde el nacimiento, infartos décadas antes que la población general"]},
+   {q:"¿Bajar la ApoB con un fármaco en gente sana alarga la vida?", a:"Menos eventos no fatales; sin reducción clara de mortalidad.", ev:"—",
+    src:["CTT 2010/2012, Lancet: ~22% menos eventos vasculares mayores por cada 1 mmol/L de LDL; datos individuales no compartidos con investigadores externos","Metaanálisis 2026 de 10 ensayos (85,829 personas sin enfermedad previa): sin reducción de mortalidad total ni cardiovascular","STAREE 2026, NEJM, mayores de 70 sanos: menos eventos cardiovasculares, sin cambio en muerte, demencia o discapacidad; más efectos adversos musculares, hepáticos y de glucosa","Ensayo francés 2026 (mayores de 75, retirar vs continuar): sin diferencia de mortalidad a 3 años","Kristensen 2015, BMJ Open: la mediana de muerte se posterga 3–4 días en 5 años; es una mediana, el beneficio se concentra en pocos"]},
+   {q:"El otro lado: ¿y si el LDL no causa nada?", a:"Es la tesis del modelo del coágulo (Kendrick). Lo que muestra y lo que no.", ev:"—",
+    src:["Weverling-Rijnsburger 1997, Lancet (Leiden 85+): en mayores de 85, más colesterol se asoció a menos mortalidad. Límite: a esa edad el colesterol bajo es marcador de enfermedad (causalidad inversa); en hombres de 35–57 (MRFIT, 361,000) la relación es la contraria y gradual","Ravnskov 2018, Expert Rev Clin Pharmacol: revisión que concluye que el LDL no es causal. Criticada por selección de estudios y por omitir la genética","PURE 2017, Lancet (135,000 personas, 18 países): la grasa saturada no se asoció a infarto; la grasa total, a menos mortalidad. Observacional, mayoría en países de ingresos bajos donde más grasa es mejor nutrición. La mejor carta de este lado","Modelo del coágulo: las placas contienen restos de trombo y la Lp(a) se concentra en ellas (cierto). Que no haya mecanismo para que el LDL entre bajo el endotelio (falso: transcitosis por SR-B1 y ALK1, Nature 2019, Nature Communications 2016)","Lo que este lado no explica: la hipercolesterolemia familiar homocigota (infartos antes de los 20) ni la protección de quienes nacen con PCSK9 defectuoso"]},
    {q:"¿Y en el fenotipo delgado, activo y bajo en carbohidratos con LDL muy alto?", a:"Abierto. Un solo estudio, sin grupo control, un año.", ev:"C",
     src:["KETO-CTA, Norwitz/Budoff 2025, JACC: Advances: 100 personas con este patrón, LDL mediano ~250, tomografía coronaria a 0 y 12 meses. La placa progresó en muchos; la progresión no se asoció al LDL ni a la ApoB sino a la placa inicial. Críticas: sin control, tasa de progresión alta, plazo corto","Lo que sí dice en ambas lecturas: la placa presente predice la placa futura. Por eso el dato decisivo es el score de calcio o la angiotomografía, no la ApoB"]}
   ],
   test:"Repetir ApoB y LDL a las 8–12 semanas con ayuno de 12 h. Antes o en paralelo: score de calcio coronario.",
   verdict:"Parcial", vtxt:"Los hábitos cierran entre un 20% y un 45% de la brecha hasta 80. Con hábitos solos no llegás al objetivo; sí podés llegar a 130–150, que cambia el riesgo pero no lo cierra.",
   when:"Reconsiderar el fármaco si a las 12 semanas ApoB sigue >110 con la dieta hecha, o si el score de calcio es >0. Con calcio 0 y ApoB ~130, la decisión es legítimamente tuya."},
- {name:"Lp(a)", cur:133, unit:"nmol/L", goal:75, hab:null, drug:[93,106], lowerBetter:true,
+ {name:"Lp(a)", cur:133, premise:{t:"La Lp(a) alta aumenta el riesgo de infarto y ACV.", st:"consenso", why:"Aceptada en los dos modelos: la genética la señala como causal, y Kendrick la pone en el centro del modelo del coágulo (hace los coágulos resistentes a degradarse)."}, unit:"nmol/L", goal:75, hab:null, drug:[93,106], lowerBetter:true,
   doc:"Probablemente nada específico; a lo sumo PCSK9 (por el LDL) o mencionar que hay fármacos en fase 3.",
   you:[
    ["No hay hábito que la mueva: ni dieta, ni ejercicio, ni alcohol","A","0%"],
@@ -302,7 +310,7 @@ const RESEARCH = {
   test:"Una sola vez en la vida alcanza; no hace falta repetirla. Pedir Lp(a) a hermanos e hijos.",
   verdict:"Sin alternativa", vtxt:"Aquí no hay contrapropuesta de hábitos y es importante saberlo antes de la consulta: es la razón por la que el resto del plan tiene que ser más estricto, no menos.",
   when:"Si aparecen placa (calcio >0) o eventos en la familia antes de los 60, la conversación sobre PCSK9 o un ensayo de siRNA deja de ser teórica."},
- {name:"Ácido úrico", cur:8.7, unit:"mg/dL", goal:6, hab:[6.7,7.7], drug:[4.5,6], lowerBetter:true,
+ {name:"Ácido úrico", cur:8.7, premise:{t:"El ácido úrico alto sin síntomas daña.", st:"en disputa", why:"La asociación con presión y eventos es sólida; los ensayos que lo bajan con alopurinol en personas sin gota no han mostrado beneficio cardiovascular. Con gota o cálculos la premisa cambia."}, unit:"mg/dL", goal:6, hab:[6.7,7.7], drug:[4.5,6], lowerBetter:true,
   doc:"Alopurinol si se mantiene >7–8 o si hay gota o cálculos.",
   you:[
    ["Alcohol a ≤3 copas/semana (la cerveza es la peor; el vino, intermedio)","A","−0.5 a −1.0"],
@@ -313,7 +321,7 @@ const RESEARCH = {
   test:"Repetir con ayuno de 8–12 h, sin alcohol ni carne roja el día previo, sin entreno intenso 48 h antes. Luego de 8 semanas de hábitos, otra vez.",
   verdict:"Probable", vtxt:"Los hábitos llevan de 8.7 a la zona de 7; llegar a 6 es posible si el alcohol baja de verdad. Sin síntomas, no hay prisa farmacológica.",
   when:"Reconsiderar si tras 8 semanas sigue >7.5, o ante cualquier crisis de gota o cálculo renal."},
- {name:"Ferritina", cur:430, unit:"ng/mL", goal:150, hab:[340,400], drug:[150,250], lowerBetter:true, drugLabel:"donación",
+ {name:"Ferritina", cur:430, premise:{t:"Una reserva de hierro alta y persistente es perjudicial.", st:"débil", why:"Consenso cuando hay sobrecarga confirmada (saturación alta, HFE). Para 400–500 con saturación desconocida la evidencia es de asociación. Por eso la primera acción es medir saturación, no actuar."}, unit:"ng/mL", goal:150, hab:[340,400], drug:[150,250], lowerBetter:true, drugLabel:"donación",
   doc:"Medir saturación de transferrina; si está alta, estudio genético de hemocromatosis y flebotomias.",
   you:[
    ["Donar sangre cada 3–4 meses, si saturación de transferrina y hemoglobina lo permiten","A","−30 a −50 por unidad"],
@@ -323,7 +331,7 @@ const RESEARCH = {
   test:"Saturación de transferrina y TIBC la próxima vez; es el dato que separa reserva alta de acumulación. Ferritina a los 6 meses.",
   verdict:"Sí", vtxt:"La donación es a la vez hábito y tratamiento: tres o cuatro al año devuelven la ferritina al rango en un año. Nunca has donado en 51 años.",
   when:"Si la saturación sale >45%, pedir el estudio HFE; ahí la frecuencia de flebotomia la define el médico, no el calendario de donación."},
- {name:"Homocisteína", cur:14.9, unit:"µmol/L", goal:10, hab:[9.7,12], drug:null, lowerBetter:true,
+ {name:"Homocisteína", cur:14.9, premise:{t:"Bajar la homocisteína reduce eventos.", st:"en disputa", why:"La asociación con riesgo vascular es sólida; los ensayos con vitaminas B (HOPE-2, NORVIT) no redujeron infartos, aunque sí redujeron ACV en metaanálisis. Como contrapropuesta es barata y sin costo; como premisa, no está probada."}, unit:"µmol/L", goal:10, hab:[9.7,12], drug:null, lowerBetter:true,
   doc:"Casi nunca recomiendan nada: 14.9 está dentro del rango del laboratorio. El objetivo de longevidad es otro.",
   you:[
    ["Verduras de hoja, legumbres, huevo: folato y B6 que la dieta baja en carbohidratos suele dejar cortos","A","−10 a −20%"],
@@ -333,7 +341,7 @@ const RESEARCH = {
   test:"Folato y B6 la próxima vez (nunca se midieron). Homocisteína a las 8 semanas.",
   verdict:"Sí", vtxt:"Es el marcador donde la contrapropuesta es también la única propuesta: no hay fármaco, hay nutrientes.",
   when:"Si con suplemento sigue >12, vale medir la variante MTHFR; cambia la forma de folato, no la estrategia."},
- {name:"Vitamina D", cur:31, unit:"ng/mL", goal:45, hab:[40,60], drug:null, lowerBetter:false,
+ {name:"Vitamina D", cur:31, premise:{t:"Una vitamina D de 31 es subóptima.", st:"débil", why:"31 está en rango de laboratorio. El objetivo 40–60 es de medicina de longevidad; el ensayo VITAL no mostró beneficio de suplementar en cáncer ni eventos cardiovasculares en gente con niveles normales. Consenso solo para hueso con niveles <20."}, unit:"ng/mL", goal:45, hab:[40,60], drug:null, lowerBetter:false,
   doc:"Suplementar; el rango que se estudia es 1000–4000 UI/día, la dosis la define el médico.",
   you:[
    ["Sol de media mañana, brazos y piernas, 15–20 min","A","+5 a +10 en 3 meses"],
@@ -342,7 +350,7 @@ const RESEARCH = {
   test:"Repetir a los 3 meses.",
   verdict:"Sí", vtxt:"Aquí hábito y suplemento son lo mismo; no hay nada que negociar.",
   when:"Si no sube con suplemento, mirar absorción (grasa en la dieta, intestino)."},
- {name:"T3 total e IGF-1", cur:56.8, unit:"ng/dL", goal:80, hab:[75,110], drug:null, lowerBetter:false,
+ {name:"T3 total e IGF-1", cur:56.8, premise:{t:"T3 baja con TSH normal refleja la energía que entra, no una tiroides enferma.", st:"consenso", why:"Fisiología bien descrita (adaptación al ayuno y al déficit calórico). Sin ensayos de desenlaces porque no hace falta: la contrapropuesta es comer y medir mejor."}, unit:"ng/dL", goal:80, hab:[75,110], drug:null, lowerBetter:false,
   doc:"Un buen médico, nada: TSH normal. Uno apurado, levotiroxina, que sería un error.",
   you:[
    ["Proteína 1.6–2 g/kg/día, repartida; es lo que IGF-1 y T3 están pidiendo","B","ambos suben en semanas"],
@@ -394,22 +402,22 @@ const RESEARCH = {
     so:"Antes de cualquier contrapropuesta hormonal: repetir con ayuno de 12 h, sin biotina 72 h antes, y testosterona por espectrometría de masas. Comer más, con proteína suficiente, es la palanca que mueve SHBG e IGF-1 a la vez."}
   ],
   CP:[
-   {name:"Vitamina D", cur:15, unit:"ng/mL", goal:45, hab:[40,60], drug:null, lowerBetter:false,
+   {name:"Vitamina D", cur:15, premise:{t:"Una vitamina D de 15 es insuficiente.", st:"consenso", why:"Consenso para hueso y músculo por debajo de 20, con más razón en la transición hormonal. El beneficio en otros desenlaces no está demostrado."}, unit:"ng/mL", goal:45, hab:[40,60], drug:null, lowerBetter:false,
     doc:"Suplementar; el rango que se estudia es 1000–4000 UI/día, la dosis la define el médico. Aquí recomendación y hábito coinciden.",
     you:[["Vitamina D3 con una comida con grasa, dosis acordada con el médico","A","+20 a +30 en 3 meses"],["Sol de media mañana, brazos y piernas, 15–20 min","A","+5 a +10 en 3 meses; solo no alcanza desde 15"],["Pescado graso y huevo suman poco pero suman","B","+2 a +5"]],
     test:"Repetir a los 3 meses, sin biotina 72 h antes (puede haber salido falsamente alta: la real podría ser menor).", verdict:"Sí", vtxt:"Es el hallazgo más claro y el más fácil de mover. En la transición hormonal el hueso pierde densidad más rápido; subir la D no es cosmético.",
     when:"Si no sube con suplemento, mirar absorción (grasa en la dieta, intestino). Densitometría basal ahora, para tener línea de partida."},
-   {name:"Testosterona y SHBG", cur:2.52, unit:"ng/dL", goal:15, hab:[4,10], drug:[20,40], lowerBetter:false,
+   {name:"Testosterona y SHBG", cur:2.52, premise:{t:"Una testosterona baja en mujeres es un problema a tratar.", st:"en disputa", why:"Solo hay evidencia A para libido en posmenopausia; para energía, músculo o ánimo es C. Y el valor puede estar mal medido (biotina, inmunoensayo). La premisa se evalúa después de repetir bien, no antes."}, unit:"ng/dL", goal:15, hab:[4,10], drug:[20,40], lowerBetter:false,
     doc:"O nada, o testosterona transdérmica en dosis femenina (fuera de ficha en la mayoría de países; evidencia A solo para libido en posmenopausia, C para energía y músculo).",
     you:[["Primero repetir sin biotina y con ayuno de 12 h, por espectrometría de masas: la cifra puede ser falsa","A","la real puede ser varias veces mayor"],["Comer más, con proteína 1.6 g/kg: la SHBG baja cuando sube la ingesta","B","SHBG −20 a −35%"],["Fuerza 3 veces por semana y dormir 7–8 h","B","testosterona +20 a +40% sobre un valor tan bajo"]],
     test:"Testosterona por espectrometría, SHBG, TSH (falta) e IGF-1, con ayuno de 12 h, sin biotina. Después de eso, 8 semanas de hábitos y repetir.", verdict:"Parcial", vtxt:"Los hábitos bajan la SHBG y suben algo la testosterona libre, pero parte de la caída es la transición. Decidir sobre terapia con el valor actual sería decidir sobre un dato que puede estar mal medido.",
     when:"Si tras repetir bien y 8 semanas de hábitos sigue <8 con síntomas (energía, libido, fuerza), la conversación sobre terapia es legítima; sin síntomas, el número solo no la justifica."},
-   {name:"IGF-1", cur:70.4, unit:"ng/mL", goal:110, hab:[95,135], drug:null, lowerBetter:false,
+   {name:"IGF-1", cur:70.4, premise:{t:"IGF-1 bajo con 20 h de ayuno refleja ingesta, no un eje enfermo.", st:"consenso", why:"Responde a comida de días, no de meses. Un IGF-1 moderadamente bajo no es en sí un problema de longevidad; lo es si viene con pérdida de fuerza o masa muscular."}, unit:"ng/mL", goal:110, hab:[95,135], drug:null, lowerBetter:false,
     doc:"Nada. Un IGF-1 bajo con ayuno de 20 h no es un hallazgo todavía.",
     you:[["Proteína 1.6 g/kg/día repartida en 3 comidas","B","sube en días a semanas"],["Ventanas de ayuno de 12–14 h los días de entrenamiento","B",""],["Repetir con ayuno nocturno normal antes de concluir","A","la muestra se tomó a las 20 h"]],
     test:"IGF-1 con ayuno de 12 h, en 8 semanas, junto con el resto del panel hormonal.", verdict:"Sí", vtxt:"Responde a comida de los últimos días, no de los últimos meses. La contrapropuesta es comer y medir bien.",
     when:"Si con ingesta normal sigue <90 y hay pérdida de fuerza o masa muscular, ahí sí endocrinología."},
-   {name:"Estradiol y FSH (transición)", cur:5, unit:"pg/mL", goal:30, hab:null, drug:[40,100], lowerBetter:false, drugLabel:"terapia hormonal",
+   {name:"Estradiol y FSH (transición)", cur:5, premise:{t:"La transición hormonal es algo a tratar.", st:"depende", why:"No es una premisa sobre el número: FSH alta y estradiol bajo a los 47 son la etapa esperada. La premisa real es sobre síntomas, hueso y preferencia, y la define ella."}, unit:"pg/mL", goal:30, hab:null, drug:[40,100], lowerBetter:false, drugLabel:"terapia hormonal",
     doc:"Terapia hormonal menopáusica (estradiol transdérmico + progesterona) si hay síntomas; o esperar y repetir. Evidencia A para sofocos y sueño, B para hueso; el balance de riesgos depende de edad de inicio y vía.",
     you:[["No hay hábito que mueva FSH ni estradiol en la transición","A","0%"],["Lo que sí es tuyo: fuerza para hueso y músculo, vitamina D, sueño","A","protege lo que la transición erosiona"],["Repetir FSH y estradiol entre el día 2 y 4 de otro ciclo","A","una medición no define la etapa"]],
     test:"FSH y estradiol día 2–4 del próximo ciclo, sin biotina. Densitometría basal. Registrar síntomas (sueño, sofocos, ánimo) durante 2 ciclos: la decisión se toma sobre síntomas, no sobre el número.", verdict:"Sin alternativa", vtxt:"Para el número no hay contrapropuesta y conviene saberlo antes de la consulta. La decisión real no es sobre FSH: es sobre síntomas, hueso y preferencia, y es tuya con la ginecóloga.",
@@ -447,7 +455,7 @@ const fmt=n=>Math.round(n);
 const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 const lab=i=>i>=1?["Alta","var(--high)"]:i>=0.4?["Media","var(--high)"]:["Limpia","var(--ok)"];
 const edge=m=>{ const [ol,oh]=m.opt, span=(oh-ol)||oh; return m.s===1 && ((oh-m.v)<=0.1*span || (ol>0 && (m.v-ol)<=0.1*span)); };
-const VC={ "Sí":"var(--ok)", "Probable":"var(--ok)", "Parcial":"var(--high)", "Sin alternativa":"var(--fix)" };
+const VC={ "Sí":"var(--ok)", "Probable":"var(--ok)", "Parcial":"var(--high)", "Sin alternativa":"var(--fix)", "Pendiente de dato":"var(--low)" };
 
 function rangeBar(c){
   const vals=[c.cur,c.goal,...(c.hab||[]),...(c.drug||[])];
@@ -485,16 +493,27 @@ function render(id){
   // stories
   $("stories").innerHTML=R.STORIES.map(s=>`<div class="card" style="border-top:4px solid ${s.tone}"><h3>${s.t}</h3><div class="pill-row" style="margin:10px 0 12px">${s.mk.map(m=>`<span class="pill">${m}</span>`).join("")}</div><p style="margin:0 0 10px;font-size:14px">${s.txt}</p><p style="margin:0;font-size:14px;color:var(--muted)"><b style="color:var(--ink)">Para contraproponer:</b> ${s.so}</p></div>`).join("");
   // cards
-  $("cps").innerHTML=(R.partial?`<div class="warn" style="margin-bottom:14px">${R.partial}</div>`:"")+R.CP.map(c=>`<div class="card" style="margin-bottom:14px">
-    <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between"><h3>${c.name} <span style="font-family:'Public Sans',sans-serif;font-weight:400;color:var(--muted);font-size:14px">${c.cur} ${c.unit}</span></h3><span style="font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#fff;background:${VC[c.verdict]};border-radius:999px;padding:4px 12px">${c.verdict}</span></div>
+  const PST={"consenso":"var(--ok)","en disputa":"var(--high)","débil":"var(--high)","depende":"var(--fix)"};
+  const youBlock=(items)=>items.slice(0,3).map(([t,ev,eff])=>`<div style="font-size:13.5px;margin-bottom:7px;display:grid;grid-template-columns:1fr auto;gap:8px"><span>${t}</span><span style="white-space:nowrap;color:var(--muted)">${eff} ${ev?`<b style="color:${ev==="C"?"var(--high)":"var(--ok)"}">${ev}</b>`:""}</span></div>`).join("");
+  const path=(c,x)=>`<div class="grid g2" style="margin-top:14px">
+      <div>${H("Lo que probablemente te recomienden")}<p style="margin:0 0 14px;font-size:14px;color:var(--muted)">${c.doc}</p>${H("Tu contrapropuesta")}${youBlock(x.you)}</div>
+      <div>${H("¿Alcanza?")}<p style="margin:0 0 14px;font-size:14px">${x.vtxt}</p>${H("Qué sigue")}<p style="margin:0;font-size:14px">${x.test} <span style="color:var(--muted)">${x.when}</span></p></div>
+    </div>`;
+  $("cps").innerHTML=(R.partial?`<div class="warn" style="margin-bottom:14px">${R.partial}</div>`:"")+R.CP.map((c,i)=>`<div class="card" style="margin-bottom:14px" data-cp="${i}">
+    <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between"><h3>${c.name} <span style="font-family:'Public Sans',sans-serif;font-weight:400;color:var(--muted);font-size:14px">${c.cur} ${c.unit}</span></h3><span class="vbadge" style="font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#fff;background:${VC[c.verdict]};border-radius:999px;padding:4px 12px">${c.verdict}</span></div>
+    ${c.premise?`<div style="margin-top:10px;padding:10px 12px;border-radius:10px;background:var(--paper);border:1px solid var(--line);font-size:13.5px"><span style="font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:${PST[c.premise.st]||"var(--muted)"}">Premisa · ${c.premise.st}</span> <b>${c.premise.t}</b> <span style="color:var(--muted)">${c.premise.why}</span></div>`:""}
     ${rangeBar(c)}
-    <div class="grid g2" style="margin-top:14px">
-      <div>${H("Lo que probablemente te recomienden")}<p style="margin:0 0 14px;font-size:14px;color:var(--muted)">${c.doc}</p>${H("Tu contrapropuesta")}
-      ${c.you.slice(0,3).map(([t,ev,eff])=>`<div style="font-size:13.5px;margin-bottom:7px;display:grid;grid-template-columns:1fr auto;gap:8px"><span>${t}</span><span style="white-space:nowrap;color:var(--muted)">${eff} <b style="color:${ev==="C"?"var(--high)":"var(--ok)"}">${ev}</b></span></div>`).join("")}</div>
-      <div>${H("¿Alcanza?")}<p style="margin:0 0 14px;font-size:14px">${c.vtxt}</p>${H("Qué sigue")}<p style="margin:0;font-size:14px">${c.test} <span style="color:var(--muted)">${c.when}</span></p></div>
-    </div>
+    ${c.alt?`<div class="switch" style="margin:12px 0 0"><button data-path="0" aria-pressed="true">Acepto la premisa, no el fármaco</button><button data-path="1" aria-pressed="false">${c.alt.label}</button></div>`:""}
+    <div class="path p0">${path(c,c)}</div>
+    ${c.alt?`<div class="path p1" style="display:none">${path(c,c.alt)}</div>`:""}
     ${c.claims?`<div style="margin-top:16px;border-top:1px dashed var(--line);padding-top:12px">${H("Quién dijo que esto es cierto")}${c.claims.map(k=>`<details style="margin-bottom:8px"><summary style="cursor:pointer;font-size:14px"><b>${k.q}</b> <span style="color:var(--muted)">${k.a}</span> ${k.ev!=="—"?`<b style="color:${k.ev==="C"?"var(--high)":"var(--ok)"}">${k.ev}</b>`:""}</summary><ul style="margin:8px 0 0;padding-left:18px;font-size:13px;color:var(--muted)">${k.src.map(x=>`<li style="margin-bottom:4px">${x}</li>`).join("")}</ul></details>`).join("")}</div>`:""}
     </div>`).join("");
+  $("cps").querySelectorAll(".switch").forEach(sw=>sw.addEventListener("click",e=>{
+    const b=e.target.closest("button"); if(!b) return; const card=sw.closest(".card"); const c=R.CP[card.dataset.cp]; const k=b.dataset.path;
+    [...sw.children].forEach(x=>x.setAttribute("aria-pressed",x.dataset.path===k));
+    card.querySelector(".p0").style.display=k==="0"?"":"none"; card.querySelector(".p1").style.display=k==="1"?"":"none";
+    const v=k==="1"?c.alt.verdict:c.verdict; const bd=card.querySelector(".vbadge"); bd.textContent=v; bd.style.background=VC[v]||"var(--fix)";
+  }));
   // ok table
   const rows=M.filter(m=>(m.s===1||R.showLeve.includes(m.k))&&!R.hideFromOk.includes(m.k)).sort((a,b)=>(edge(b)?1:0)-(edge(a)?1:0)||b.w-a.w);
   const tgt=m=>m.opt[0]>0?`${m.opt[0]}–${m.opt[1]}`:`< ${m.opt[1]}`;
