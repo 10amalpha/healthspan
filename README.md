@@ -6,6 +6,7 @@ Tablero de biomarcadores para seguir la salud de un grupo pequeño de personas a
 
 ## Qué contiene
 
+- `DATA.md` — copia legible de todos los datos (paneles, valores, rangos, lecturas, próximo panel). Se regenera desde `index.html`.
 - `index.html` — el tablero completo, autocontenido (HTML + CSS + JS, sin dependencias ni build). Los datos viven en el objeto `DATA` al final del archivo.
 
 ## Estructura de `DATA`
