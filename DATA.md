@@ -215,6 +215,8 @@ AST 22, ALT 20 y GGT 27 cómodos dentro del rango, incluso con ejercicio intenso
 
 ## Panel 6 de octubre de 2026 — 51 años — Cedimed · TAC score de calcio
 
+Informe completo anonimizado: [`reports/2026-10-06_score-calcio_participante-a.md`](reports/2026-10-06_score-calcio_participante-a.md) · [PDF tachado](reports/2026-10-06_score-calcio_participante-a.pdf)
+
 **Condiciones de la toma**
 
 - TAC de score de calcio sin contraste, tomógrafo de 320 detectores, técnica de Agatston (cortes de 3 mm), sincronización prospectiva
