@@ -130,6 +130,7 @@ El hemograma de 2025 es el mejor de los tres: glóbulos rojos 4.72 (ya en rango,
 - Vino: unas 10 copas a la semana
 - No fuma
 - Nunca ha donado sangre
+- Hemograma completo del impreso de Sura (6 oct): además de lo cargado, monocitos 236 (5.4%), eosinófilos 118 (2.7%), basófilos 26 (0.6%), granulocitos inmaduros 10 (0.2%), MCHC 34.3, RDW-SD 44.8, VPM 9.7, PDW 16.3; todos en rango
 - Antecedentes: mamá de 76 años con stent coronario reciente; colesterol alto en casi toda la familia; sin infartos en la familia; hermano de 48 años con triglicéridos en 480, toma estatinas, score de calcio limpio
 
 **Resultados**
@@ -172,6 +173,8 @@ El hemograma de 2025 es el mejor de los tres: glóbulos rojos 4.72 (ya en rango,
 | Sangre | Volumen corpuscular medio (VCM) | 97.3 | fL | 86 – 96 | **ALTO** | 98.5 |
 | Sangre | Neutrófilos | 2189 | /mm³ | 1800 – 7700 | en rango | 3970 |
 | Sangre | Plaquetas | 270000 | /mm³ | 150000 – 450000 | en rango | 284000 |
+| Sangre | Glóbulos rojos | 4.49 | millones/µL | 4.6 – 6.2 | **BAJO** | 4.72 |
+| Sangre | Amplitud de distribución eritrocitaria (RDW) | 12.6 | % | 11.5 – 14.3 | en rango | 12.9 |
 | Sangre | Leucocitos | 4370 | /mm³ | 4500 – 11000 | **BAJO** | 6770 |
 | Próstata | PSA total (Antígeno prostático) | 2.46 | ng/mL | 0 – 3.1 | en rango | 1.5 |
 
