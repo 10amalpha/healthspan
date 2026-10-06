@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Healthspan · Glosario</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --paper:#F2F4F1; --panel:#FFFFFF; --ink:#18221E; --muted:#5E6B65; --line:#D9E0DB;
+  --band:#D5E4DB; --ok:#2F6B55; --high:#B7791F; --low:#3B5E9E; --track:#E8ECE9;
+  --hab:#2F6B55; --med:#3B5E9E; --fix:#8A8F8C; --accent:#1F4133;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#111814; --panel:#18211C; --ink:#E4EAE6; --muted:#98A69F; --line:#2B3731;
+    --band:#24493A; --ok:#6CC49D; --high:#E0A547; --low:#86A6E6; --track:#222C27;
+    --hab:#6CC49D; --med:#86A6E6; --fix:#6B736F; --accent:#6CC49D;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#111814; --panel:#18211C; --ink:#E4EAE6; --muted:#98A69F; --line:#2B3731;
+  --band:#24493A; --ok:#6CC49D; --high:#E0A547; --low:#86A6E6; --track:#222C27;
+  --hab:#6CC49D; --med:#86A6E6; --fix:#6B736F; --accent:#6CC49D;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 15px/1.55 "Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:28px 20px 60px}
+h1,h2,h3{font-family:"Spectral",Georgia,serif;font-weight:600;letter-spacing:-.01em;margin:0}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.1}
+h2{font-size:22px;margin-bottom:6px}
+h3{font-size:17px}
+.sub{color:var(--muted);margin-top:6px}
+.tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 9px;margin-left:8px;vertical-align:middle}
+section{margin:36px 0}
+.lead{color:var(--muted);margin:0 0 16px;max-width:720px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+.grid{display:grid;gap:14px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:1fr 1fr}
+@media (max-width:760px){.g3,.g2{grid-template-columns:1fr}}
+.kpi{text-align:center}
+.kpi .big{font-family:"Spectral",Georgia,serif;font-size:44px;font-weight:600;line-height:1}
+.kpi .lbl{color:var(--muted);font-size:13px;margin-top:4px}
+.kpi .note{font-size:13px;color:var(--muted);margin-top:10px}
+.dial{width:170px;height:100px;display:block;margin:0 auto 6px}
+.stack{display:flex;height:14px;border-radius:7px;overflow:hidden;background:var(--track);margin:10px 0 6px}
+.stack span{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:10px 16px;font-size:12.5px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.levers{display:grid;grid-template-columns:140px 1fr 64px;gap:8px 12px;align-items:center;font-size:14px}
+.levers .bar{height:10px;border-radius:5px;background:var(--track);position:relative;overflow:hidden}
+.levers .bar b{position:absolute;left:0;top:0;bottom:0;border-radius:5px}
+.levers .pts{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px}
+th{font-weight:600;color:var(--muted);text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+th.c,td.c{text-align:center}
+td{padding:7px 6px;border-bottom:1px solid var(--line);vertical-align:middle}
+td.m{font-weight:600;white-space:nowrap}
+td.m small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.cell{display:inline-flex;align-items:center;justify-content:center;width:34px;height:28px;border-radius:7px;font-size:11px;font-weight:700;color:#fff}
+.cell.e0{background:transparent;color:transparent}
+.cell.A{outline:2px solid var(--ok);outline-offset:-2px}
+.cell.B{outline:2px dashed var(--ok);outline-offset:-2px}
+.cell.C{outline:2px dotted var(--high);outline-offset:-2px}
+.mini{height:8px;border-radius:4px;background:var(--track);position:relative;overflow:hidden;min-width:70px}
+.mini b{position:absolute;left:0;top:0;bottom:0;border-radius:4px}
+.mini.hi b{background:var(--high)} .mini.lo b{background:var(--low)} .mini.ok b{background:var(--ok)}
+.radar{width:100%;max-width:420px;display:block;margin:0 auto}
+.pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.pill{border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:13px;background:var(--paper)}
+.pill b{font-variant-numeric:tabular-nums}
+.detail .row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:baseline}
+.detail .val{font-family:"Spectral",Georgia,serif;font-size:30px;font-weight:600}
+.detail .val small{font:400 13px/1 "Public Sans",sans-serif;color:var(--muted);margin-left:6px}
+.detail .target{font-size:13px;color:var(--muted)}
+.lv{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.lv span{font-size:12.5px;border:1px solid var(--line);border-radius:8px;padding:3px 8px}
+.lv span i{font-style:normal;font-weight:700;margin-left:5px;color:var(--ok)}
+.lv span i.C{color:var(--high)}
+.hz{font-size:12.5px;color:var(--muted);margin-top:10px}
+.switch{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.switch button{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:5px 12px;cursor:pointer}
+.switch button[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+.lvlist{display:grid;grid-template-columns:1fr auto auto;gap:8px 14px;align-items:center;font-size:14px}
+.lvlist .pts{font-weight:700;font-variant-numeric:tabular-nums;text-align:right}
+.lvlist .ev{font-size:11px;color:var(--muted)}
+.strip{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding:22px 24px}
+@media (max-width:760px){.strip{grid-template-columns:1fr;gap:18px}}
+.st-n{font-family:"Spectral",Georgia,serif;font-size:40px;font-weight:600;line-height:1}
+.st-sep{color:var(--line)}
+.st-l{color:var(--muted);font-size:13px;margin-top:2px}
+.st-t{font-size:13.5px;margin-top:8px;color:var(--muted)}
+.st-t b{color:var(--ink)}
+.act{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}
+.act-txt{font-size:14px;margin:12px 0 0}
+.gain{display:grid;grid-template-columns:96px 1fr 48px;gap:10px;align-items:center;margin-top:8px}
+.gain-l{font-size:13px;color:var(--muted)} .gain .stack{margin:0} .gain-n{font-weight:700;font-variant-numeric:tabular-nums;text-align:right}
+.inh{display:flex;justify-content:space-between;gap:10px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
+.inh:last-child{border-bottom:none} .inh small{color:var(--muted);font-size:12.5px;display:block}
+.badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#fff;border-radius:999px;padding:3px 10px}
+footer{color:var(--muted);font-size:13px;margin-top:40px;border-top:1px solid var(--line);padding-top:16px}
+.rules{font-size:13.5px;color:var(--muted)}
+.rules b{color:var(--ink)}
+
+.top{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;margin-bottom:26px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+select{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.navlink{font:inherit;font-size:14px;font-weight:600;color:var(--ok);text-decoration:none;border:1px solid var(--ok);border-radius:8px;padding:8px 12px;display:inline-block}
+.warn{background:var(--panel);border:1px dashed var(--high);border-radius:12px;padding:12px 16px;font-size:13.5px;color:var(--muted);margin-bottom:20px}
+.warn b{color:var(--high)}
+
+.gl{display:grid;grid-template-columns:1fr;gap:14px}
+.gl .card h3{font-size:19px} .gl .card h3 small{font-family:"Public Sans",sans-serif;font-weight:400;color:var(--muted);font-size:13px;margin-left:8px}
+.q{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin:12px 0 3px} .q:first-of-type{margin-top:10px}
+.gl p{margin:0;font-size:14.5px}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.toc a{font-size:13px;color:var(--ink);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:var(--panel)}
+.toc a:hover{border-color:var(--ok)}
+.deb{border-left:3px solid var(--high);padding-left:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div><h1>Glosario</h1><div class="sub">Qué es cada marcador, por qué se mide, cómo se lee y qué se discute. Sin conclusiones.</div></div>
+    <div class="controls"><a class="navlink" href="index.html">← Panel</a><a class="navlink" href="research.html">Active research →</a></div>
+  </header>
+  <div class="warn">Esta sección es para entender, no para decidir. No interpreta los valores de ningún participante ni recomienda nada. Cada entrada tiene cuatro partes: <b>qué es</b> (biología), <b>por qué se mide</b> (qué pregunta responde), <b>cómo se lee</b> (qué lo mueve en el cuerpo y en la toma de la muestra) y <b>qué se discute</b> (dónde la ciencia no está de acuerdo, para seguir investigando).</div>
+  <nav class="toc" id="toc"></nav>
+  <div id="gl"></div>
+  <footer>Glosario · Healthspan. Contenido editorial en revisión; se corrige y amplía con cada panel nuevo. Lo marcado como "qué se discute" señala debates abiertos, no toma partido.</footer>
+</div>
+<script>
+
+const GROUPS=["Lípidos","Metabolismo","Hígado","Riñón","Hierro","Hormonas","Tiroides","Micronutrientes","Inflamación","Sangre","Próstata"];
+const GL=[
+// ---------- Lípidos ----------
+{g:"Lípidos",n:"Colesterol total",u:"mg/dL",
+ que:"La suma del colesterol que viaja en todas las lipoproteínas (LDL, HDL, VLDL). El colesterol es una molécula que el cuerpo fabrica, sobre todo en el hígado, y que forma membranas celulares, hormonas esteroideas, vitamina D y ácidos biliares. No circula libre: va dentro de partículas.",
+ por:"Fue el primer número de lípidos medible a gran escala (años 50) y la base de Framingham y de las guías históricas. Hoy se mide por costumbre y porque permite calcular ratios (total/HDL, no-HDL).",
+ lee:"Refleja carga total sin decir qué partícula la lleva; dos personas con el mismo total pueden tener composiciones opuestas. Sube con ayuno prolongado, hipotiroidismo y en algunas personas con dietas muy bajas en carbohidratos; baja en enfermedad aguda, cáncer y desnutrición. Varía 5–10% de un día a otro.",
+ deb:"Si aporta algo una vez conocidos ApoB y HDL. La mayoría de guías modernas ya no lo usan como objetivo."},
+{g:"Lípidos",n:"Colesterol LDL (directo)",u:"mg/dL",
+ que:"El colesterol contenido en las partículas LDL (lipoproteína de baja densidad), que llevan colesterol del hígado a los tejidos. 'Directo' significa medido con un reactivo específico, no estimado con la fórmula de Friedewald (total − HDL − TG/5), que falla con triglicéridos altos o muy bajos.",
+ por:"Es la partícula que más se asocia a la placa aterosclerótica en genética (hipercolesterolemia familiar, variantes de PCSK9), epidemiología y ensayos de fármacos. El riesgo parece depender de la exposición acumulada a lo largo de décadas, no de un valor puntual.",
+ lee:"Mide el colesterol dentro de las partículas, no cuántas partículas hay: con partículas pequeñas y densas, el LDL-C subestima el número (ahí ApoB corrige). Sube con ayuno largo, pérdida de peso rápida, hipotiroidismo y dietas muy bajas en carbohidratos en personas predispuestas.",
+ deb:"El debate central de la cardiología: causa o marcador. El modelo convencional (respuesta a la retención) dice que las partículas ApoB quedan atrapadas en la pared arterial; el modelo del coágulo (Kendrick) dice que la placa es trombo cicatrizado y el colesterol llega con los glóbulos rojos. También: el fenotipo 'hiperrespondedor magro' (delgado, activo, bajo en carbohidratos, LDL muy alto) y si en él el LDL predice placa; y los umbrales, que vienen de extrapolar genética y ensayos, no de probar cada corte."},
+{g:"Lípidos",n:"Colesterol HDL",u:"mg/dL",
+ que:"El colesterol en las partículas de alta densidad, que recogen colesterol de los tejidos y lo devuelven al hígado (transporte reverso). Es la base del apodo 'colesterol bueno'.",
+ por:"En Framingham y cohortes posteriores, más HDL se asoció a menos enfermedad coronaria, con una fuerza que lo convirtió en pieza de todas las calculadoras de riesgo.",
+ lee:"Sube con ejercicio aeróbico, alcohol moderado, estrógenos, pérdida de grasa; baja con triglicéridos altos, tabaco, resistencia a la insulina. Valores muy altos (>90) no siempre protegen: algunas variantes genéticas (CETP, SR-B1) dan HDL alto con más riesgo.",
+ deb:"La asociación es sólida, la causalidad no: los fármacos que suben el HDL (niacina, inhibidores de CETP como torcetrapib, dalcetrapib, evacetrapib) no redujeron eventos, y la randomización mendeliana no apoya que el HDL proteja por sí mismo. La hipótesis actual mira la función (capacidad de eflujo de colesterol) más que la cantidad."},
+{g:"Lípidos",n:"Triglicéridos",u:"mg/dL",
+ que:"La forma en que el cuerpo transporta y almacena grasa para energía: tres ácidos grasos unidos a un glicerol. En sangre viajan en VLDL (hechas por el hígado) y quilomicrones (de la comida).",
+ por:"Son el marcador de lípidos más sensible al metabolismo de carbohidratos e insulina; forman parte de la definición de síndrome metabólico y su relación con HDL (TG/HDL) se usa como aproximación a la resistencia a la insulina.",
+ lee:"Muy sensibles a lo reciente: bajan con ayuno largo y ejercicio del día anterior; suben con alcohol, azúcar y fructosa, carbohidratos refinados, y en las horas después de comer. Por eso se piden en ayunas de 8–12 h; un ayuno de 20 h los da artificialmente bajos.",
+ deb:"Si los triglicéridos en sí causan daño o si lo hacen las partículas remanentes que los llevan (la randomización mendeliana apunta a los remanentes). Los ensayos de bajarlos son contradictorios: REDUCE-IT (icosapent etil) positivo, STRENGTH (omega-3 mixto) negativo, fibratos en general negativos."},
+{g:"Lípidos",n:"Apolipoproteína B (ApoB)",u:"mg/dL",
+ que:"La proteína estructural de todas las partículas potencialmente aterogénicas: LDL, VLDL, IDL y Lp(a). Hay exactamente una ApoB por partícula, así que medirla es contar partículas, no colesterol.",
+ por:"Cuando LDL-C y ApoB discrepan (partículas muchas pero pequeñas, o pocas pero grandes), la ApoB predice mejor los eventos. Cada partícula ApoB puede quedar retenida en la pared arterial, independientemente de cuánto colesterol lleve.",
+ lee:"Más estable que el LDL-C frente al ayuno y a la variación diaria. Los laboratorios ponen el límite alto en ~130–140; las guías europeas usan <100, <80 o <65 según riesgo; la medicina de longevidad propone <60–80 por extrapolación.",
+ deb:"Hereda el debate del LDL sobre causalidad. Y los objetivos bajos vienen de genética y de pendientes de ensayos, no de ensayos que hayan probado llevar a gente sana a 60."},
+{g:"Lípidos",n:"Lipoproteína (a) — Lp(a)",u:"nmol/L o mg/dL",
+ que:"Una partícula LDL con una proteína extra pegada, la apo(a), que se parece al plasminógeno (la enzima que disuelve coágulos). Su nivel lo fija casi por completo un gen (LPA): más del 90% es herencia y cambia poco en la vida.",
+ por:"Es un factor de riesgo independiente de infarto, ACV y estenosis aórtica, que ni la dieta ni el ejercicio mueven, y que las calculadoras de riesgo habituales no incluyen. Por eso se mide una vez en la vida.",
+ lee:"Dos unidades que no se convierten entre sí: nmol/L (número de partículas) y mg/dL (masa). Las guías marcan riesgo alto por encima de ~125 nmol/L (~50 mg/dL). Sube algo con menopausia, hipotiroidismo y enfermedad renal; baja con hipertiroidismo. Las estatinas la suben levemente; PCSK9 la baja 20–30%.",
+ deb:"Si bajarla reduce eventos: no se sabe todavía. Los fármacos específicos (pelacarsen, olpasiran, lepodisiran) la bajan 80–95% y están en fase 3. En el modelo del coágulo la Lp(a) es protagonista: repara daño arterial pero vuelve los coágulos resistentes a disolverse (por su parecido al plasminógeno). Ambos modelos coinciden en que importa."},
+// ---------- Metabolismo ----------
+{g:"Metabolismo",n:"Glucosa en ayunas",u:"mg/dL",
+ que:"El azúcar circulante tras 8–12 h sin comer. Refleja el equilibrio entre lo que el hígado produce (gluconeogénesis) y lo que insulina y tejidos retiran.",
+ por:"Es el criterio clásico de diabetes (≥126 en dos ocasiones) y prediabetes (100–125). Barata, universal, fácil de repetir.",
+ lee:"Sube con estrés, mal sueño, el 'fenómeno del alba' (cortisol matutino), infección, y a veces con ayunos muy largos por producción hepática; baja con ejercicio reciente. Una sola medición captura un instante; no ve lo que pasa después de comer.",
+ deb:"Si la glucosa en ayunas es suficiente: muchos con glucosa normal tienen picos posprandiales altos. Los monitores continuos (CGM) muestran variabilidad que este número no ve; qué variabilidad importa en personas sanas está abierto."},
+{g:"Metabolismo",n:"Insulina en ayunas",u:"µU/mL",
+ que:"La hormona que el páncreas libera para que las células tomen glucosa y para frenar la producción hepática. En ayunas refleja cuánta insulina hace falta para mantener la glucosa estable.",
+ por:"La resistencia a la insulina aparece años antes de que la glucosa suba: el páncreas compensa produciendo más. Insulina alta con glucosa normal es esa compensación. Con la glucosa permite calcular HOMA-IR (glucosa × insulina / 405).",
+ lee:"Baja con ayuno largo y dietas bajas en carbohidratos; sube con grasa visceral, mal sueño, inactividad. No está estandarizada entre laboratorios, así que los cortes 'óptimos' (<5, <8) son orientativos. Algunas técnicas se afectan por biotina.",
+ deb:"Qué umbral predice daño en personas delgadas y activas, y cuánto de la variación es técnica del laboratorio."},
+{g:"Metabolismo",n:"Hemoglobina glicada (HbA1c)",u:"%",
+ que:"El porcentaje de hemoglobina que tiene glucosa pegada. Como el glóbulo rojo vive ~120 días, es un promedio ponderado de la glucosa de los últimos 2–3 meses (más peso al último mes).",
+ por:"Diagnostica diabetes (≥6.5%) y prediabetes (5.7–6.4%) sin ayuno y sin depender de un día; es el marcador de control en diabéticos.",
+ lee:"Depende de la vida del glóbulo rojo: anemia, hemólisis, recambio alto (deportistas), macrocitosis, hemoglobinopatías la desvían. Se convierte a glucosa promedio estimada (5.24% ≈ 104 mg/dL).",
+ deb:"La discordancia con la glucosa real en algunas personas, y las diferencias por ascendencia que los cortes no ajustan."},
+{g:"Metabolismo",n:"Ácido úrico",u:"mg/dL",
+ que:"El producto final de degradar purinas (componentes del ADN y el ATP), tanto las propias como las de la comida. Dos tercios se eliminan por el riñón, un tercio por el intestino. Los humanos lo tenemos alto porque perdimos la enzima uricasa que otros mamíferos conservan.",
+ por:"Es el factor de la gota y de un tipo de cálculo renal, y se asocia con presión arterial, síndrome metabólico y enfermedad renal.",
+ lee:"Sube con deshidratación, ayuno (los cuerpos cetónicos compiten por la excreción), alcohol (sobre todo cerveza), fructosa, diuréticos, ejercicio intenso y recambio celular alto; baja con estrógenos, por eso las mujeres premenopáusicas lo tienen menor. La genética (SLC2A9, ABCG2) explica ~24% de la variación; la dieta, menos del 1% (Major 2018).",
+ deb:"Si causa hipertensión y daño renal o solo los acompaña; los ensayos de bajarlo en gente sin gota no han mostrado beneficio cardiovascular. Además es el principal antioxidante del plasma, lo que algunos leen como razón para no bajarlo sin motivo."},
+// ---------- Hígado ----------
+{g:"Hígado",n:"AST (GOT)",u:"U/L",
+ que:"Una enzima presente en hígado, corazón, músculo esquelético y glóbulos rojos. Cuando esas células se rompen, pasa a la sangre.",
+ por:"Parte del perfil hepático básico. Junto con ALT indica daño celular; la relación AST/ALT ayuda a orientar la causa.",
+ lee:"Sube con ejercicio intenso (viene del músculo, no del hígado), hemólisis, y daño hepático. AST/ALT > 2 sugiere alcohol; < 1 sugiere hígado graso.",
+ deb:"Poco; es un marcador bien entendido. La discusión es sobre los límites superiores, no sobre su significado."},
+{g:"Hígado",n:"ALT (GPT)",u:"U/L",
+ que:"Una enzima concentrada sobre todo en el hígado; la más específica de daño hepatocelular en la analítica de rutina.",
+ por:"Detecta inflamación o daño del hígado, incluido el hígado graso no alcohólico, que no da síntomas durante años.",
+ lee:"Sube con hígado graso, alcohol, fármacos, hepatitis, y levemente con ejercicio. El límite de laboratorio (~41) se fijó en poblaciones donde el hígado graso ya era frecuente; varios autores proponen <30 en hombres y <19 en mujeres como 'normal verdadero'.",
+ deb:"Dónde poner el límite superior, y si valores 'normales-altos' ya reflejan grasa hepática."},
+{g:"Hígado",n:"GGT (gamma-glutamil transferasa)",u:"U/L",
+ que:"Una enzima de la membrana de las células de los conductos biliares y del hígado, involucrada en el reciclaje del glutatión (el principal antioxidante celular).",
+ por:"Es la enzima hepática más sensible al alcohol y a la obstrucción biliar, y la que primero se mueve con hígado graso. En epidemiología predice mortalidad cardiovascular incluso dentro del rango normal.",
+ lee:"Vida media de 2–3 semanas: responde rápido a cambios de consumo. Sube con alcohol, fármacos inductores (anticonvulsivos), hígado graso, obstrucción biliar; también con estrés oxidativo general.",
+ deb:"Si es solo un marcador de estrés oxidativo o participa en el daño vascular (hay hipótesis de que la GGT en la placa genera radicales libres)."},
+// ---------- Riñón ----------
+{g:"Riñón",n:"Creatinina",u:"mg/dL",
+ que:"Un residuo del metabolismo de la creatina muscular que se produce a ritmo constante y el riñón filtra. Si el riñón filtra menos, sube.",
+ por:"Es la base del filtrado glomerular estimado (eGFR), la medida estándar de función renal.",
+ lee:"Depende de la masa muscular: alta en personas musculosas, baja en sarcopenia o desnutrición, lo que puede esconder un riñón que filtra mal. Sube transitoriamente con carne cocida (creatina) y con suplementos de creatina. La cistatina C es la alternativa que no depende del músculo.",
+ deb:"Las ecuaciones de eGFR (CKD-EPI 2021 eliminó el coeficiente por raza), y cuándo pedir cistatina C en lugar de creatinina."},
+{g:"Riñón",n:"Nitrógeno ureico (BUN)",u:"mg/dL",
+ que:"El nitrógeno de la urea, que el hígado fabrica al degradar proteínas y el riñón elimina.",
+ por:"Complementa la creatinina: la relación BUN/creatinina orienta entre deshidratación, sangrado digestivo, catabolismo o problema renal intrínseco.",
+ lee:"Sube con dieta alta en proteína, deshidratación, ayuno con catabolismo muscular, corticoides; baja con poca proteína, enfermedad hepática, embarazo.",
+ deb:"Mínimo. Es un marcador contextual."},
+// ---------- Hierro ----------
+{g:"Hierro",n:"Hierro sérico",u:"µg/dL",
+ que:"El hierro que circula unido a la transferrina en el momento de la extracción. Es una fracción minúscula del hierro corporal (la mayoría está en hemoglobina y en depósitos).",
+ por:"Pieza del estudio del hierro; solo tiene sentido con TIBC y saturación.",
+ lee:"Varía mucho: mayor por la mañana, cambia con comidas recientes y suplementos, baja con inflamación aunque los depósitos estén llenos. Solo, es de los marcadores menos informativos del panel.",
+ deb:"Ninguno sobre su significado; sí sobre lo poco que vale aislado."},
+{g:"Hierro",n:"Capacidad total de fijación (TIBC)",u:"µg/dL",
+ que:"Cuánto hierro podría transportar toda la transferrina presente. Es una medida indirecta de cuánta transferrina hay.",
+ por:"El hígado fabrica más transferrina cuando falta hierro y menos cuando sobra o hay inflamación; por eso la TIBC ayuda a distinguir deficiencia de sobrecarga.",
+ lee:"Alta en deficiencia de hierro y embarazo; baja en sobrecarga, inflamación crónica, desnutrición y enfermedad hepática.",
+ deb:"Ninguno relevante."},
+{g:"Hierro",n:"Capacidad de combinación no saturada (UIBC)",u:"µg/dL",
+ que:"La parte de la transferrina que va vacía: TIBC menos hierro sérico.",
+ por:"Es el mismo dato que TIBC visto desde el otro lado; algunos laboratorios la miden directamente y calculan la TIBC.",
+ lee:"Alta cuando falta hierro; baja cuando la transferrina va llena.",
+ deb:"Ninguno."},
+{g:"Hierro",n:"Saturación de transferrina",u:"%",
+ que:"El porcentaje de la transferrina que lleva hierro: hierro sérico / TIBC × 100.",
+ por:"Es el marcador clave para sospechar sobrecarga de hierro: por encima de ~45% sugiere hemocromatosis y justifica el estudio genético (HFE). Por debajo de ~16–20% apunta a deficiencia.",
+ lee:"Hereda la variabilidad del hierro sérico (hora, comida); se pide en ayunas por la mañana. Se interpreta junto con ferritina: ferritina alta con saturación normal suele ser inflamación, hígado graso o alcohol; con saturación alta, acumulación real.",
+ deb:"El corte exacto (45% vs 50%) y si conviene medirla a todos una vez."},
+{g:"Hierro",n:"Ferritina",u:"ng/mL",
+ que:"La proteína que almacena hierro dentro de las células. La fracción que circula es proporcional a los depósitos, pero también es una proteína de fase aguda: sube con inflamación.",
+ por:"Es el mejor marcador de depósitos de hierro: baja (<30) es casi diagnóstica de deficiencia. Alta exige saber si es depósito o inflamación.",
+ lee:"Sube con inflamación (por eso se lee con PCR), alcohol, hígado graso, síndrome metabólico, ejercicio intenso reciente, y con depósitos altos reales. Los hombres y las mujeres posmenopáusicas acumulan hierro con los años; las mujeres que menstrúan lo pierden cada mes.",
+ deb:"Qué rango es óptimo en adultos sanos (algunos proponen 50–150), si el hierro alto-normal acelera el envejecimiento (la randomización mendeliana sugiere efectos mixtos: menos anemia pero más algunos daños), y qué papel tiene la donación de sangre fuera de la hemocromatosis."},
+// ---------- Hormonas ----------
+{g:"Hormonas",n:"Testosterona total",u:"ng/dL",
+ que:"El principal andrógeno. En hombres la fabrican los testículos; en mujeres, los ovarios y las glándulas suprarrenales en cantidades unas 10–20 veces menores. Total = la unida a SHBG + la unida a albúmina + la libre.",
+ por:"Regula masa muscular, hueso, libido, glóbulos rojos, ánimo y energía. Se mide ante síntomas de déficit o para seguimiento.",
+ lee:"Pico por la mañana (por eso se pide antes de las 10); baja con falta de sueño, enfermedad aguda, ayuno largo, obesidad, alcohol, sobreentrenamiento. En valores bajos (mujeres, hombres hipogonádicos) el inmunoensayo es impreciso; el estándar es espectrometría de masas.",
+ deb:"Los umbrales de déficit en hombres (300 vs 350 vs síntomas), la seguridad cardiovascular de la terapia (el ensayo TRAVERSE 2023 fue neutro), y en mujeres para qué sirve tratarla fuera de la libido."},
+{g:"Hormonas",n:"Testosterona libre",u:"pg/mL",
+ que:"La fracción (~1–3%) no unida a ninguna proteína, que es la que entra en las células y actúa.",
+ por:"Cuando la SHBG está alterada, la total engaña: con SHBG alta hay menos libre de la que la total sugiere, y al revés.",
+ lee:"Se calcula (Vermeulen) a partir de total, SHBG y albúmina, o se mide por diálisis de equilibrio (estándar). Los inmunoensayos 'directos' de testosterona libre son poco fiables.",
+ deb:"Qué método y qué fórmula; los resultados cambian según cuál se use."},
+{g:"Hormonas",n:"SHBG (globulina transportadora de hormonas sexuales)",u:"nmol/L",
+ que:"Una proteína hepática que une testosterona y estradiol en sangre, regulando cuánta hormona queda libre.",
+ por:"Sin ella no se interpreta la testosterona total. Y es un marcador metabólico en sí: baja con resistencia a la insulina y predice diabetes.",
+ lee:"Sube con estrógenos (anticonceptivos orales), hipertiroidismo, edad, poca ingesta calórica o ayuno prolongado, enfermedad hepática; baja con insulina alta, obesidad, andrógenos, hipotiroidismo.",
+ deb:"Si la SHBG participa en el metabolismo o solo lo refleja (hay evidencia genética de que la SHBG baja contribuye a la diabetes)."},
+{g:"Hormonas",n:"Estradiol",u:"pg/mL",
+ que:"El principal estrógeno. En mujeres lo producen los folículos ováricos y varía con el ciclo; en hombres viene de convertir testosterona (aromatasa) y es relevante para hueso y libido.",
+ por:"Evalúa función ovárica, transición a la menopausia, amenorrea, y en hombres el equilibrio con la testosterona.",
+ lee:"Depende del día del ciclo: folicular temprana baja, pico preovulatorio alto, lútea intermedia. Los inmunoensayos son imprecisos por debajo de ~20–30 pg/mL (posmenopausia, hombres): ahí se pide espectrometría. La biotina interfiere en varias plataformas.",
+ deb:"El momento y la vía de la terapia hormonal en la transición (la 'hipótesis del momento': beneficio si se inicia antes de los 60 o dentro de los 10 años de la menopausia), y qué desenlaces mejora más allá de los síntomas."},
+{g:"Hormonas",n:"FSH (hormona foliculoestimulante)",u:"mUI/mL",
+ que:"Hormona de la hipófisis que estimula a los folículos ováricos (y a los testículos). Cuando el ovario responde poco, la hipófisis sube la FSH para compensar.",
+ por:"Es el marcador clásico de reserva ovárica y de transición a la menopausia: FSH alta con estradiol bajo significa que la hipófisis empuja y el ovario no responde.",
+ lee:"Se mide entre el día 2 y 4 del ciclo. En la perimenopausia oscila mucho de un ciclo a otro; un valor alto aislado no define nada, hace falta tendencia. Los anticonceptivos hormonales la suprimen. Por encima de 25–40 en folicular temprana se considera transición.",
+ deb:"Poco sobre su significado; el debate es clínico: cuándo un valor alto cambia decisiones."},
+{g:"Hormonas",n:"Progesterona",u:"ng/mL",
+ que:"Hormona que produce el cuerpo lúteo tras la ovulación (y la placenta en el embarazo). Prepara el endometrio y sube la temperatura basal.",
+ por:"Medida en fase lútea media (día 21 de un ciclo de 28) confirma que hubo ovulación (>3–5 ng/mL).",
+ lee:"En fase folicular es naturalmente baja y no dice casi nada. La biotina la puede subir falsamente.",
+ deb:"Su papel en la terapia hormonal (protege el endometrio si se da estrógeno) y la diferencia entre progesterona micronizada y progestágenos sintéticos en riesgo mamario."},
+{g:"Hormonas",n:"DHEA-S (sulfato de dehidroepiandrosterona)",u:"µg/dL",
+ que:"El andrógeno más abundante en sangre, producido casi solo por las glándulas suprarrenales. Es precursor de testosterona y estrógenos. La forma sulfatada es estable y no varía con la hora.",
+ por:"Evalúa la función suprarrenal androgénica; es alta en síndrome de ovario poliquístico y tumores suprarrenales, baja con insuficiencia suprarrenal y corticoides. Declina con la edad de forma constante ('adrenopausia').",
+ lee:"Rango muy dependiente de edad y sexo. No tiene ritmo diario, lo que lo hace cómodo de medir.",
+ deb:"Si la caída con la edad es causa o compañía del envejecimiento; los ensayos de suplementar DHEA en mayores dan resultados pequeños o nulos en fuerza, hueso y cognición."},
+{g:"Hormonas",n:"IGF-1 (somatomedina C)",u:"ng/mL",
+ que:"El factor de crecimiento que el hígado produce en respuesta a la hormona de crecimiento (GH). Como la GH se libera en pulsos, el IGF-1 es la forma estable de medir el eje.",
+ por:"Evalúa el eje GH (déficit o exceso) y, en adultos sanos, el estado nutricional reciente: refleja proteína y energía de los últimos días.",
+ lee:"Baja con ayuno de pocos días, poca proteína, pocas calorías, mal sueño y edad; sube con proteína suficiente, pubertad, insulina. Rango dependiente de edad.",
+ deb:"Su relación con la longevidad es en U: IGF-1 bajo se asocia a más longevidad en algunos modelos (enanismo de Laron, centenarios) pero también a fragilidad, sarcopenia y fracturas en mayores. Los secretagogos de GH que lo suben tienen evidencia preliminar y riesgos."},
+// ---------- Tiroides ----------
+{g:"Tiroides",n:"TSH (hormona estimulante de la tiroides)",u:"mUI/L",
+ que:"La señal que la hipófisis manda a la tiroides. Si la tiroides produce poco, la TSH sube; si produce mucho, baja. La relación es logarítmica: pequeños cambios de T4 producen grandes cambios de TSH.",
+ por:"Es la prueba más sensible para detectar hipo o hipertiroidismo primario; con ella se empieza cualquier estudio tiroideo.",
+ lee:"Tiene ritmo diario (mayor de madrugada), sube con falta de sueño y al recuperarse de una enfermedad, varía con la edad (el límite superior sube en mayores). La biotina la baja falsamente. Rango de laboratorio ~0.4–4.5; varios autores proponen 1–2.5 como 'óptimo', sin consenso.",
+ deb:"Dónde poner el límite superior, si tratar el hipotiroidismo subclínico (TSH 4.5–10 con T4 normal: los ensayos en mayores no muestran beneficio), y el 'óptimo' de longevidad."},
+{g:"Tiroides",n:"T4 libre (tiroxina)",u:"ng/dL",
+ que:"La hormona que la tiroides produce en mayor cantidad; es una prohormona que los tejidos convierten en T3, la activa. 'Libre' es la fracción no unida a proteínas transportadoras.",
+ por:"Confirma lo que la TSH sugiere y distingue el problema tiroideo (primario) del hipofisario (central).",
+ lee:"Se altera con biotina, embarazo, y fármacos que afectan las proteínas de unión. Es estable y poco sensible a la comida o al ayuno.",
+ deb:"Poco; es un marcador bien entendido."},
+{g:"Tiroides",n:"T3 total (triyodotironina)",u:"ng/dL",
+ que:"La hormona tiroidea activa, 3–4 veces más potente que la T4. El 80% se fabrica fuera de la tiroides, convirtiendo T4 en los tejidos mediante enzimas (desyodasas) que el cuerpo regula según su estado energético. 'Total' incluye la unida a proteínas.",
+ por:"Muestra cuánta hormona activa hay, no cuánta produce la glándula. Con TSH y T4 normales y T3 baja, el patrón apunta a conversión reducida, no a tiroides enferma.",
+ lee:"Baja con ayuno, déficit calórico, enfermedad aguda o crónica, inflamación y sobreentrenamiento (el cuerpo convierte menos T4 en T3 para ahorrar energía: 'síndrome de T3 baja'); sube con estrógenos por la proteína transportadora, lo que hace que la T3 total engañe más que la libre.",
+ deb:"Si tratar la T3 baja con TSH normal (la mayoría de guías dicen que no), si dar T3 además de T4 a quienes siguen con síntomas en tratamiento, y el papel de la T3 reversa."},
+// ---------- Micronutrientes ----------
+{g:"Micronutrientes",n:"Vitamina B12 (cobalamina)",u:"pg/mL",
+ que:"Vitamina necesaria para fabricar glóbulos rojos, mantener la mielina de los nervios y reciclar homocisteína. Solo está en alimentos de origen animal; su absorción necesita el factor intrínseco del estómago.",
+ por:"La deficiencia causa anemia macrocítica y daño neurológico que puede ser irreversible si tarda en detectarse. Se mide en vegetarianos, mayores, personas con metformina u omeprazol, y ante VCM alto.",
+ lee:"El B12 total tiene poca sensibilidad: valores 200–400 pueden esconder deficiencia funcional. Ácido metilmalónico y holotranscobalamina son más precisos. Los suplementos lo suben sin que eso implique que llegue a las células.",
+ deb:"Dónde está el 'óptimo' (varios proponen >400–500), y si los niveles altos tienen significado."},
+{g:"Micronutrientes",n:"Vitamina D (25-hidroxi)",u:"ng/mL",
+ que:"La forma de depósito de la vitamina D, que la piel fabrica con sol UVB y que también viene de pescado graso, huevo y suplementos. El riñón la convierte en la forma activa (1,25-OH) cuando hace falta. Funciona como hormona: regula calcio, hueso y la expresión de cientos de genes.",
+ por:"Es el marcador de estado de vitamina D; su déficit se asocia a hueso débil, debilidad muscular y caídas en mayores.",
+ lee:"Vida media de ~3 semanas, así que refleja los últimos 1–2 meses. Varía con estación, latitud, color de piel, grasa corporal (la secuestra), edad. Cortes: <12 deficiencia, 12–20 insuficiencia, >20 suficiente (Instituto de Medicina), >30 según la Endocrine Society. La biotina la puede alterar en algunas plataformas.",
+ deb:"Los grandes ensayos de suplementar en gente con niveles normales (VITAL, D-Health, 25,000+ personas) no redujeron cáncer, eventos cardiovasculares ni fracturas. La asociación entre D baja y casi todas las enfermedades existe; que suplementar las prevenga, no se ha demostrado salvo en déficit real y hueso."},
+// ---------- Inflamación ----------
+{g:"Inflamación",n:"Proteína C reactiva (PCR)",u:"mg/dL",
+ que:"Una proteína que el hígado produce en respuesta a interleucina-6 cuando hay inflamación en cualquier parte del cuerpo. Es la señal de alarma más general que tiene la sangre.",
+ por:"Detecta inflamación aguda (infección, lesión) y, en su versión de alta sensibilidad (hs-PCR), inflamación crónica de bajo grado asociada a riesgo cardiovascular.",
+ lee:"Unidades: mg/dL (laboratorio) frente a mg/L (riesgo cardiovascular); 0.1 mg/dL = 1 mg/L. Para riesgo: <1 mg/L bajo, 1–3 medio, >3 alto. Sube con infección, ejercicio intenso (24–48 h), lesión, grasa visceral, mal sueño, periodontitis. Muy variable: se repite antes de concluir.",
+ deb:"Si la inflamación es causa tratable del riesgo cardiovascular: el ensayo CANTOS (anti-IL-1β) y los de colchicina en dosis baja redujeron eventos sin tocar el colesterol, lo que apoya la vía inflamatoria; qué tanto de ese riesgo es 'residual' tras bajar lípidos está en estudio."},
+{g:"Inflamación",n:"Homocisteína",u:"µmol/L",
+ que:"Un aminoácido intermedio del metabolismo de la metionina. El cuerpo lo recicla con folato, B12 y B6; si falta alguno, se acumula.",
+ por:"Marcador de deficiencia funcional de esas vitaminas y de riesgo vascular: niveles altos se asocian a infarto, ACV, trombosis y deterioro cognitivo.",
+ lee:"Sube con déficit de folato, B12 o B6, enfermedad renal, hipotiroidismo, alcohol, café, tabaco, edad, y con variantes genéticas (MTHFR C677T). Baja con suplementar las vitaminas. El límite de laboratorio es ~15; los clínicos de longevidad buscan <10.",
+ deb:"La paradoja homocisteína: bajarla con vitaminas B no redujo infartos en los grandes ensayos (HOPE-2, NORVIT, VITATOPS), aunque sí redujo ACV modestamente en metaanálisis. Si es causa o marcador sigue abierto; la randomización mendeliana da resultados mixtos."},
+// ---------- Sangre ----------
+{g:"Sangre",n:"Glóbulos rojos (eritrocitos)",u:"millones/µL",
+ que:"Las células que transportan oxígeno. Viven ~120 días; la médula ósea produce unos 2 millones por segundo para reponerlas.",
+ por:"Junto con hemoglobina y hematocrito define anemia (pocos) o poliglobulia (muchos).",
+ lee:"Sube con deshidratación (concentración), altitud, tabaco, testosterona; baja con expansión del plasma en deportistas de resistencia ('pseudoanemia del atleta'), déficit de hierro, B12 o folato, pérdida de sangre.",
+ deb:"Poco."},
+{g:"Sangre",n:"Hemoglobina",u:"g/dL",
+ que:"La proteína dentro del glóbulo rojo que une el oxígeno. Es lo que de verdad importa para llevar oxígeno; el conteo de glóbulos y el hematocrito son aproximaciones.",
+ por:"Es el criterio de anemia (OMS: <13 hombres, <12 mujeres) y de poliglobulia.",
+ lee:"Misma sensibilidad a hidratación y altitud que los glóbulos rojos. Vivir a 1,500 m (Medellín) la sube levemente respecto al nivel del mar.",
+ deb:"Los cortes óptimos en mayores y en deportistas."},
+{g:"Sangre",n:"Hematocrito",u:"%",
+ que:"El porcentaje del volumen de sangre que ocupan los glóbulos rojos.",
+ por:"Complementa hemoglobina y glóbulos rojos; es el que más se usa en deportes y para viscosidad de la sangre.",
+ lee:"Es el más sensible de los tres a la hidratación: un ayuno de 20 h lo sube por concentración. Por encima de ~52–54% la sangre es más viscosa y aumenta el riesgo de trombosis (relevante con testosterona o a gran altitud).",
+ deb:"Poco."},
+{g:"Sangre",n:"Volumen corpuscular medio (VCM)",u:"fL",
+ que:"El tamaño promedio de cada glóbulo rojo.",
+ por:"Clasifica las anemias y detecta problemas antes de que haya anemia: glóbulos grandes (macrocitosis) apuntan a déficit de B12 o folato, alcohol, hipotiroidismo, enfermedad hepática o reticulocitos; pequeños (microcitosis), a déficit de hierro o talasemia.",
+ lee:"El alcohol agranda el glóbulo rojo por efecto directo sobre la médula, además de bajar el folato; es uno de los marcadores más usados de consumo crónico. Cambia despacio: refleja los últimos 3–4 meses.",
+ deb:"Poco; es un marcador clásico y bien entendido."},
+{g:"Sangre",n:"Hemoglobina corpuscular media (HCM)",u:"pg",
+ que:"Cuánta hemoglobina lleva cada glóbulo rojo en promedio.",
+ por:"Acompaña al VCM: glóbulos más grandes llevan más hemoglobina y viceversa. Añade poco por sí sola.",
+ lee:"Sigue al VCM en casi todos los casos; divergencias apuntan a problemas de síntesis de hemoglobina.",
+ deb:"Ninguno."},
+{g:"Sangre",n:"Amplitud de distribución eritrocitaria (RDW)",u:"%",
+ que:"Cuánto varía el tamaño entre glóbulos rojos (anisocitosis). Un RDW alto significa que conviven células grandes y pequeñas.",
+ por:"Ayuda a distinguir anemias (alto en déficit de hierro o mixto, normal en talasemia) y a detectar deficiencias tempranas antes de que el VCM cambie.",
+ lee:"Sube con deficiencias nutricionales, transfusiones, hemólisis, inflamación. En epidemiología un RDW alto predice mortalidad por casi cualquier causa, incluso dentro del rango.",
+ deb:"Por qué predice mortalidad: probablemente porque refleja inflamación, estrés oxidativo y recambio alterado, no porque la variación de tamaño dañe por sí misma."},
+{g:"Sangre",n:"Leucocitos (glóbulos blancos)",u:"/mm³",
+ que:"El total de células del sistema inmune en sangre: neutrófilos, linfocitos, monocitos, eosinófilos y basófilos.",
+ por:"Detecta infección, inflamación, y problemas de la médula ósea (muy bajos o muy altos).",
+ lee:"Ritmo diario (más por la tarde), suben con ejercicio, estrés y corticoides; son más bajos en deportistas y en personas con ascendencia africana por una variante benigna (Duffy nulo). Dentro del rango, valores más bajos se asocian a más longevidad en cohortes.",
+ deb:"Dónde empieza lo preocupante por debajo de 4,000 en una persona sana y activa."},
+{g:"Sangre",n:"Neutrófilos",u:"/mm³",
+ que:"Los glóbulos blancos más abundantes y la primera línea contra bacterias y hongos. Viven horas.",
+ por:"Suben en infecciones bacterianas e inflamación aguda; bajan en infecciones virales, algunos fármacos, déficit nutricional, y por variantes genéticas benignas.",
+ lee:"Muy sensibles a ejercicio, estrés y corticoides (suben en horas). Con los linfocitos forman el índice neutrófilos/linfocitos (NLR), un marcador barato de inflamación sistémica.",
+ deb:"Los límites inferiores según ascendencia."},
+{g:"Sangre",n:"Linfocitos",u:"/mm³",
+ que:"Las células de la inmunidad adaptativa: linfocitos T, B y NK. Son la memoria inmunológica.",
+ por:"Bajan con corticoides, estrés, infecciones virales agudas, desnutrición, entrenamiento intenso; suben en infecciones virales en curso y en algunas leucemias.",
+ lee:"Un recuento bajo sostenido en mayores (linfopenia) se asocia a más mortalidad; en deportistas un descenso transitorio tras entrenar fuerte es normal.",
+ deb:"El valor del NLR en personas sanas."},
+{g:"Sangre",n:"Plaquetas",u:"/mm³",
+ que:"Fragmentos celulares que inician la coagulación tapando lesiones del vaso. Viven 7–10 días.",
+ por:"Evalúa riesgo de sangrado (muy bajas) o de trombosis (muy altas), y refleja inflamación y función de la médula.",
+ lee:"Suben con inflamación, déficit de hierro, ejercicio; bajan con alcohol, enfermedad hepática, algunos fármacos y virus.",
+ deb:"Poco. En el modelo del coágulo las plaquetas son protagonistas del inicio de la placa; en el convencional, del evento final."},
+// ---------- Próstata ----------
+{g:"Próstata",n:"PSA total (antígeno prostático específico)",u:"ng/mL",
+ que:"Una proteína que el epitelio de la próstata produce para licuar el semen. Pasa a la sangre en pequeña cantidad; cuando la arquitectura de la glándula se altera (crecimiento benigno, inflamación, cáncer), pasa más.",
+ por:"Es el marcador de cribado de cáncer de próstata y de seguimiento de hiperplasia benigna y prostatitis. Específico de la próstata, no del cáncer.",
+ lee:"Sube con eyaculación (48 h), bicicleta, tacto rectal, infección urinaria o prostatitis, y con el tamaño de la próstata; los inhibidores de 5-alfa-reductasa lo reducen a la mitad. Se interpreta por edad, por velocidad de cambio y por la relación PSA libre/total (más libre, más probable que sea benigno).",
+ deb:"El cribado: los dos grandes ensayos dieron resultados distintos (ERSPC redujo mortalidad por cáncer de próstata; PLCO no), con mucho sobrediagnóstico de tumores que nunca habrían dado problemas. La tendencia actual es decidir caso a caso y usar resonancia antes de biopsia."}
+];
+
+const $=id=>document.getElementById(id);
+const slug=s=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
+$("toc").innerHTML=GROUPS.map(g=>`<a href="#${slug(g)}">${g} <span style="color:var(--muted)">${GL.filter(x=>x.g===g).length}</span></a>`).join("");
+$("gl").innerHTML=GROUPS.map(g=>`<section id="${slug(g)}"><h2>${g}</h2><div class="gl">${GL.filter(x=>x.g===g).map(x=>`<div class="card">
+  <h3>${x.n}<small>${x.u}</small></h3>
+  <div class="q">Qué es</div><p>${x.que}</p>
+  <div class="q">Por qué se mide</div><p>${x.por}</p>
+  <div class="q">Cómo se lee · qué lo mueve</div><p>${x.lee}</p>
+  <div class="q" style="color:var(--high)">Qué se discute</div><p class="deb">${x.deb}</p>
+</div>`).join("")}</div></section>`).join("");
+</script>
+</body>
+</html>
