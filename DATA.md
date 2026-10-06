@@ -2,11 +2,11 @@
 
 Copia legible de todo lo que contiene el tablero (`index.html`, objeto `DATA`). Los participantes están anonimizados. Si el tablero y este archivo difieren, manda el tablero; este archivo se regenera a partir de él.
 
-Última actualización: 2026-10-06
+Última actualización: 2026-10-06 (incluye TAC score de calcio del 2026-10-06)
 
 ## Participantes
 
-- **Participante A** — 3 panel(es): 2020-11-25, 2025-02-04, 2026-09-25
+- **Participante A** — 4 panel(es): 2020-11-25, 2025-02-04, 2026-09-25, 2026-10-06
 - **Participante B** — 1 panel(es): 2026-09-25
 
 ---
@@ -177,6 +177,10 @@ El hemograma de 2025 es el mejor de los tres: glóbulos rojos 4.72 (ya en rango,
 
 **Lecturas**
 
+### En rango · Actualización 6 de octubre: score de calcio 0
+
+Once días después de este panel se midió el calcio coronario: Agatston 0. Cambia la lectura del bloque de lípidos de abajo: la exposición larga a LDL alto no ha dejado placa calcificada. El detalle completo, con lo que el cero dice y lo que no, está en el panel del 6 de octubre de 2026 (selector de fecha arriba).
+
 ### Alto · Tres paneles en seis años: el LDL nunca ha bajado de 230
 
 Noviembre de 2020: LDL 232, total 315. Febrero de 2025: LDL 270, total 367. Septiembre de 2026: LDL 247, total 321. En seis años y tres laboratorios el LDL se ha movido entre 232 y 270, siempre muy por encima de 190: un rasgo estable, no una reacción reciente a la dieta o al ayuno. Eso quita peso a la hipótesis dietética y se lo da a la genética. El ácido úrico (8.0 en 2025, 8.7 en 2026) y la ferritina (406 en 2025, 430 en 2026) también repiten por encima del rango, así que dejan de ser hallazgos de un día. Lo que mejoró: triglicéridos de 156 a 100, GGT de 44.9 a 27, VCM de 104.5 (2020) a 97.3. HbA1c, glucosa y PSA sin cambios de fondo. El selector de panel arriba permite ver cada fecha; las diferencias junto a cada valor son frente al panel inmediatamente anterior.
@@ -208,6 +212,34 @@ Glucosa 83, insulina 4.2 y HbA1c 5.24 (promedio estimado de 104 los últimos tre
 ### En rango · Hígado, riñón, próstata y hormonas en rango
 
 AST 22, ALT 20 y GGT 27 cómodos dentro del rango, incluso con ejercicio intenso y vino el día anterior. Creatinina 1.05 y BUN 15.8 normales; con la masa muscular que tienes la creatinina tiende a estar en la mitad alta del rango, así que 1.05 está bien. PSA 2.46 frente a 3.1 como techo para tu edad; la bicicleta y el ejercicio del día anterior pueden subirlo un poco, así que vale la pena repetirlo sin entrenar las 48 horas previas y seguirlo cada año. Testosterona total 653, libre 11.97 y SHBG 39.7 en rango: la SHBG normal confirma que la testosterona libre está bien medida. DHEA-S 274, en la parte alta del rango, es una buena señal para tu edad. Vitamina D 31 y B12 604 suficientes según el laboratorio.
+
+## Panel 6 de octubre de 2026 — 51 años — Cedimed · TAC score de calcio
+
+**Condiciones de la toma**
+
+- TAC de score de calcio sin contraste, tomógrafo de 320 detectores, técnica de Agatston (cortes de 3 mm), sincronización prospectiva
+- Dosis de radiación 0.24 mSv (equivalente a unas semanas de radiación natural de fondo)
+- Indicación: dislipidemia personal y antecedente materno de enfermedad coronaria; estratificar riesgo
+- Hallazgos incidentales pulmonares: dos granulomas calcificados <5 mm, banda pleuroparenquimatosa, pequeño ganglio intrapulmonar
+
+**Resultados**
+
+| Grupo | Marcador | Valor | Unidad | Rango lab | Estado | Panel anterior |
+|---|---|---|---|---|---|---|
+| Corazón e imagen | Aorta ascendente (diámetro) | 32.8 | mm | 0 – 40 | en rango | — |
+| Corazón e imagen | Aorta descendente (diámetro) | 24.5 | mm | 0 – 30 | en rango | — |
+| Corazón e imagen | Score de calcio coronario (Agatston · 0 = sin calcio) | 0 | UA | 0 – 0 | en rango | — |
+| Corazón e imagen | Tronco de la arteria pulmonar (diámetro) | 23.3 | mm | 0 – 29 | en rango | — |
+
+**Lecturas**
+
+### En rango · Score de calcio coronario 0 a los 51, tras al menos seis años de LDL por encima de 230
+
+La tomografía no encuentra calcio en las arterias coronarias: Agatston 0. Es el dato que faltaba para leer el bloque de lípidos, y lo cambia. Con LDL entre 232 y 270 desde 2020 (y probablemente desde mucho antes), ApoB 176 y Lp(a) 133, la exposición ha sido larga, y la arteria, hasta donde el calcio lo muestra, está limpia. En las cohortes grandes (MESA, CAC Consortium) un calcio de 0 a esta edad se asocia con un riesgo de evento coronario a 10 años cercano al 1–2%, el más bajo de cualquier grupo, incluso con colesterol alto; por eso se le llama 'el poder del cero'. Lo que no dice: el calcio detecta placa calcificada, no placa blanda; una angiotomografía con contraste sí la vería. Y la 'garantía' del cero no es indefinida: en personas con factores de riesgo se estima en unos 3–5 años antes de repetir. Dos matices que conviene llevar a la consulta tal cual: las guías americanas (2018) permiten diferir la estatina con calcio 0 en riesgo intermedio, pero excluyen de esa regla a quienes tienen LDL ≥190, antecedente familiar de enfermedad prematura o Lp(a) muy alta, con el argumento de la exposición acumulada. Las tres cosas aplican aquí. Es decir: el dato más tranquilizador que podías recibir, y a la vez un caso en el que la guía diría tratar igual. La decisión es tuya y ahora está informada por tu propia arteria; la contrapropuesta queda escrita en Active research.
+
+### En rango · Aorta, pericardio y pulmón: sin hallazgos que cambien nada
+
+Aorta ascendente 32.8 mm y descendente 24.5 mm, dentro de lo normal (se habla de dilatación por encima de 40 y 30). Tronco pulmonar 23.3 mm, normal. Sin calcificación valvular aórtica ni pericárdica, sin derrame ni masas. En el pulmón, hallazgos incidentales que el radiólogo describe como tales: dos nódulos calcificados menores de 5 mm compatibles con granulomas residuales (cicatrices de una infección antigua; los nódulos calcificados no requieren seguimiento según las guías Fleischner), una banda pleuroparenquimatosa en el lóbulo medio (cicatriz) y un nódulo triangular en la cisura menor con morfología típica de ganglio linfático intrapulmonar, que tampoco suele seguirse. Es razonable confirmar con el médico que ninguno necesita control, pero ninguno es un hallazgo de alarma.
 
 ---
 
@@ -280,6 +312,10 @@ Rangos usados cuando el panel no trae uno propio. Un panel puede sobreescribirlo
 
 | Clave | Marcador | Grupo | Unidad | Rango |
 |---|---|---|---|---|
+| cac | Score de calcio coronario (Agatston · 0 = sin calcio) | Corazón e imagen | UA | 0 – 0 |
+| aoasc | Aorta ascendente (diámetro) | Corazón e imagen | mm | 0 – 40 |
+| aodesc | Aorta descendente (diámetro) | Corazón e imagen | mm | 0 – 30 |
+| pulm | Tronco de la arteria pulmonar (diámetro) | Corazón e imagen | mm | 0 – 29 |
 | tg | Triglicéridos | Lípidos | mg/dL | 50 – 150 |
 | hdl | Colesterol HDL (Sin riesgo en mujeres: más de 65) | Lípidos | mg/dL | > 65 |
 | apob | Apolipoproteína B (ApoB) | Lípidos | mg/dL | 60 – 141 |
