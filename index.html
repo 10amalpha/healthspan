@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Healthspan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --paper:#F2F4F1; --panel:#FFFFFF; --ink:#18221E; --muted:#5E6B65; --line:#D9E0DB;
+  --band:#D5E4DB; --ok:#2F6B55; --high:#B7791F; --low:#3B5E9E; --track:#E8ECE9;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#111814; --panel:#18211C; --ink:#E4EAE6; --muted:#98A69F; --line:#2B3731;
+    --band:#24493A; --ok:#6CC49D; --high:#E0A547; --low:#86A6E6; --track:#222C27;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#111814; --panel:#18211C; --ink:#E4EAE6; --muted:#98A69F; --line:#2B3731;
+  --band:#24493A; --ok:#6CC49D; --high:#E0A547; --low:#86A6E6; --track:#222C27;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 15px/1.55 "Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:28px 20px 60px}
+h1,h2{font-family:"Spectral",Georgia,serif;font-weight:600;letter-spacing:-.01em;margin:0}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.1}
+h2{font-size:22px;margin-bottom:14px}
+.top{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;margin-bottom:26px}
+.sub{color:var(--muted);margin-top:6px}
+.controls{display:flex;gap:8px;flex-wrap:wrap}
+select{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+select:focus-visible{outline:2px solid var(--ok);outline-offset:2px}
+
+.tally{display:flex;gap:28px;flex-wrap:wrap;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:34px}
+.tally div{min-width:110px}
+.tally b{display:block;font-family:"Spectral",Georgia,serif;font-size:34px;font-weight:600;line-height:1}
+.tally span{color:var(--muted);font-size:13px}
+.tally .h b{color:var(--high)} .tally .l b{color:var(--low)}
+
+section{margin-bottom:40px}
+.group{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:6px 20px;margin-bottom:14px}
+.group h3{font-size:13px;font-weight:600;color:var(--muted);margin:14px 0 4px}
+.row{display:grid;grid-template-columns:minmax(150px,1.2fr) 118px minmax(180px,2fr) 92px;gap:16px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
+.group h3 + .row{border-top:none}
+.name{font-weight:600}
+.name small{display:block;font-weight:400;color:var(--muted);font-size:12.5px}
+.val{font-variant-numeric:tabular-nums;font-weight:700;font-size:18px}
+.val small{font-weight:400;font-size:12px;color:var(--muted);margin-left:3px}
+.gauge{position:relative;height:30px}
+.gauge .track{position:absolute;left:0;right:0;top:12px;height:6px;border-radius:3px;background:var(--track)}
+.gauge .band{position:absolute;top:10px;height:10px;border-radius:5px;background:var(--band)}
+.gauge .dot{position:absolute;top:7px;width:16px;height:16px;margin-left:-8px;border-radius:50%;border:3px solid var(--panel);background:var(--ok);box-shadow:0 0 0 1px var(--ok)}
+.gauge .dot.h{background:var(--high);box-shadow:0 0 0 1px var(--high)}
+.gauge .dot.l{background:var(--low);box-shadow:0 0 0 1px var(--low)}
+.gauge .lim{position:absolute;top:24px;font-size:11px;color:var(--muted);transform:translateX(-50%);font-variant-numeric:tabular-nums}
+.status{font-size:13px;font-weight:600;text-align:right}
+.status.ok{color:var(--ok)} .status.h{color:var(--high)} .status.l{color:var(--low)} .status.na{color:var(--muted)}
+.gauge.phase{height:auto;font-size:12.5px;color:var(--muted);line-height:1.4}
+
+.notes{display:grid;gap:14px}
+.note{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:10px;padding:16px 18px}
+.note.h{border-left-color:var(--high)} .note.l{border-left-color:var(--low)}
+.note h4{margin:0 0 6px;font-size:16px}
+.note p{margin:0;max-width:72ch}
+
+.trendSub{color:var(--muted);font-size:14px;margin:-8px 0 16px;max-width:72ch}
+.trendGroup h3{font-size:13px;font-weight:600;color:var(--muted);margin:22px 0 10px}
+.trendGroup h3:first-child{margin-top:0}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.tcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.tcard .k{color:var(--muted);font-size:13px;line-height:1.3}
+.tcard .k small{display:block;font-size:11.5px}
+.tcard .v{font-family:"Spectral",Georgia,serif;font-size:26px;font-weight:600;line-height:1.1;margin:4px 0 2px;display:flex;align-items:baseline;gap:6px}
+.tcard .v small{font-family:"Public Sans",sans-serif;font-size:12px;font-weight:400;color:var(--muted)}
+.tcard .d{font-size:12.5px;font-weight:600}
+.tcard .d.ok{color:var(--ok)} .tcard .d.h{color:var(--high)} .tcard .d.l{color:var(--low)} .tcard .d.flat{color:var(--muted)}
+.tcard svg{display:block;width:100%;height:72px;margin-top:8px;overflow:visible}
+.tcard .seq{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;margin-top:6px;display:flex;justify-content:space-between}
+.fit{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.fcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.fcard .k{color:var(--muted);font-size:13px}
+.fcard .v{font-family:"Spectral",Georgia,serif;font-size:32px;font-weight:600;line-height:1.1;margin:4px 0}
+.fcard .d{font-size:13px;font-weight:600;color:var(--ok)}
+.fcard svg{display:block;width:100%;height:40px;margin-top:10px}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.box ul{margin:0;padding-left:18px}
+.box li{margin:6px 0}
+.box p{margin:0 0 10px;color:var(--muted);font-size:14px}
+footer{color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:16px;max-width:72ch}
+
+@media (max-width:720px){
+  .row{grid-template-columns:1fr auto;gap:8px 12px}
+  .gauge{grid-column:1 / -1}
+  .status{grid-column:2;grid-row:1;align-self:start}
+  .val{grid-column:1;grid-row:2}
+  .two{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:no-preference){
+  .gauge .dot{transition:left .6s cubic-bezier(.2,.7,.2,1)}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1 id="title">Healthspan · Participante A</h1>
+      <div class="sub" id="subtitle"></div>
+    </div>
+    <div class="controls">
+      <label><span class="sr" hidden>Persona</span><select id="member" aria-label="Persona"></select></label>
+      <label><span class="sr" hidden>Panel</span><select id="panel" aria-label="Fecha del panel"></select></label>
+    </div>
+  </header>
+
+  <div class="tally" id="tally"></div>
+
+  <section>
+    <h2>Marcadores frente al rango del laboratorio</h2>
+    <div id="groups"></div>
+  </section>
+
+  <section id="notesSec">
+    <h2>Qué mirar</h2>
+    <div class="notes" id="notes"></div>
+  </section>
+
+  <section id="trendSec">
+    <h2>Evolución</h2>
+    <p class="trendSub" id="trendSub"></p>
+    <div class="trendGroup" id="trends"></div>
+  </section>
+
+  <section id="bodySec">
+    <h2>Cuerpo y entrenamiento</h2>
+    <div class="fit" id="body"></div>
+  </section>
+
+  <section id="fitSec">
+    <h2>Condición física</h2>
+    <div class="fit" id="fit"></div>
+  </section>
+
+  <section>
+    <div class="two">
+      <div class="box">
+        <h2>Contexto de la toma</h2>
+        <ul id="ctx"></ul>
+        <h2 class="pending" style="margin-top:20px">Por confirmar</h2>
+        <p class="pending">Cambia la lectura de varios marcadores. Respóndelo en el chat y queda registrado aquí.</p>
+        <ul id="verify"></ul>
+      </div>
+      <div class="box">
+        <h2>Para el próximo panel</h2>
+        <p>Marcadores que faltan para leer cada sistema completo.</p>
+        <ul id="next"></ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>Este tablero organiza resultados; no es un diagnóstico ni reemplaza la consulta médica. Los rangos son los del laboratorio que emitió cada informe. Los participantes están anonimizados.</footer>
+</div>
+
+<script>
+const MARKERS = {
+  tg:   {name:"Triglicéridos", group:"Lípidos", unit:"mg/dL", lo:50, hi:150},
+  uric: {name:"Ácido úrico", group:"Metabolismo", unit:"mg/dL", lo:3.4, hi:7},
+  ast:  {name:"AST (GOT)", sub:"Transaminasa", group:"Hígado", unit:"U/L", lo:0, hi:40},
+  alt:  {name:"ALT (GPT)", sub:"Transaminasa", group:"Hígado", unit:"U/L", lo:0, hi:41},
+  tt:   {name:"Testosterona total", group:"Hormonas", unit:"ng/dL", lo:348, hi:1197},
+  ft:   {name:"Testosterona libre", group:"Hormonas", unit:"pg/mL", lo:3.49, hi:13.54},
+  ft4:  {name:"T4 libre", sub:"Tiroxina", group:"Tiroides", unit:"ng/dL", lo:0.6, hi:1.48},
+  t3:   {name:"T3 total", sub:"Triyodotironina", group:"Tiroides", unit:"ng/dL", lo:64, hi:152},
+  b12:  {name:"Vitamina B12", group:"Micronutrientes", unit:"pg/mL", lo:197, hi:771},
+  vitd: {name:"Vitamina D", sub:"25-hidroxi total", group:"Micronutrientes", unit:"ng/mL", lo:20, hi:70},
+  hdl:  {name:"Colesterol HDL", group:"Lípidos", unit:"mg/dL", lo:65, hi:100, openHi:true, sub:"Sin riesgo en mujeres: más de 65"},
+  fe:   {name:"Hierro sérico", group:"Hierro", unit:"µg/dL", lo:33, hi:193},
+  uibc: {name:"Capacidad de combinación de hierro", sub:"UIBC", group:"Hierro", unit:"µg/dL", lo:135, hi:392},
+  tibc: {name:"Capacidad total de fijación", sub:"TIBC", group:"Hierro", unit:"µg/dL", lo:250, hi:400},
+  tsat: {name:"Saturación de transferrina", group:"Hierro", unit:"%", lo:14, hi:50},
+  e2:   {name:"Estradiol total", group:"Hormonas", unit:"pg/mL", phase:true, sub:"Folicular 30.9–90.4 · Ovulatoria 60.4–533 · Lútea 60.4–232 · Posmenopausia <5–138"},
+  fsh:  {name:"FSH", sub:"Folicular 3.5–12.5 · Ovulatoria 4.7–21.5 · Lútea 1.7–7.7 · Posmenopausia 26–135", group:"Hormonas", unit:"mUI/mL", phase:true},
+  prog: {name:"Progesterona", sub:"Folicular <0.05–0.193 · Ovulación 0.055–4.14 · Lútea 4.11–14.5 · Posmenopausia <0.05–0.126", group:"Hormonas", unit:"ng/mL", phase:true},
+  dheas:{name:"DHEA-S", sub:"Dehidroepiandrosterona sulfato", group:"Hormonas", unit:"µg/dL", lo:35.4, hi:256},
+  apob: {name:"Apolipoproteína B", sub:"ApoB", group:"Lípidos", unit:"mg/dL", lo:60, hi:141},
+  lpa:  {name:"Lipoproteína (a)", sub:"Lp(a)", group:"Lípidos", unit:"nmol/L", lo:0, hi:75},
+  shbg: {name:"SHBG", sub:"Proteína transportadora de hormona sexual", group:"Hormonas", unit:"nmol/L", lo:32.4, hi:128},
+  igf1: {name:"IGF-1", sub:"Somatomedina C", group:"Hormonas", unit:"ng/mL", lo:98, hi:331},
+  chol: {name:"Colesterol total", group:"Lípidos", unit:"mg/dL", lo:0, hi:200},
+  ldl:  {name:"Colesterol LDL", sub:"Directo", group:"Lípidos", unit:"mg/dL", lo:55, hi:116},
+  glu:  {name:"Glucosa en ayunas", group:"Metabolismo", unit:"mg/dL", lo:60, hi:100},
+  ins:  {name:"Insulina en ayunas", group:"Metabolismo", unit:"µU/mL", lo:2.6, hi:24.9},
+  hba1c:{name:"Hemoglobina glicada", sub:"HbA1c", group:"Metabolismo", unit:"%", lo:0, hi:5.69},
+  ggt:  {name:"GGT", sub:"Gamaglutamil transferasa", group:"Hígado", unit:"U/L", lo:0, hi:60},
+  creat:{name:"Creatinina", group:"Riñón", unit:"mg/dL", lo:0.67, hi:1.17},
+  bun:  {name:"Nitrógeno ureico", sub:"BUN", group:"Riñón", unit:"mg/dL", lo:6, hi:20},
+  ferr: {name:"Ferritina", group:"Hierro", unit:"ng/mL", lo:30, hi:400},
+  tsh:  {name:"TSH", sub:"Hormona estimulante de tiroides", group:"Tiroides", unit:"mUI/L", lo:0.35, hi:4.94},
+  crp:  {name:"Proteína C reactiva", group:"Inflamación", unit:"mg/dL", lo:0, hi:0.5},
+  hcy:  {name:"Homocisteína", sub:"Sin suplemento de folato: hasta 15", group:"Inflamación", unit:"µmol/L", lo:0, hi:15},
+  rbc:  {name:"Glóbulos rojos", group:"Sangre", unit:"millones/µL", lo:4.6, hi:6.2},
+  hb:   {name:"Hemoglobina", group:"Sangre", unit:"g/dL", lo:13.5, hi:17},
+  hct:  {name:"Hematocrito", group:"Sangre", unit:"%", lo:40, hi:54},
+  mcv:  {name:"Volumen corpuscular medio", sub:"VCM", group:"Sangre", unit:"fL", lo:86, hi:96},
+  mch:  {name:"Hemoglobina corpuscular media", sub:"HCM", group:"Sangre", unit:"pg", lo:27, hi:31},
+  rdw:  {name:"Amplitud de distribución eritrocitaria", sub:"RDW", group:"Sangre", unit:"%", lo:11.5, hi:14.3},
+  wbc:  {name:"Leucocitos", group:"Sangre", unit:"/mm³", lo:4500, hi:11000},
+  neut: {name:"Neutrófilos", group:"Sangre", unit:"/mm³", lo:1800, hi:7700},
+  lymph:{name:"Linfocitos", group:"Sangre", unit:"/mm³", lo:900, hi:5000},
+  plt:  {name:"Plaquetas", group:"Sangre", unit:"/mm³", lo:150000, hi:450000},
+  psa:  {name:"PSA total", sub:"Antígeno prostático", group:"Próstata", unit:"ng/mL", lo:0, hi:3.1}
+};
+const GROUP_ORDER = ["Lípidos","Metabolismo","Hígado","Riñón","Hierro","Hormonas","Tiroides","Micronutrientes","Inflamación","Sangre","Próstata"];
+
+const DATA = {
+  members: [{
+    id: "a", name: "Participante A",
+    panels: [{
+      date: "2020-11-25", age: 46, lab: "Laboratorio Clínico Hematológico",
+      ranges: {hdl:{lo:60, sub:"Protector: más de 60"}, ldl:{lo:0, hi:100}, mch:{lo:25, hi:31}, psa:{lo:0, hi:4}},
+      results: {chol:315.3, ldl:232.2, hdl:55.1, tg:145.5, glu:86.9, hba1c:5.3, creat:0.94, rbc:3.8, hb:14.8, hct:39.8, mcv:104.5, mch:38.8, rdw:14.6, wbc:4960, neut:2020, lymph:2270, plt:259000, psa:2.653},
+      notes: [
+        {tone:"h", title:"LDL 232 y colesterol total 315 a los 46 años: el mismo patrón, seis años antes",
+         text:"Este es el valor que más pesa del panel antiguo. En 2020 el LDL ya estaba en 232 y el colesterol total en 315, con HDL 55 y triglicéridos 145. Comparado con 2026 (LDL 247, total 321), el cambio en seis años es pequeño. Eso responde una pregunta que el panel de 2026 dejaba abierta: el LDL alto no es un efecto reciente de la dieta baja en carbohidratos ni del ayuno largo antes de la muestra; es un rasgo estable de al menos seis años. Le da más fuerza a la explicación genética y a la lectura de la historia familiar, y hace más urgente, no menos, la conversación con el lipidólogo y el score de calcio: son seis años más de exposición de las arterias a este nivel de partículas."},
+        {tone:"h", title:"Glóbulos rojos grandes y pocos: VCM 104.5, HCM 38.8, glóbulos rojos 3.8 millones",
+         text:"En 2020 el hemograma mostraba una macrocitosis franca: el VCM en 104.5 (rango 86–96), la HCM en 38.8 (25–31), los glóbulos rojos en 3.8 millones (por debajo de 4.6) y el hematocrito en 39.8 (justo bajo 40). Es decir, menos glóbulos rojos pero cada uno más grande y con más hemoglobina, lo que mantiene la hemoglobina total en rango (14.8). La RDW en 14.6 y la anisocitosis positiva confirman que había tamaños dispares. Las causas habituales son alcohol, folato o B12 bajos, o tiroides; ninguna se midió en 2020. En 2026 el VCM bajó a 97.3 y la HCM a 33.3, con B12 normal: el cuadro mejoró de forma clara pero no se cerró del todo. Lo que dice la serie es que el efecto sobre los glóbulos rojos lleva al menos seis años, lo que refuerza que folato y B6 son los dos datos que faltan."},
+        {tone:"ok", title:"Glucosa, próstata y riñón: estables en seis años",
+         text:"Glucosa 86.9 y HbA1c 5.3 en 2020 frente a 83 y 5.24 en 2026: el metabolismo de la glucosa ya estaba bien y sigue igual. PSA 2.65 en 2020 y 2.46 en 2026: estable, sin tendencia al alza, que es lo que importa en el PSA. Creatinina 0.94 en 2020 y 1.05 en 2026, un cambio compatible con más masa muscular. Los triglicéridos bajaron de 145 a 100, el único lípido que respondió a la alimentación actual."}
+      ],
+      context: [
+        "Muestra tomada el 25 de noviembre de 2020, a domicilio, por Sura",
+        "Condiciones de la toma (ayuno, comida, ejercicio, alcohol) no registradas",
+        "Alimentación y consumo de alcohol de esa época sin registrar",
+        "Uroanálisis normal (sin glucosa, proteínas, cetonas ni sangre)"
+      ]
+    },{
+      date: "2025-02-04", age: 50, lab: "Ayudas Diagnósticas Sura",
+      ranges: {hdl:{lo:55, sub:"Sin riesgo en hombres: más de 55"}, ldl:{lo:0, hi:100}, tg:{lo:0, hi:200}, psa:{lo:0, hi:2}, glu:{lo:74, hi:106}, mch:{lo:25, hi:31}, rdw:{lo:11.5, hi:15.1}},
+      results: {chol:367, ldl:270, hdl:63, tg:156, glu:88, hba1c:5.3, uric:8.0, ast:19, alt:19, ggt:44.90, creat:1.06, ferr:406, tsh:1.666, ft4:1.16, b12:486, rbc:4.72, hb:15.8, hct:46.5, mcv:98.5, mch:33.5, rdw:12.9, wbc:6770, neut:3970, lymph:2300, plt:284000, psa:1.50},
+      notes: [
+        {tone:"h", title:"LDL 270 y colesterol total 367: el punto más alto de la serie",
+         text:"Este es el LDL más alto de los tres paneles: 232 en 2020, 270 en febrero de 2025, 247 en septiembre de 2026. El colesterol total en 367 también es el máximo. Con tres mediciones en seis años, el LDL nunca ha bajado de 230, y en 2025 subió 38 puntos sobre 2020 para luego bajar 23 en 2026. Sin registro de las condiciones de esta toma no se puede saber cuánto de ese pico fue dieta o ayuno y cuánto variación normal del laboratorio, pero el mensaje de la serie completa no cambia: el nivel base está muy por encima de 190 desde hace al menos seis años, con independencia de lo que haya pasado alrededor de cada muestra. Es la evidencia más sólida del tablero para el lipidólogo."},
+        {tone:"h", title:"Ácido úrico 8.0 y ferritina 406: ya estaban altos hace 19 meses",
+         text:"El panel de 2026 explicaba el ácido úrico en 8.7 por las condiciones de la toma (20 horas de ayuno, carne y ejercicio intenso el día anterior). Este resultado cambia esa lectura: en febrero de 2025 ya estaba en 8.0, sobre el techo de 7, sin que se sepa cómo se tomó la muestra. Dos valores altos con 19 meses de distancia hacen mucho más probable que el nivel base esté alto y no que sea un artefacto. Lo mismo con la ferritina: 406 en 2025 y 430 en 2026, las dos sobre 400. Una ferritina que se mantiene alta durante más de un año y medio ya no se explica solo por el ejercicio del día anterior; deja la saturación de transferrina y el TIBC como la siguiente medición obligada. Ninguno de los dos es un hallazgo de un solo día."},
+        {tone:"h", title:"GGT 44.9: el hígado sí reaccionaba al vino en 2025",
+         text:"La GGT es la enzima hepática más sensible al alcohol. En 2025 estaba en 44.9 (rango hasta 60) y en 2026 bajó a 27, con AST y ALT en 19 y luego 22 y 20, siempre normales. Una GGT de 45 con transaminasas en 19 es un patrón que suele acompañar al consumo regular de alcohol, y la caída a 27 en 2026 sugiere que algo cambió entre las dos fechas: menos consumo, mejor distribución o simplemente una muestra tomada en otro contexto. Vale la pena registrar cuánto vino se tomaba en 2025 para leer la diferencia."},
+        {tone:"ok", title:"Hemograma normal, tiroides en rango, próstata y glucosa estables",
+         text:"El hemograma de 2025 es el mejor de los tres: glóbulos rojos 4.72 (ya en rango, frente a 3.8 en 2020), hemoglobina 15.8, hematocrito 46.5, VCM 98.5 (todavía algo alto, pero lejos del 104.5 de 2020), RDW 12.9 normal, leucocitos 6770 sin el descenso que se vio en 2026. TSH 1.666 y T4 libre 1.16 cierran el eje tiroideo sin T3 medida. B12 en 486, suficiente. PSA en 1.50, más bajo que los 2.65 de 2020 y los 2.46 de 2026: fluctúa dentro de un rango normal sin tendencia al alza. Glucosa 88 y HbA1c 5.3, igual que siempre. Prueba de aliento para Helicobacter pylori negativa."}
+      ],
+      context: [
+        "Muestra tomada el 4 de febrero de 2025 en Sura; médica tratante Mary Ann Robledo",
+        "Condiciones de la toma (ayuno, comida, ejercicio, alcohol) no registradas",
+        "Prueba de aliento para Helicobacter pylori: negativa"
+      ]
+    },{
+      date: "2026-09-25", age: 51, lab: "Ayudas Diagnósticas Sura",
+      ranges: {hdl:{lo:55, sub:"Sin riesgo en hombres: más de 55"}, apob:{lo:66, hi:144}, dheas:{lo:44.3, hi:331}, shbg:{lo:20.6, hi:76.7}, igf1:{lo:85, hi:273}},
+      results: {chol:321, ldl:247, hdl:58, tg:100, apob:176, lpa:133, glu:83, ins:4.20, hba1c:5.24, uric:8.7, ast:22, alt:20, ggt:27, creat:1.05, bun:15.8, fe:151, ferr:430, tt:653, ft:11.97, shbg:39.7, dheas:274, igf1:85.8, tsh:2.078, ft4:1.10, t3:56.84, b12:604, vitd:31, crp:0.1, hcy:14.90, hb:15.0, hct:43.7, mcv:97.3, mch:33.3, wbc:4370, neut:2189, lymph:1792, plt:270000, psa:2.46},
+      notes: [
+        {tone:"h", title:"Tres paneles en seis años: el LDL nunca ha bajado de 230",
+         text:"Noviembre de 2020: LDL 232, total 315. Febrero de 2025: LDL 270, total 367. Septiembre de 2026: LDL 247, total 321. En seis años y tres laboratorios el LDL se ha movido entre 232 y 270, siempre muy por encima de 190: un rasgo estable, no una reacción reciente a la dieta o al ayuno. Eso quita peso a la hipótesis dietética y se lo da a la genética. El ácido úrico (8.0 en 2025, 8.7 en 2026) y la ferritina (406 en 2025, 430 en 2026) también repiten por encima del rango, así que dejan de ser hallazgos de un día. Lo que mejoró: triglicéridos de 156 a 100, GGT de 44.9 a 27, VCM de 104.5 (2020) a 97.3. HbA1c, glucosa y PSA sin cambios de fondo. El selector de panel arriba permite ver cada fecha; las diferencias junto a cada valor son frente al panel inmediatamente anterior."},
+        {tone:"h", title:"LDL 247, ApoB 176, colesterol total 321 y Lp(a) 133: el bloque que manda en este panel",
+         text:"Es el resultado más importante de todo el tablero, para los dos. Cuatro números independientes apuntan en la misma dirección. El LDL está en 247 frente a un techo de 116; la ApoB, que cuenta cuántas partículas capaces de dañar la arteria circulan, está en 176 frente a 144; y la Lp(a), en 133 nmol/L frente a un corte de 75, es la parte genética del riesgo: no depende de dieta ni ejercicio, se hereda, y a este nivel suma riesgo por su cuenta sobre el que ya da el LDL. El contexto de la toma ayuda poco aquí: un ayuno de 20 horas y el ejercicio del día anterior pueden subir el LDL de forma pasajera, pero unos puntos, no el doble. Tu alimentación sí entra en la ecuación: comes casi sin carbohidratos, y hay un patrón bien descrito de personas delgadas, muy activas y con dieta baja en carbohidratos cuyo LDL sube mucho, sobre todo si la grasa que reemplaza a los carbohidratos es saturada (carnes grasas, queso, mantequilla, coco). En ese patrón, una parte del LDL responde a la dieta: cambiar parte de la grasa saturada por aceite de oliva, pescado, nueces y aguacate, y volver a medir a las seis u ocho semanas, es una prueba que los lipidólogos usan para ver cuánto del valor es dieta y cuánto es genética. Es una conversación para tener con el médico, no una razón para aplazar la consulta: la Lp(a) en 133 no se mueve con la dieta. La historia familiar suma: a tu mamá le acaban de poner un stent a los 76, casi toda la familia tiene colesterol alto y nadie ha tenido infarto. Que la enfermedad de tu mamá aparezca a los 76 y no antes de los 60 hace menos probable la forma severa de hipercolesterolemia familiar, pero un LDL de 247 con colesterol alto en casi toda la familia sigue siendo el patrón de un rasgo heredado, y la Lp(a) alta también se hereda, así que es razonable pensar que parte de la historia de tu mamá pase por ahí. Eso quita fuerza a la explicación dietética y se la da a la genética. La combinación de LDL alto, ApoB alta y Lp(a) alta, con placa coronaria en la familia, en un hombre de 51, es exactamente lo que un cardiólogo o lipidólogo quiere ver pronto, no en el chequeo del año que viene. Lo que suele seguir: repetir el perfil con ayuno de 12 horas para confirmar, medir el calcio coronario (score de calcio, una tomografía sin contraste que muestra si ya hay placa) y, si el médico lo ve, el estudio genético. Vale también para la familia de sangre: hermanos e hijos comparten esa genética, y a los hijos un perfil de lípidos y una Lp(a) una sola vez les dice desde jóvenes con qué cuentan; eso es sumar información, no restringir nada. La decisión de tratar y cómo es del médico; lo que el tablero puede decir es que este no es un hallazgo para observar y esperar."},
+        {tone:"h", title:"Ácido úrico en 8.7 mg/dL, por encima del rango (3.4–7)",
+         text:"La muestra se tomó con tres factores que lo empujan hacia arriba: unas 20 horas de ayuno (el riñón elimina menos), carne el día anterior y ejercicio intenso el día anterior; la copa de vino suma poco. Pero en febrero de 2025 ya estaba en 8.0, sin que se sepa cómo se tomó esa muestra: dos valores sobre el techo con 19 meses de distancia hacen más probable que el nivel base sea alto y no un artefacto de la toma. Aun así se repite en condiciones estándar (ayuno de 8 a 12 horas, sin carne roja ni alcohol el día previo, sin entrenamiento intenso en las 48 horas previas). Un ácido úrico alto persistente se asocia con presión arterial y riesgo cardiovascular, así que entra en la misma conversación que los lípidos."},
+        {tone:"h", title:"Ferritina en 430 ng/mL, por encima del rango (30–400)",
+         text:"La ferritina sube por dos razones: reserva de hierro alta o inflamación. La PCR en 0.1 descarta la segunda, así que lo que muestra es reserva. El hierro sérico en 151 está en rango, pero falta la saturación de transferrina, que es el dato que separa una reserva algo alta de una acumulación que hay que estudiar. El ejercicio intenso del día anterior sube la ferritina de forma pasajera, y unas 10 copas de vino a la semana también la suben, porque el alcohol aumenta la absorción de hierro y el hígado libera más ferritina; así que parte de 430 puede ser pasajera; pero en febrero de 2025 ya estaba en 406, y dos valores sobre 400 con 19 meses de distancia dicen que la reserva alta es persistente. Nunca has donado sangre, así que la reserva se ha acumulado sin ninguna salida en 51 años. Se repite con saturación de transferrina y TIBC; si sigue por encima de 300 con saturación alta, el médico puede considerar el estudio genético de hemocromatosis, que es frecuente y fácil de manejar. Donar sangre es una de las herramientas que el médico puede usar; no es algo que decidir por cuenta propia mientras no se sepa la causa."},
+        {tone:"l", title:"T3 baja con TSH normal, IGF-1 en el piso y leucocitos algo bajos: todos apuntan a la energía que entra",
+         text:"La TSH en 2.078 cierra el eje tiroideo: la glándula y la hipófisis responden normal, y la T3 total en 56.84 (rango 64–152) es el patrón que se ve cuando el cuerpo ahorra energía por ayunos largos o comida corta, no el de una tiroides enferma. El IGF-1 en 85.8 está justo en el piso del rango (85–273) y responde a lo mismo: proteína y calorías de los últimos días. Los leucocitos en 4370 quedan levemente por debajo de 4500, algo frecuente en personas que entrenan mucho y sin importancia por sí solo. Los tres juntos, con la muestra tomada tras 20 horas de ayuno y ventanas 18:6 habituales, hacen la misma pregunta: ¿está entrando suficiente comida, en especial proteína, para el volumen de entrenamiento? Es una cuestión de nutrición antes que de endocrinología. Se repiten T3 libre, IGF-1 y hemograma con ayuno nocturno normal."},
+        {tone:"h", title:"Homocisteína en 14.9 µmol/L, en el borde del rango, con glóbulos rojos algo grandes",
+         text:"El VCM (volumen corpuscular medio) es el tamaño promedio de cada glóbulo rojo, y la HCM es cuánta hemoglobina lleva cada uno; suben juntos cuando los glóbulos rojos se fabrican más grandes de lo normal. El laboratorio pone el límite en 15 sin suplemento de folato (12 con suplemento), así que 14.9 está en rango por una décima. Los clínicos enfocados en longevidad suelen buscar valores por debajo de 10, porque la homocisteína alta se asocia con riesgo vascular y, en este panel, se suma al bloque de lípidos. El VCM en 97.3 y la HCM en 33.3, levemente por encima, dicen que los glóbulos rojos son un poco grandes; con B12 en 604 (normal), las causas que quedan son folato bajo, que no se midió, y las 10 copas de vino a la semana: el alcohol agranda los glóbulos rojos de forma directa y además baja el folato, que es lo que mantiene la homocisteína a raya. Una dieta casi sin carbohidratos también suele ser corta en folato, que viene sobre todo de verduras de hoja, legumbres y granos. Folato y vitamina B6 son las dos mediciones que faltan para cerrar esto, y son también las palancas más simples para bajar la homocisteína si el médico lo ve necesario."},
+        {tone:"ok", title:"Metabolismo de la glucosa: el mejor bloque del panel",
+         text:"Glucosa 83, insulina 4.2 y HbA1c 5.24 (promedio estimado de 104 los últimos tres meses). El índice HOMA-IR, que combina glucosa e insulina, queda cerca de 0.9: sensibilidad a la insulina muy alta. Con PCR en 0.1 (inflamación prácticamente nula) y triglicéridos en 100, el lado metabólico está en excelente forma. Es lo que hace más llamativo el bloque de lípidos: el LDL alto no viene de resistencia a la insulina."},
+        {tone:"ok", title:"Hígado, riñón, próstata y hormonas en rango",
+         text:"AST 22, ALT 20 y GGT 27 cómodos dentro del rango, incluso con ejercicio intenso y vino el día anterior. Creatinina 1.05 y BUN 15.8 normales; con la masa muscular que tienes la creatinina tiende a estar en la mitad alta del rango, así que 1.05 está bien. PSA 2.46 frente a 3.1 como techo para tu edad; la bicicleta y el ejercicio del día anterior pueden subirlo un poco, así que vale la pena repetirlo sin entrenar las 48 horas previas y seguirlo cada año. Testosterona total 653, libre 11.97 y SHBG 39.7 en rango: la SHBG normal confirma que la testosterona libre está bien medida. DHEA-S 274, en la parte alta del rango, es una buena señal para tu edad. Vitamina D 31 y B12 604 suficientes según el laboratorio."}
+      ],
+      context: [
+        "Toma de la muestra a las 9:00 a. m.",
+        "Última comida a la 1:00 p. m. del día anterior (unas 20 horas de ayuno)",
+        "Comió carne el día anterior",
+        "Ejercicio intenso el día anterior",
+        "Una copa de vino tinto el día anterior",
+        "Sin suplementos",
+        "Alimentación habitual: casi sin carbohidratos ni fritos. Desayuno: 1 o 2 huevos, queso blanco (solo en la mañana), café, arándanos, semillas de girasol. Almuerzo: pollo, sardinas, a veces carne, poco arroz",
+        "Vino: unas 10 copas a la semana",
+        "No fuma",
+        "Nunca ha donado sangre",
+        "Antecedentes: mamá de 76 años con stent coronario reciente; colesterol alto en casi toda la familia; sin infartos en la familia; hermano de 48 años con triglicéridos en 480, toma estatinas, score de calcio limpio"
+      ]
+    }],
+    body: {
+      date: "2026-09-26",
+      weight: 68.9, height: 1.74, waistCm: 81,
+      note: "Peso sin ropa. Talla aproximada.",
+      training: {freq: "5 veces por semana", types: ["Barras", "HIIT", "Bicicleta estática"]}
+    },
+    fitness: {
+      label: "Protocolo ene–jul 2026",
+      metrics: [
+        {k:"Frecuencia cardiaca en reposo", unit:"lpm", from:65, to:54, betterDown:true},
+        {k:"Variabilidad cardiaca (HRV)", unit:"ms", from:24, to:40},
+        {k:"VO2 máx estimado", unit:"ml/kg/min", from:36.5, to:42}
+      ]
+    },
+    verify: [
+      "Si hay una tercera comida antes de cerrar la ventana",
+      "Presión arterial habitual",
+      "Alimentación y consumo de alcohol en 2020 y en febrero de 2025, para leer el hemograma de 2020 y la GGT de 2025",
+      "Condiciones de la toma de febrero de 2025 (ayuno, ejercicio, alcohol el día previo)",
+    ],
+    next: [
+      "Perfil lipídico completo con ApoB de control, con ayuno de 12 horas, sin ejercicio intenso 48 h antes",
+      "Score de calcio coronario (tomografía sin contraste), si el médico lo indica",
+      "Estudio genético de hipercolesterolemia familiar, si el médico lo indica",
+      "Perfil de lípidos y Lp(a) para hermanos e hijos, una sola vez",
+      "Saturación de transferrina y TIBC, para leer la ferritina",
+      "Folato y vitamina B6, para cerrar homocisteína y VCM",
+      "T3 libre, IGF-1 y hemograma con ayuno nocturno normal de 8 a 12 horas",
+      "Ácido úrico de control con ayuno de 8 a 12 horas y sin carne roja ni alcohol el día previo y sin entrenamiento intenso en las 48 h previas",
+      "PSA de control sin bicicleta ni entrenamiento 48 h antes, y una vez al año",
+      "Perfil hepático completo con bilirrubinas y albúmina la próxima vez, para tener la línea base"
+    ]
+  },{
+    id: "b", name: "Participante B",
+    panels: [{
+      date: "2026-09-25", age: 47, lab: "Ayudas Diagnósticas Sura",
+      ranges: {tt:{lo:8, hi:48}, e2:{lo:30.9, hi:90.4, phase:false, sub:"Rango del laboratorio para fase folicular"}, fsh:{lo:3.5, hi:12.5, phase:false, sub:"Rango del laboratorio para fase folicular"}, prog:{lo:0.05, hi:0.193, phase:false, sub:"Rango del laboratorio para fase folicular"}},
+      results: {tg:47, hdl:76, apob:84, lpa:9, fe:83.5, uibc:258, tibc:341.5, tsat:24.45, tt:2.52, shbg:170, e2:{v:5, text:"<5"}, fsh:46.40, prog:0.43, dheas:68.40, igf1:70.4, vitd:15},
+      notes: [
+        {tone:"h", title:"Toma biotina: puede haber alterado varios valores de este panel",
+         text:"La biotina en dosis de suplemento (las cápsulas para pelo y uñas suelen traer 5 a 10 mg, cientos de veces la dosis alimentaria) interfiere con la técnica que usó el laboratorio para casi todas las hormonas de este panel (ECLIA). El efecto depende de la prueba: hace que salgan falsamente altos el estradiol, la progesterona, la testosterona y la vitamina D, y falsamente bajos la FSH, la SHBG, la TSH y en algunos equipos el IGF-1. Aplicado aquí, la dirección es incómoda: la vitamina D real podría ser aún menor que 15, la testosterona aún menor que 2.52, y la FSH y la SHBG aún mayores. Los lípidos, el hierro y la ApoB no se ven afectados. La interferencia dura unas 8 horas después de cada dosis, así que si la última cápsula fue el día anterior por la mañana y la toma fue a las 9 a. m. tras 20 horas de ayuno, el efecto probablemente fue pequeño; si la tomó esa misma mañana o la noche anterior, sí puede haber movido los valores. Para el próximo panel: suspender la biotina al menos 72 horas antes de la toma y avisarlo en el laboratorio. Mientras se confirma la dosis y la hora, los valores hormonales se leen como orientativos, no como definitivos."},
+        {tone:"l", title:"Vitamina D en 15 ng/mL, por debajo del rango (20–70)",
+         text:"Es el hallazgo más claro y el más fácil de mover. El laboratorio lo clasifica como insuficiencia (12 a 20); deficiencia sería por debajo de 12. Un valor así es muy común en mujeres de esta edad con poca exposición al sol, y toca varios frentes a la vez: hueso, músculo, inmunidad y ánimo. No hay una dosis que se pueda sugerir desde aquí; es una conversación concreta para tener con su médico, que puede decidir si suplementar y cuánto, y repetir la medición en unos tres meses para ver la respuesta. Mientras tanto, sol de media mañana en brazos y piernas y alimentos como pescado graso y huevo suman sin riesgo."},
+        {tone:"h", title:"FSH en 46.4 y estradiol por debajo de 5, tomados durante la menstruación",
+         text:"La muestra se tomó con el periodo, es decir, en fase folicular temprana, que es justamente el momento estándar para medir estas hormonas. Con ese dato se aplican los rangos del laboratorio para fase folicular: FSH 3.5–12.5 (el valor de 46.4 queda muy por encima), estradiol 30.9–90.4 (por debajo de 5 queda muy por debajo) y progesterona <0.05–0.193 (0.43 queda levemente por encima, poco relevante en esta fase). Que los ovarios respondan con poco estradiol mientras la hipófisis empuja con mucha FSH, en una mujer de 47 años que todavía menstrúa, es el patrón que los ginecólogos evalúan como transición hormonal. Una sola medición no lo define: en esta etapa la FSH oscila mucho de un ciclo a otro y un valor alto puede bajar al mes siguiente. Lo que se suele hacer es repetir FSH y estradiol entre el día 2 y el 4 de otro ciclo, y ahí sí leer la tendencia. Este bloque, junto con la testosterona y la SHBG, es el que toca llevar completo a la consulta; las decisiones sobre terapia hormonal son del médico."},
+        {tone:"l", title:"Testosterona total en 2.52 ng/dL (rango 8–48) con SHBG en 170 nmol/L (rango 32.4–128)",
+         text:"Los dos hallazgos van juntos. La testosterona total ya está por debajo del rango femenino, y la SHBG es la proteína que la atrapa en sangre: cuanto más alta, menos testosterona queda libre para actuar. Con SHBG en 170 la fracción libre queda muy baja. En mujeres la testosterona cae con la edad y más en la transición hormonal, así que va en la misma dirección que el estradiol y la FSH; se asocia con energía, masa muscular, fuerza y libido. El DHEA-S, la reserva de donde el cuerpo fabrica parte de esa testosterona, está en rango pero en la zona baja (68.4 de 35.4–256). La SHBG sube con los estrógenos orales, y ella no toma anticonceptivos ni terapia hormonal, así que esa causa queda descartada; quedan la tiroides acelerada, un peso bajo o una ingesta calórica corta, el ayuno largo de la toma y el hígado. Por eso la TSH es la pieza que falta. El inmunoensayo es poco preciso con testosterona tan baja; si el médico quiere confirmar, se pide por espectrometría de masas. Es un tema para la consulta, no para actuar por cuenta propia."},
+        {tone:"l", title:"IGF-1 en 70.4 ng/mL, por debajo del rango (98–331)",
+         text:"El IGF-1 es la señal con la que el cuerpo responde a la hormona de crecimiento y refleja, entre otras cosas, cuánta proteína y energía está recibiendo. Baja con una alimentación corta en proteína o calorías, con ayunos prolongados, con el sueño insuficiente y con la edad; también puede reflejar el hígado, que es donde se fabrica. La muestra se tomó con unas 20 horas de ayuno, y el IGF-1 responde a la falta de comida en cuestión de días, no de meses, así que ese ayuno largo empuja el valor hacia abajo y no permite leerlo limpio. La SHBG sube por la misma vía, y los triglicéridos en 47 también reflejan en parte esas 20 horas sin comer. Lo útil es repetir IGF-1 con ayuno nocturno normal de 8 a 12 horas. Un valor bajo aislado no dice cuál de esas causas es; con el patrón de SHBG alta y testosterona baja, vale la pena que el médico mire cómo está comiendo, cuánta proteína al día y cómo duerme antes de pensar en el eje hormonal. Un IGF-1 moderadamente bajo no es en sí un problema para la longevidad; el asunto es si viene acompañado de pérdida de masa muscular o fuerza. Se repite junto con el resto del panel."},
+        {tone:"ok", title:"Riesgo cardiovascular por lípidos: el mejor perfil del panel",
+         text:"ApoB en 84 (60–141) es el marcador que mejor resume cuántas partículas capaces de dañar la arteria circulan; está en rango, y los clínicos enfocados en longevidad suelen buscar valores por debajo de 90 en personas sin otros factores, así que queda bien. Lp(a) en 9 nmol/L, muy por debajo del corte de 75: esta es la parte genética del riesgo, no cambia con hábitos y solo hace falta medirla una vez en la vida. Triglicéridos en 47, por debajo del 50 que el laboratorio pone como piso, con HDL en 76 (sin riesgo en mujeres desde 65): un triglicérido bajo con HDL alto es un patrón favorable, no un problema. Para cerrar el bloque solo faltan colesterol total y LDL, que son de rutina."},
+        {tone:"ok", title:"Hierro completo en rango",
+         text:"Hierro sérico 83.5, capacidades de fijación normales y saturación de transferrina en 24.45 %: el transporte de hierro está bien. Falta la ferritina, que es la que muestra la reserva; sin ella no se puede descartar una reserva baja aunque el hierro circulante esté normal."}
+      ],
+      context: [
+        "Toma de la muestra a las 9:00 a. m., el mismo día y en las mismas condiciones que Hernán",
+        "Última comida a la 1:00 p. m. del día anterior (unas 20 horas de ayuno)",
+        "Muestra tomada durante la menstruación (fase folicular temprana)"
+      ]
+    }],
+    verify: [
+      "Regularidad de los ciclos en el último año (si se han acortado, alargado o saltado)",
+      "Si toma anticonceptivos, terapia hormonal o algún suplemento (en especial biotina, que altera estas mediciones)",
+      "Ejercicio, alcohol y tipo de comida el día anterior",
+      "Síntomas actuales: calores, sueño, ánimo, energía",
+      "Cuánta proteína come al día y si hace ayunos largos (afecta IGF-1 y SHBG)"
+    ],
+    next: [
+      "FSH y estradiol de control entre el día 2 y 4 de otro ciclo, sin biotina en las 72 horas previas",
+      "Ferritina y hemograma, para leer la reserva de hierro",
+      "TSH, T4 libre y T3, para el eje tiroideo",
+      "Colesterol total y LDL, para cerrar el bloque de lípidos",
+      "Glucosa, HbA1c e insulina en ayunas",
+      "Testosterona por espectrometría de masas, si el médico quiere confirmar el valor",
+      "Vitamina B12 y folato",
+      "PCR ultrasensible, creatinina y tasa de filtración",
+      "IGF-1, SHBG y triglicéridos de control con ayuno nocturno de 8 a 12 horas, para separar el efecto del ayuno largo",
+      "Vitamina D de control a los tres meses de cualquier intervención"
+    ]
+  }]
+};
+
+const $ = id => document.getElementById(id);
+const fmt = n => n.toLocaleString("es-CO",{maximumFractionDigits:2});
+const fmtDate = s => new Date(s+"T12:00:00").toLocaleDateString("es-CO",{day:"numeric",month:"long",year:"numeric"});
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+const num = x => typeof x==="object" ? x.v : x;
+const txt = x => typeof x==="object" && x.text ? x.text : fmt(num(x));
+function marker(panel,k){ return Object.assign({}, MARKERS[k], (panel.ranges||{})[k]||{}); }
+function status(m,v){ if(m.phase) return "na"; if(v<m.lo) return "l"; if(v>m.hi && !m.openHi) return "h"; return "ok"; }
+const LABEL = {ok:"En rango", h:"Alto", l:"Bajo", na:"Según fase"};
+
+function gauge(m,v){
+  if(m.phase) return `<div class="gauge phase">El rango depende de la fase del ciclo. Pendiente de confirmar.</div>`;
+  const span = m.hi-m.lo;
+  let min = m.lo===0 ? 0 : m.lo - span*0.35;
+  let max = m.hi + span*0.35;
+  min = Math.max(0, Math.min(min, v - span*0.08));
+  max = Math.max(max, v + span*0.08);
+  const p = x => ((x-min)/(max-min))*100;
+  const s = status(m,v);
+  return `<div class="gauge" role="img" aria-label="${esc(m.name)}: ${fmt(v)} ${m.unit}, rango ${fmt(m.lo)} a ${fmt(m.hi)}">
+    <div class="track"></div>
+    <div class="band" style="left:${p(m.lo)}%;width:${(m.openHi?100:p(m.hi))-p(m.lo)}%"></div>
+    <div class="dot ${s==="ok"?"":s}" style="left:${p(v)}%"></div>
+    <span class="lim" style="left:${p(m.lo)}%">${m.openHi?"> ":""}${fmt(m.lo)}</span>
+    ${m.openHi?"":`<span class="lim" style="left:${p(m.hi)}%">${fmt(m.hi)}</span>`}
+  </div>`;
+}
+
+function renderTrends(mem){
+  const panels = mem.panels;
+  const sec = $("trendSec");
+  if(panels.length<2){ sec.hidden = true; return; }
+  sec.hidden = false;
+  const first = panels[0].date, last = panels[panels.length-1].date;
+  const keys = Object.keys(MARKERS).filter(k => panels.filter(p=>p.results[k]!=null && !MARKERS[k].phase).length>=2);
+  $("trendSub").textContent = `${keys.length} marcadores medidos dos o más veces entre ${fmtDate(first)} y ${fmtDate(last)}. El punto de cada fecha se colorea según el rango del laboratorio de esa fecha; la franja verde es el rango del panel más reciente.`;
+  const yr = d => d.slice(0,4);
+  $("trends").innerHTML = GROUP_ORDER.map(g=>{
+    const ks = keys.filter(k=>MARKERS[k].group===g);
+    if(!ks.length) return "";
+    return `<h3>${g}</h3><div class="tgrid">${ks.map(k=>{
+      const pts = panels.filter(p=>p.results[k]!=null).map(p=>({date:p.date, v:num(p.results[k]), s:status(marker(p,k),num(p.results[k]))}));
+      const mLast = marker(panels[panels.length-1],k);
+      const vals = pts.map(x=>x.v);
+      const lo = Math.min(...vals, mLast.lo), hi = Math.max(...vals, mLast.openHi?Math.max(...vals):mLast.hi);
+      const pad = (hi-lo||1)*0.18;
+      const y0 = lo-pad, y1 = hi+pad;
+      const W=200, H=56, X0=8, X1=192;
+      const X = i => X0 + (X1-X0)*(pts.length===1?0.5:i/(pts.length-1));
+      const Y = v => H - ((v-y0)/(y1-y0))*H;
+      const bandTop = Y(mLast.openHi?y1:mLast.hi), bandBot = Y(mLast.lo);
+      const line = pts.map((x,i)=>`${i?"L":"M"}${X(i).toFixed(1)},${Y(x.v).toFixed(1)}`).join(" ");
+      const col = s => s==="h"?"var(--high)":s==="l"?"var(--low)":"var(--ok)";
+      const a = pts[0].v, b = pts[pts.length-1].v, d = b-a;
+      const pct = a? Math.round(Math.abs(d)/Math.abs(a)*100):0;
+      const cur = pts[pts.length-1];
+      const trendCls = Math.abs(d) < (hi-lo)*0.02 ? "flat" : cur.s;
+      const dtext = pts.length===1 ? "" : (Math.abs(d) < 1e-9 ? "Sin cambio" : `${d>0?"+":"−"}${fmt(Math.abs(d))} (${pct}%) desde ${yr(pts[0].date)}`);
+      return `<div class="tcard">
+        <div class="k">${esc(MARKERS[k].name)}${MARKERS[k].sub&&!/Sin riesgo|Folicular|hasta/.test(MARKERS[k].sub)?`<small>${esc(MARKERS[k].sub)}</small>`:""}</div>
+        <div class="v">${fmt(cur.v)}<small>${MARKERS[k].unit} · ${yr(cur.date)}</small></div>
+        <div class="d ${trendCls}">${dtext}</div>
+        <svg viewBox="0 0 ${W} ${H+12}" preserveAspectRatio="none" role="img" aria-label="${esc(MARKERS[k].name)}: ${pts.map(x=>`${yr(x.date)} ${fmt(x.v)}`).join(", ")}">
+          <rect x="0" y="${Math.max(0,bandTop).toFixed(1)}" width="${W}" height="${Math.max(0,Math.min(H,bandBot)-Math.max(0,bandTop)).toFixed(1)}" fill="var(--band)" opacity="0.6"/>
+          <path d="${line}" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+          ${pts.map((x,i)=>`<circle cx="${X(i).toFixed(1)}" cy="${Y(x.v).toFixed(1)}" r="${i===pts.length-1?5:4}" fill="${col(x.s)}" stroke="var(--panel)" stroke-width="2"/>`).join("")}
+          ${pts.map((x,i)=>`<text x="${X(i).toFixed(1)}" y="${H+11}" text-anchor="${i===0?"start":i===pts.length-1?"end":"middle"}" font-size="10" fill="var(--muted)" font-family="Public Sans, sans-serif">${yr(x.date)}</text>`).join("")}
+        </svg>
+        <div class="seq">${pts.map(x=>`<span style="color:${col(x.s)}">${fmt(x.v)}</span>`).join("")}</div>
+      </div>`;}).join("")}</div>`;
+  }).join("");
+}
+
+function render(){
+  const mem = DATA.members.find(x=>x.id===$("member").value) || DATA.members[0];
+  const panel = mem.panels.find(p=>p.date===$("panel").value) || mem.panels[mem.panels.length-1];
+  const prevIdx = mem.panels.indexOf(panel)-1;
+  const prev = prevIdx>=0 ? mem.panels[prevIdx] : null;
+
+  $("title").textContent = "Healthspan · " + mem.name;
+  $("subtitle").textContent = `Panel del ${fmtDate(panel.date)}, ${panel.age} años, ${panel.lab}`;
+
+  const keys = Object.keys(panel.results).filter(k=>MARKERS[k]);
+  const counts = {ok:0,h:0,l:0,na:0};
+  keys.forEach(k=>counts[status(marker(panel,k),num(panel.results[k]))]++);
+  $("tally").innerHTML = `
+    <div><b>${keys.length}</b><span>marcadores medidos</span></div>
+    <div><b>${counts.ok}</b><span>en rango</span></div>
+    <div class="h"><b>${counts.h}</b><span>por encima</span></div>
+    <div class="l"><b>${counts.l}</b><span>por debajo</span></div>
+    ${counts.na?`<div><b>${counts.na}</b><span>según fase del ciclo</span></div>`:""}`;
+
+  $("groups").innerHTML = GROUP_ORDER.map(g=>{
+    const ks = keys.filter(k=>MARKERS[k].group===g);
+    if(!ks.length) return "";
+    return `<div class="group"><h3>${g}</h3>${ks.map(k=>{
+      const m = marker(panel,k), v = num(panel.results[k]), s = status(m,v);
+      let delta = "";
+      if(prev && prev.results[k]!=null && !m.phase){
+        const d = v - num(prev.results[k]);
+        delta = ` <small>${d>0?"+":""}${fmt(d)} vs. anterior</small>`;
+      }
+      return `<div class="row">
+        <div class="name">${esc(m.name)}${m.sub?`<small>${esc(m.sub)}</small>`:""}</div>
+        <div class="val">${txt(panel.results[k])}<small>${m.unit}</small>${delta}</div>
+        ${gauge(m,v)}
+        <div class="status ${s}">${LABEL[s]}</div>
+      </div>`;}).join("")}</div>`;
+  }).join("");
+
+  $("notes").innerHTML = (panel.notes||[]).map(n=>
+    `<div class="note ${n.tone==="ok"?"":n.tone}"><h4>${esc(n.title)}</h4><p>${esc(n.text)}</p></div>`).join("");
+  $("notesSec").hidden = !(panel.notes||[]).length;
+
+  renderTrends(mem);
+
+  const b = mem.body;
+  $("bodySec").hidden = !b;
+  if(b){
+    const bmi = b.weight/(b.height*b.height);
+    const bm = {name:"Índice de masa corporal", unit:"kg/m²", lo:18.5, hi:24.9};
+    $("body").innerHTML = `
+      <div class="fcard"><div class="k">Peso</div><div class="v">${fmt(b.weight)} <span style="font-size:14px;font-family:'Public Sans',sans-serif;color:var(--muted)">kg</span></div><div class="k">${esc(b.note)} Registrado el ${fmtDate(b.date)}.</div></div>
+      <div class="fcard"><div class="k">Talla</div><div class="v">${fmt(b.height)} <span style="font-size:14px;font-family:'Public Sans',sans-serif;color:var(--muted)">m</span></div><div class="k">Talla aproximada</div></div>
+      <div class="fcard"><div class="k">Cintura</div><div class="v">${fmt(b.waistCm)} <span style="font-size:14px;font-family:'Public Sans',sans-serif;color:var(--muted)">cm</span></div><div class="k">Medida con cinta a la altura del ombligo</div></div>
+      <div class="fcard"><div class="k">Cintura / talla</div><div class="v">${fmt(Math.round(b.waistCm/(b.height*100)*100)/100)}</div>${gauge({name:"Cintura / talla",unit:"",lo:0.4,hi:0.5},b.waistCm/(b.height*100))}<div class="k" style="margin-top:6px">Referencia habitual: por debajo de 0.5. Estima grasa abdominal mejor que el IMC.</div></div>
+      <div class="fcard"><div class="k">${bm.name}</div><div class="v">${fmt(Math.round(bmi*10)/10)} <span style="font-size:14px;font-family:'Public Sans',sans-serif;color:var(--muted)">${bm.unit}</span></div>${gauge(bm,bmi)}<div class="k" style="margin-top:6px">Rango de referencia OMS 18.5–24.9. No distingue músculo de grasa.</div></div>
+      <div class="fcard"><div class="k">Entrenamiento</div><div class="v" style="font-size:24px">${esc(b.training.freq)}</div><div class="k">${b.training.types.map(esc).join(", ")}</div></div>`;
+  }
+
+  const f = mem.fitness;
+  $("fitSec").hidden = !f;
+  if(f){
+    $("fit").innerHTML = f.metrics.map(x=>{
+      const d = x.to - x.from;
+      const pct = Math.round(Math.abs(d)/x.from*100);
+      const lo=Math.min(x.from,x.to), hi=Math.max(x.from,x.to);
+      const y = v => 34 - ((v-lo)/(hi-lo||1))*28;
+      return `<div class="fcard">
+        <div class="k">${esc(x.k)}</div>
+        <div class="v">${fmt(x.to)} <span style="font-size:14px;font-family:'Public Sans',sans-serif;color:var(--muted)">${x.unit}</span></div>
+        <div class="d">${d>0?"+":""}${fmt(d)} (${pct}%) desde ${fmt(x.from)}</div>
+        <svg viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">
+          <line x1="6" y1="${y(x.from)}" x2="194" y2="${y(x.to)}" stroke="var(--ok)" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="6" cy="${y(x.from)}" r="3.5" fill="var(--muted)"/>
+          <circle cx="194" cy="${y(x.to)}" r="4.5" fill="var(--ok)"/>
+        </svg>
+      </div>`;}).join("") + `<div style="grid-column:1/-1;color:var(--muted);font-size:13px">${esc(f.label)}</div>`;
+  }
+
+  $("ctx").innerHTML = ((panel.context&&panel.context.length)?panel.context:["Sin registrar todavía"]).map(v=>`<li>${esc(v)}</li>`).join("");
+  $("verify").innerHTML = (mem.verify||[]).map(v=>`<li>${esc(v)}</li>`).join("");
+  document.querySelectorAll(".pending").forEach(el=>el.hidden = !(mem.verify||[]).length);
+  $("next").innerHTML = (mem.next||[]).map(v=>`<li>${esc(v)}</li>`).join("");
+}
+
+function init(){
+  $("member").innerHTML = DATA.members.map(m=>`<option value="${m.id}">${esc(m.name)}</option>`).join("");
+  const fillPanels = ()=>{
+    const mem = DATA.members.find(x=>x.id===$("member").value);
+    $("panel").innerHTML = mem.panels.slice().reverse().map(p=>`<option value="${p.date}">${fmtDate(p.date)}</option>`).join("");
+  };
+  fillPanels();
+  $("member").addEventListener("change",()=>{fillPanels();render();});
+  $("panel").addEventListener("change",render);
+  render();
+}
+init();
+</script>
+</body>
+</html>
