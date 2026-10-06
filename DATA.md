@@ -252,13 +252,13 @@ Aorta ascendente 32.8 mm y descendente 24.5 mm, dentro de lo normal (se habla de
 
 ## Panel 25 de septiembre de 2026 — 47 años — Ayudas Diagnósticas Sura
 
-Informe de hierro y colesterol anonimizado: [`reports/2026-09-25_sura_participante-b.md`](reports/2026-09-25_sura_participante-b.md) · [PDF tachado](reports/2026-09-25_sura_participante-b.pdf)
+Informe completo anonimizado (18 páginas): [`reports/2026-09-25_sura_participante-b.md`](reports/2026-09-25_sura_participante-b.md) · [PDF tachado](reports/2026-09-25_sura_participante-b.pdf)
 
 **Condiciones de la toma**
 
 - Toma de la muestra a las 9:00 a. m., el mismo día y en las mismas condiciones que Participante A
 - Última comida a la 1:00 p. m. del día anterior (unas 20 horas de ayuno)
-- Colesterol total 183 recibido en el impreso de Sura del 6 de octubre (mismo servicio del 25 de septiembre)
+- Impreso completo de Sura recibido el 6 de octubre (18 páginas, mismo servicio del 25 de septiembre): añade LDL 102, química, hierro completo, tiroides, LH, hemograma, hs-PCR, homocisteína, B12, HbA1c e insulina. Del hemograma, además: MCHC 33.0, RDW-SD 40.4, monocitos 211 (5.8%), eosinófilos 95 (2.6%), basófilos 11 (0.3%), granulocitos inmaduros 10 (0.2%), VPM 9.1, PDW 15.5
 - Muestra tomada durante la menstruación (fase folicular temprana)
 
 **Resultados**
@@ -268,9 +268,20 @@ Informe de hierro y colesterol anonimizado: [`reports/2026-09-25_sura_participan
 | Lípidos | Apolipoproteína B (ApoB) | 84 | mg/dL | 60 – 141 | en rango | — |
 | Lípidos | Colesterol total | 183 | mg/dL | 0 – 200 | en rango | — |
 | Lípidos | Colesterol HDL (Sin riesgo en mujeres: más de 65) | 76 | mg/dL | > 65 | en rango | — |
+| Lípidos | Colesterol LDL (Directo) | 102 | mg/dL | 55 – 116 | en rango | — |
 | Lípidos | Lipoproteína (a) (Lp(a)) | 9 | nmol/L | 0 – 75 | en rango | — |
 | Lípidos | Triglicéridos | 47 | mg/dL | 50 – 150 | **BAJO** | — |
+| Metabolismo | Glucosa en ayunas | 86 | mg/dL | 60 – 100 | en rango | — |
+| Metabolismo | Hemoglobina glicada (HbA1c) | 4.94 | % | 0 – 5.69 | en rango | — |
+| Metabolismo | Insulina en ayunas | 2.86 | µU/mL | 2.6 – 24.9 | en rango | — |
+| Metabolismo | Ácido úrico | 3.8 | mg/dL | 2.4 – 5.7 | en rango | — |
+| Hígado | ALT (GPT) (Transaminasa) | 15 | U/L | 0 – 33 | en rango | — |
+| Hígado | AST (GOT) (Transaminasa) | 20 | U/L | 0 – 32 | en rango | — |
+| Hígado | GGT (Gamaglutamil transferasa) | 17 | U/L | 0 – 40 | en rango | — |
+| Riñón | Nitrógeno ureico (BUN) | 11.5 | mg/dL | 6 – 20 | en rango | — |
+| Riñón | Creatinina | 0.68 | mg/dL | 0.51 – 0.95 | en rango | — |
 | Hierro | Hierro sérico | 83.5 | µg/dL | 33 – 193 | en rango | — |
+| Hierro | Ferritina | 97.5 | ng/mL | 13 – 150 | en rango | — |
 | Hierro | Capacidad total de fijación (TIBC) | 341.5 | µg/dL | 250 – 400 | en rango | — |
 | Hierro | Saturación de transferrina | 24.45 | % | 14 – 50 | en rango | — |
 | Hierro | Capacidad de combinación de hierro (UIBC) | 258 | µg/dL | 135 – 392 | en rango | — |
@@ -278,10 +289,27 @@ Informe de hierro y colesterol anonimizado: [`reports/2026-09-25_sura_participan
 | Hormonas | Estradiol total (Rango del laboratorio para fase folicular) | <5 | pg/mL | 30.9 – 90.4 | **BAJO** | — |
 | Hormonas | FSH (Rango del laboratorio para fase folicular) | 46.4 | mUI/mL | 3.5 – 12.5 | **ALTO** | — |
 | Hormonas | IGF-1 (Somatomedina C) | 70.4 | ng/mL | 98 – 331 | **BAJO** | — |
+| Hormonas | LH (Rango del laboratorio para fase folicular) | 18.2 | mUI/mL | 2.4 – 12.6 | **ALTO** | — |
 | Hormonas | Progesterona (Rango del laboratorio para fase folicular) | 0.43 | ng/mL | 0.05 – 0.193 | **ALTO** | — |
 | Hormonas | SHBG (Proteína transportadora de hormona sexual) | 170 | nmol/L | 32.4 – 128 | **ALTO** | — |
 | Hormonas | Testosterona total | 2.52 | ng/dL | 8 – 48 | **BAJO** | — |
+| Tiroides | T4 libre (Tiroxina) | 0.91 | ng/dL | 0.6 – 1.48 | en rango | — |
+| Tiroides | T3 total (Triyodotironina) | 64.48 | ng/dL | 64 – 152 | en rango | — |
+| Tiroides | TSH (Hormona estimulante de tiroides) | 2.901 | mUI/L | 0.35 – 4.94 | en rango | — |
+| Micronutrientes | Vitamina B12 | 468 | pg/mL | 197 – 771 | en rango | — |
 | Micronutrientes | Vitamina D (25-hidroxi total) | 15 | ng/mL | 20 – 70 | **BAJO** | — |
+| Inflamación | Proteína C reactiva (Ultrasensible · 0.42 mg/L · riesgo bajo <1 mg/L) | 0.04 | mg/dL | 0 – 0.3 | en rango | — |
+| Inflamación | Homocisteína (Sin suplemento de folato: hasta 15) | 8.02 | µmol/L | 0 – 15 | en rango | — |
+| Sangre | Hemoglobina | 13 | g/dL | 12 – 16 | en rango | — |
+| Sangre | Hematocrito | 39.4 | % | 36 – 48 | en rango | — |
+| Sangre | Linfocitos | 1259 | /mm³ | 900 – 5000 | en rango | — |
+| Sangre | Hemoglobina corpuscular media (HCM) | 29.7 | pg | 25 – 31 | en rango | — |
+| Sangre | Volumen corpuscular medio (VCM) | 90.2 | fL | 86 – 96 | en rango | — |
+| Sangre | Neutrófilos | 2057 | /mm³ | 1800 – 7700 | en rango | — |
+| Sangre | Plaquetas | 344000 | /mm³ | 150000 – 450000 | en rango | — |
+| Sangre | Glóbulos rojos | 4.37 | millones/µL | 4.2 – 5.4 | en rango | — |
+| Sangre | Amplitud de distribución eritrocitaria (RDW) | 12.2 | % | 11.5 – 15.1 | en rango | — |
+| Sangre | Leucocitos | 3640 | /mm³ | 4500 – 11000 | **BAJO** | — |
 
 **Lecturas**
 
@@ -299,7 +327,7 @@ La muestra se tomó con el periodo, es decir, en fase folicular temprana, que es
 
 ### Bajo · Testosterona total en 2.52 ng/dL (rango 8–48) con SHBG en 170 nmol/L (rango 32.4–128)
 
-Los dos hallazgos van juntos. La testosterona total ya está por debajo del rango femenino, y la SHBG es la proteína que la atrapa en sangre: cuanto más alta, menos testosterona queda libre para actuar. Con SHBG en 170 la fracción libre queda muy baja. En mujeres la testosterona cae con la edad y más en la transición hormonal, así que va en la misma dirección que el estradiol y la FSH; se asocia con energía, masa muscular, fuerza y libido. El DHEA-S, la reserva de donde el cuerpo fabrica parte de esa testosterona, está en rango pero en la zona baja (68.4 de 35.4–256). La SHBG sube con los estrógenos orales, y ella no toma anticonceptivos ni terapia hormonal, así que esa causa queda descartada; quedan la tiroides acelerada, un peso bajo o una ingesta calórica corta, el ayuno largo de la toma y el hígado. Por eso la TSH es la pieza que falta. El inmunoensayo es poco preciso con testosterona tan baja; si el médico quiere confirmar, se pide por espectrometría de masas. Es un tema para la consulta, no para actuar por cuenta propia.
+Los dos hallazgos van juntos. La testosterona total ya está por debajo del rango femenino, y la SHBG es la proteína que la atrapa en sangre: cuanto más alta, menos testosterona queda libre para actuar. Con SHBG en 170 la fracción libre queda muy baja. En mujeres la testosterona cae con la edad y más en la transición hormonal, así que va en la misma dirección que el estradiol y la FSH; se asocia con energía, masa muscular, fuerza y libido. El DHEA-S, la reserva de donde el cuerpo fabrica parte de esa testosterona, está en rango pero en la zona baja (68.4 de 35.4–256). La SHBG sube con los estrógenos orales, y ella no toma anticonceptivos ni terapia hormonal, así que esa causa queda descartada; la tiroides queda descartada con TSH 2.90 y T4 libre 0.91 normales; quedan un peso bajo o una ingesta calórica corta (IMC 20.2, insulina 2.86, IGF-1 bajo), el ayuno largo de la toma y el hígado, que está normal (GGT 17, AST 20, ALT 15). El inmunoensayo es poco preciso con testosterona tan baja; si el médico quiere confirmar, se pide por espectrometría de masas. Es un tema para la consulta, no para actuar por cuenta propia.
 
 ### Bajo · IGF-1 en 70.4 ng/mL, por debajo del rango (98–331)
 
@@ -307,11 +335,31 @@ El IGF-1 es la señal con la que el cuerpo responde a la hormona de crecimiento 
 
 ### En rango · Riesgo cardiovascular por lípidos: el mejor perfil del panel
 
-ApoB en 84 (60–141) es el marcador que mejor resume cuántas partículas capaces de dañar la arteria circulan; está en rango, y los clínicos enfocados en longevidad suelen buscar valores por debajo de 90 en personas sin otros factores, así que queda bien. Lp(a) en 9 nmol/L, muy por debajo del corte de 75: esta es la parte genética del riesgo, no cambia con hábitos y solo hace falta medirla una vez en la vida. Triglicéridos en 47, por debajo del 50 que el laboratorio pone como piso, con HDL en 76 (sin riesgo en mujeres desde 65): un triglicérido bajo con HDL alto es un patrón favorable, no un problema. Colesterol total 183 (del impreso de Sura, 6 de octubre), por debajo de 200. El LDL no se midió directo; estimado por Friedewald (183 − 76 − 47/5) da unos 98 mg/dL, coherente con la ApoB de 84. Para cerrar el bloque solo falta el LDL directo.
+ApoB en 84 (60–141) es el marcador que mejor resume cuántas partículas capaces de dañar la arteria circulan; está en rango, y los clínicos enfocados en longevidad suelen buscar valores por debajo de 90 en personas sin otros factores, así que queda bien. Lp(a) en 9 nmol/L, muy por debajo del corte de 75: esta es la parte genética del riesgo, no cambia con hábitos y solo hace falta medirla una vez en la vida. Triglicéridos en 47, por debajo del 50 que el laboratorio pone como piso, con HDL en 76 (sin riesgo en mujeres desde 65): un triglicérido bajo con HDL alto es un patrón favorable, no un problema. Colesterol total 183 y LDL directo 102 (55–116), ambos del impreso completo de Sura. El bloque de lípidos queda cerrado y es coherente de punta a punta: ApoB 84, LDL 102, no-HDL 107, Lp(a) 9, triglicéridos 47, HDL 76.
 
-### En rango · Hierro completo en rango
+### En rango · Hierro completo en rango, con ferritina 97.5
 
-Hierro sérico 83.5, capacidades de fijación normales y saturación de transferrina en 24.45 %: el transporte de hierro está bien. Falta la ferritina, que es la que muestra la reserva; sin ella no se puede descartar una reserva baja aunque el hierro circulante esté normal.
+Hierro sérico 83.5, capacidades de fijación normales, saturación de transferrina en 24.45 % y ferritina en 97.5 (13–150): transporte y reserva de hierro en orden. Es un dato relevante para el tablero de los dos: con el mismo vino, A tiene ferritina 430 y ella 97.5; la menstruación explica parte de la diferencia, pero no una diferencia de cuatro veces.
+
+### En rango · Metabolismo: glucosa 86, insulina 2.86, HbA1c 4.94, triglicéridos 47
+
+HOMA-IR (glucosa × insulina / 405) queda en 0.61: sensibilidad a la insulina muy alta, mejor incluso que la de A (0.9). HbA1c 4.94 corresponde a una glucosa promedio de ~95 en tres meses. Con PCR ultrasensible en 0.42 mg/L (riesgo bajo es <1) y triglicéridos en 47, el lado metabólico está impecable. La lectura tiene un matiz: una insulina de 2.86, un IGF-1 de 70, una SHBG de 170 y triglicéridos de 47, todos a la vez y en una mujer de 57 kg con ayunos de 20 horas, son el mismo mensaje leído desde cuatro ángulos: entra menos energía de la que el cuerpo pide. No es un problema metabólico; es la cantidad de comida.
+
+### En rango · Hígado, riñón e inflamación: todo en rango, y sirve de comparador
+
+GGT 17 (0–40), AST 20, ALT 15, creatinina 0.68, nitrógeno ureico 11.5, ácido úrico 3.8 (2.4–5.7), PCR ultrasensible 0.42 mg/L, homocisteína 8.02 µmol/L, VCM 90.2. Todo normal, y varios son exactamente los marcadores que faltaban para leer el eje alcohol de A: ella toma el mismo vino, con menos agua corporal donde diluirlo, y tiene GGT 17 frente a 27 (45 en 2025), VCM 90.2 frente a 97.3 y homocisteína 8.0 frente a 14.9. El ácido úrico (3.8 frente a 8.7) y la ferritina (97.5 frente a 430) también son más bajos, aunque ahí la menstruación y el estrógeno pesan. Conclusión para el tablero de A: lo que el alcohol explica en él es menos de lo que parecía; lo que queda es él.
+
+### Bajo · Leucocitos 3640, por debajo del rango (4500–11000); el resto del hemograma normal
+
+Glóbulos rojos 4.37, hemoglobina 13.0, hematocrito 39.4, VCM 90.2, HCM 29.7, RDW 12.2: serie roja normal, sin rastro de los glóbulos grandes que tiene A. Plaquetas 344,000, normales. Los leucocitos en 3640 quedan por debajo de 4500 con una fórmula proporcionada (neutrófilos 2057, linfocitos 1259, monocitos 211, eosinófilos 95, basófilos 11): un recuento total bajo con todas las líneas en rango es el patrón benigno habitual en personas delgadas, que entrenan y ayunan, y es llamativo que A tenga lo mismo (4370). Un ayuno de 20 horas baja los leucocitos de forma transitoria. No tiene significado por sí solo; se repite con ayuno nocturno normal y, si persiste, el médico decide si mirar más.
+
+### En rango · Tiroides: TSH 2.90, T4 libre 0.91 y T3 total 64.48 en el piso del rango
+
+La misma firma que tiene A: TSH y T4 libre normales con la T3 total justo en el límite inferior (64–152). Con el eje íntegro, una T3 baja es conversión reducida de T4 a T3, que es lo que el cuerpo hace cuando entra poca energía o se ayuna mucho; no es una tiroides enferma y descarta la tiroides acelerada como causa de la SHBG alta. Que los dos de la casa tengan T3 en el piso, con las mismas ventanas de ayuno, apunta a la causa compartida. B12 468, suficiente.
+
+### Alto · LH 18.2 junto a FSH 46.4: el eje completo de la transición
+
+LH 18.2 mUI/mL supera el rango folicular (2.4–12.6) igual que la FSH; la relación FSH/LH mayor de 2 es la típica de la perimenopausia. No añade una decisión nueva: confirma el patrón que ya describían FSH y estradiol, y vale lo mismo de siempre, una medición no define la etapa. Se repite con FSH y estradiol en el día 2–4 de otro ciclo.
 
 ---
 
@@ -349,6 +397,7 @@ Rangos usados cuando el panel no trae uno propio. Un panel puede sobreescribirlo
 | ft | Testosterona libre | Hormonas | pg/mL | 3.49 – 13.54 |
 | e2 | Estradiol total (Folicular 30.9–90.4 · Ovulatoria 60.4–533 · Lútea 60.4–232 · Posmenopausia <5–138) | Hormonas | pg/mL | Folicular 30.9–90.4 · Ovulatoria 60.4–533 · Lútea 60.4–232 · Posmenopausia <5–138 |
 | fsh | FSH (Folicular 3.5–12.5 · Ovulatoria 4.7–21.5 · Lútea 1.7–7.7 · Posmenopausia 26–135) | Hormonas | mUI/mL | Folicular 3.5–12.5 · Ovulatoria 4.7–21.5 · Lútea 1.7–7.7 · Posmenopausia 26–135 |
+| lh | LH (Hormona luteinizante · Folicular 2.4–12.6 · Ovulatoria 14–96 · Lútea 1–11.4 · Posmenopausia 7.7–59) | Hormonas | mUI/mL | Hormona luteinizante · Folicular 2.4–12.6 · Ovulatoria 14–96 · Lútea 1–11.4 · Posmenopausia 7.7–59 |
 | prog | Progesterona (Folicular <0.05–0.193 · Ovulación 0.055–4.14 · Lútea 4.11–14.5 · Posmenopausia <0.05–0.126) | Hormonas | ng/mL | Folicular <0.05–0.193 · Ovulación 0.055–4.14 · Lútea 4.11–14.5 · Posmenopausia <0.05–0.126 |
 | dheas | DHEA-S (Dehidroepiandrosterona sulfato) | Hormonas | µg/dL | 35.4 – 256 |
 | shbg | SHBG (Proteína transportadora de hormona sexual) | Hormonas | nmol/L | 32.4 – 128 |
