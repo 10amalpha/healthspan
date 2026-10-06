@@ -63,7 +63,7 @@ Glucosa 86.9 y HbA1c 5.3 en 2020 frente a 83 y 5.24 en 2026: el metabolismo de l
 
 **Condiciones de la toma**
 
-- Muestra tomada el 4 de febrero de 2025 en Sura; médica tratante Mary Ann Robledo
+- Muestra tomada el 4 de febrero de 2025 en Sura; médica tratante registrada
 - Condiciones de la toma (ayuno, comida, ejercicio, alcohol) no registradas
 - Prueba de aliento para Helicobacter pylori: negativa
 
@@ -217,7 +217,7 @@ AST 22, ALT 20 y GGT 27 cómodos dentro del rango, incluso con ejercicio intenso
 
 **Condiciones de la toma**
 
-- Toma de la muestra a las 9:00 a. m., el mismo día y en las mismas condiciones que Hernán
+- Toma de la muestra a las 9:00 a. m., el mismo día y en las mismas condiciones que Participante A
 - Última comida a la 1:00 p. m. del día anterior (unas 20 horas de ayuno)
 - Muestra tomada durante la menstruación (fase folicular temprana)
 
