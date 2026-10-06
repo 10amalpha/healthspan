@@ -174,7 +174,7 @@ El hemograma de 2025 es el mejor de los tres: glóbulos rojos 4.72 (ya en rango,
 | Sangre | Neutrófilos | 2189 | /mm³ | 1800 – 7700 | en rango | 3970 |
 | Sangre | Plaquetas | 270000 | /mm³ | 150000 – 450000 | en rango | 284000 |
 | Sangre | Glóbulos rojos | 4.49 | millones/µL | 4.6 – 6.2 | **BAJO** | 4.72 |
-| Sangre | Amplitud de distribución eritrocitaria (RDW) | 12.6 | % | 11.5 – 14.3 | en rango | 12.9 |
+| Sangre | Amplitud de distribución eritrocitaria (RDW) | 12.6 | % | 11.5 – 15.1 | en rango | 12.9 |
 | Sangre | Leucocitos | 4370 | /mm³ | 4500 – 11000 | **BAJO** | 6770 |
 | Próstata | PSA total (Antígeno prostático) | 2.46 | ng/mL | 0 – 3.1 | en rango | 1.5 |
 
