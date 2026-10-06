@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Healthspan · Active research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --paper:#F2F4F1; --panel:#FFFFFF; --ink:#18221E; --muted:#5E6B65; --line:#D9E0DB;
+  --band:#D5E4DB; --ok:#2F6B55; --high:#B7791F; --low:#3B5E9E; --track:#E8ECE9;
+  --hab:#2F6B55; --med:#3B5E9E; --fix:#8A8F8C; --accent:#1F4133;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#111814; --panel:#18211C; --ink:#E4EAE6; --muted:#98A69F; --line:#2B3731;
+    --band:#24493A; --ok:#6CC49D; --high:#E0A547; --low:#86A6E6; --track:#222C27;
+    --hab:#6CC49D; --med:#86A6E6; --fix:#6B736F; --accent:#6CC49D;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#111814; --panel:#18211C; --ink:#E4EAE6; --muted:#98A69F; --line:#2B3731;
+  --band:#24493A; --ok:#6CC49D; --high:#E0A547; --low:#86A6E6; --track:#222C27;
+  --hab:#6CC49D; --med:#86A6E6; --fix:#6B736F; --accent:#6CC49D;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 15px/1.55 "Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:28px 20px 60px}
+h1,h2,h3{font-family:"Spectral",Georgia,serif;font-weight:600;letter-spacing:-.01em;margin:0}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.1}
+h2{font-size:22px;margin-bottom:6px}
+h3{font-size:17px}
+.sub{color:var(--muted);margin-top:6px}
+.tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 9px;margin-left:8px;vertical-align:middle}
+section{margin:36px 0}
+.lead{color:var(--muted);margin:0 0 16px;max-width:720px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+.grid{display:grid;gap:14px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:1fr 1fr}
+@media (max-width:760px){.g3,.g2{grid-template-columns:1fr}}
+.kpi{text-align:center}
+.kpi .big{font-family:"Spectral",Georgia,serif;font-size:44px;font-weight:600;line-height:1}
+.kpi .lbl{color:var(--muted);font-size:13px;margin-top:4px}
+.kpi .note{font-size:13px;color:var(--muted);margin-top:10px}
+.dial{width:170px;height:100px;display:block;margin:0 auto 6px}
+.stack{display:flex;height:14px;border-radius:7px;overflow:hidden;background:var(--track);margin:10px 0 6px}
+.stack span{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:10px 16px;font-size:12.5px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.levers{display:grid;grid-template-columns:140px 1fr 64px;gap:8px 12px;align-items:center;font-size:14px}
+.levers .bar{height:10px;border-radius:5px;background:var(--track);position:relative;overflow:hidden}
+.levers .bar b{position:absolute;left:0;top:0;bottom:0;border-radius:5px}
+.levers .pts{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px}
+th{font-weight:600;color:var(--muted);text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+th.c,td.c{text-align:center}
+td{padding:7px 6px;border-bottom:1px solid var(--line);vertical-align:middle}
+td.m{font-weight:600;white-space:nowrap}
+td.m small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.cell{display:inline-flex;align-items:center;justify-content:center;width:34px;height:28px;border-radius:7px;font-size:11px;font-weight:700;color:#fff}
+.cell.e0{background:transparent;color:transparent}
+.cell.A{outline:2px solid var(--ok);outline-offset:-2px}
+.cell.B{outline:2px dashed var(--ok);outline-offset:-2px}
+.cell.C{outline:2px dotted var(--high);outline-offset:-2px}
+.mini{height:8px;border-radius:4px;background:var(--track);position:relative;overflow:hidden;min-width:70px}
+.mini b{position:absolute;left:0;top:0;bottom:0;border-radius:4px}
+.mini.hi b{background:var(--high)} .mini.lo b{background:var(--low)} .mini.ok b{background:var(--ok)}
+.radar{width:100%;max-width:420px;display:block;margin:0 auto}
+.pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.pill{border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:13px;background:var(--paper)}
+.pill b{font-variant-numeric:tabular-nums}
+.detail .row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:baseline}
+.detail .val{font-family:"Spectral",Georgia,serif;font-size:30px;font-weight:600}
+.detail .val small{font:400 13px/1 "Public Sans",sans-serif;color:var(--muted);margin-left:6px}
+.detail .target{font-size:13px;color:var(--muted)}
+.lv{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.lv span{font-size:12.5px;border:1px solid var(--line);border-radius:8px;padding:3px 8px}
+.lv span i{font-style:normal;font-weight:700;margin-left:5px;color:var(--ok)}
+.lv span i.C{color:var(--high)}
+.hz{font-size:12.5px;color:var(--muted);margin-top:10px}
+.switch{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.switch button{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:5px 12px;cursor:pointer}
+.switch button[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+.lvlist{display:grid;grid-template-columns:1fr auto auto;gap:8px 14px;align-items:center;font-size:14px}
+.lvlist .pts{font-weight:700;font-variant-numeric:tabular-nums;text-align:right}
+.lvlist .ev{font-size:11px;color:var(--muted)}
+.strip{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding:22px 24px}
+@media (max-width:760px){.strip{grid-template-columns:1fr;gap:18px}}
+.st-n{font-family:"Spectral",Georgia,serif;font-size:40px;font-weight:600;line-height:1}
+.st-sep{color:var(--line)}
+.st-l{color:var(--muted);font-size:13px;margin-top:2px}
+.st-t{font-size:13.5px;margin-top:8px;color:var(--muted)}
+.st-t b{color:var(--ink)}
+.act{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}
+.act-txt{font-size:14px;margin:12px 0 0}
+.gain{display:grid;grid-template-columns:96px 1fr 48px;gap:10px;align-items:center;margin-top:8px}
+.gain-l{font-size:13px;color:var(--muted)} .gain .stack{margin:0} .gain-n{font-weight:700;font-variant-numeric:tabular-nums;text-align:right}
+.inh{display:flex;justify-content:space-between;gap:10px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
+.inh:last-child{border-bottom:none} .inh small{color:var(--muted);font-size:12.5px;display:block}
+.badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#fff;border-radius:999px;padding:3px 10px}
+footer{color:var(--muted);font-size:13px;margin-top:40px;border-top:1px solid var(--line);padding-top:16px}
+.rules{font-size:13.5px;color:var(--muted)}
+.rules b{color:var(--ink)}
+
+.top{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;margin-bottom:26px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+select{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.navlink{font:inherit;font-size:14px;font-weight:600;color:var(--ok);text-decoration:none;border:1px solid var(--ok);border-radius:8px;padding:8px 12px;display:inline-block}
+.warn{background:var(--panel);border:1px dashed var(--high);border-radius:12px;padding:12px 16px;font-size:13.5px;color:var(--muted);margin-bottom:20px}
+.warn b{color:var(--high)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1 id="title">Active research</h1>
+      <div class="sub" id="subtitle"></div>
+    </div>
+    <div class="controls">
+      <label><select id="member" aria-label="Persona"></select></label>
+      <a class="navlink" href="index.html">← Panel</a>
+    </div>
+  </header>
+
+  <div class="warn"><b>Investigación activa.</b> Esta sección es una herramienta para preparar la consulta: qué podría recomendar un médico, qué alternativa de hábitos existe, hasta dónde llega según la literatura y cómo comprobarlo. Pesos, objetivos y niveles de evidencia son editoriales y están a la vista. No diagnostica, no dosifica, no reemplaza al médico.</div>
+
+  <section>
+    <div class="card" style="border-left:4px solid var(--ok);padding:18px 22px">
+      <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px">En una frase</div>
+      <div id="headline" style="font-family:'Spectral',Georgia,serif;font-size:clamp(19px,2.6vw,24px);line-height:1.3"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card strip">
+      <div class="st"><div class="st-n" id="kControl">—</div><div class="st-l">de 100 en lo que controlás</div><div class="st-t" id="act1"></div></div>
+      <div class="st"><div class="st-n"><span id="kPot">—</span> <span class="st-sep">·</span> <span id="kMed" style="color:var(--med)">—</span></div><div class="st-l">puntos con hábitos · con un fármaco</div><div class="gain" style="grid-template-columns:1fr 1fr;gap:6px;margin:8px 0 6px"><div class="stack" id="gainHab" style="margin:0"></div><div class="stack" id="gainMed" style="margin:0"></div></div><div class="st-t" id="act2"></div></div>
+      <div class="st"><div class="st-n" id="kInh">—</div><div class="st-l" id="kInhL">carga heredada</div><div class="st-t" id="act3"></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Tu metabolismo en tres historias</h2>
+    <p class="lead">Los marcadores agrupados cuentan tres cosas. Cada historia dice qué contrapropuesta tiene sentido y cuál no.</p>
+    <div class="grid g3" id="stories"></div>
+  </section>
+
+  <section>
+    <h2>Contrapropuestas</h2>
+    <p class="lead">Una tarjeta por marcador que puede generar una recomendación. La barra: hasta dónde te llevan los hábitos, hasta dónde un fármaco, y dónde está el objetivo. Los rangos vienen de la literatura; tu respuesta real se mide repitiendo el examen.</p>
+    <div class="legend" style="margin-bottom:14px"><span><b style="color:var(--ok)">A</b> ensayos o metaanálisis</span><span><b style="color:var(--ok)">B</b> observacional consistente</span><span><b style="color:var(--high)">C</b> preliminar o en fase 3</span><span><i style="background:var(--hab)"></i>hábitos</span><span><i style="background:var(--med)"></i>fármaco</span><span><i style="background:var(--high)"></i>actual</span></div>
+    <div id="cps"></div>
+    <div class="card" style="margin-top:6px">
+      <h3 style="margin-bottom:4px">En objetivo: qué lo sostiene</h3>
+      <p class="lead" style="margin-bottom:10px">No generan recomendación, así que no hay contrapropuesta. Están aquí porque son la prueba de las historias y porque un hábito los mantiene donde están. "Borde" marca a menos de 10% del límite; "leve", fuera por poco.</p>
+      <div class="scroll"><table id="okTable" style="min-width:560px"></table></div>
+    </div>
+  </section>
+
+  <section class="card rules">
+    <h3 style="margin-bottom:8px">Cómo leer esto</h3>
+    <p><b>Score de hábitos:</b> cada marcador puntúa 100 dentro de su objetivo de longevidad y baja en línea recta hasta 0 en el umbral severo; pesa según importancia (1–5) × fracción que depende de hábitos. El fármaco no suma: se muestra como potencial, en la misma escala, porque es una decisión y no un hábito. Lo fijo (genética, edad, etapa) tampoco suma: se muestra como carga heredada, por sistema.</p>
+    <p><b>Veredicto "Sí":</b> los hábitos, bien hechos, llevan el marcador al objetivo o muy cerca. <b>"Probable":</b> casi siempre. <b>"Parcial":</b> cierran parte de la brecha; el resto es decisión entre fármaco y riesgo asumido con los ojos abiertos. <b>"Sin alternativa":</b> no hay hábito que lo mueva; la negociación es otra.</p>
+  </section>
+
+  <footer>Active research · Healthspan. Participantes anonimizados. Pesos, objetivos, rangos esperados y evidencia son una propuesta editorial en revisión; se corrigen con cada panel nuevo.</footer>
+</div>
+
+<script>
+const LEVERS = {
+  ejercicio:{name:"Ejercicio", color:"#2F6B55"},
+  dieta:    {name:"Dieta",     color:"#4F8A6D"},
+  alcohol:  {name:"Alcohol",   color:"#B7791F"},
+  sueno:    {name:"Sueño",     color:"#6B5B95"},
+  estres:   {name:"Estrés",    color:"#8E7CC3"},
+  sol:      {name:"Sol",       color:"#D9A441"},
+  suplem:   {name:"Suplementos",color:"#3B5E9E"},
+  donacion: {name:"Donación",  color:"#A23E48"},
+  medico:   {name:"Fármaco",   color:"#1F4133"},
+  emergente:{name:"Emergente", color:"#8A8F8C"}
+};
+const LEVER_ORDER = Object.keys(LEVERS);
+
+
+const HAB_LEVERS=["ejercicio","dieta","alcohol","sueno","estres","sol","suplem","donacion"];
+const MED_LEVERS=["medico","emergente"];
+
+const RESEARCH = {
+ a: {
+  name:"Participante A", date:"Panel 25 de septiembre de 2026 · 51 años",
+  partial:null,
+  headline:(c,p,m)=>`Metabolismo excelente, lípidos heredados y un hábito que toca seis marcadores a la vez. ${c} de 100 en lo que controlás; ${p} puntos más dependen de vos, ${m} de un fármaco, y la única carta fija es la Lp(a).`,
+  act1:(inRange,n,out)=>`${inRange} de ${n} marcadores en objetivo de longevidad. Lo que falta está en <b>${out}</b> y ApoB.`,
+  act3:`<b>Lp(a) 133</b> (corte 125), LDL >230 desde 2020, mamá con stent a los 76. Fuera de lípidos, nada heredado. El dato que falta: <b>score de calcio</b>.`,
+  inhPillar:"Cardiometabólico", inhLabel:"carga heredada, solo en lípidos",
+  M:[
+ {k:"apob", name:"ApoB", v:176, u:"mg/dL", opt:[0,80], sev:[0,200], w:5, mod:{hab:30,med:55,fix:15}, pillar:"Cardiometabólico",
+  lv:{dieta:[3,"A"], ejercicio:[1,"B"], alcohol:[1,"B"], medico:[3,"A"]}, hz:"Dieta: 6–8 semanas · Fármaco: 4–6 semanas",
+  why:"Cuenta partículas que dañan la arteria. Un tercio responde a grasa saturada; la mayor parte, a fármacos. Rasgo estable desde 2020.",
+  pharm:[
+   {n:"Estatina", eff:"ApoB/LDL −30 a −50%", ev:"A", cost:"Mialgias (5–10% en práctica, menos en ensayos); +riesgo de diabetes tipo 2 (~0.2%/año); beneficio en eventos sólido en prevención secundaria, más discutido y de menor magnitud absoluta en primaria sin placa demostrada"},
+   {n:"Ezetimiba", eff:"−15 a −20% adicional", ev:"A", cost:"Bien tolerada; beneficio en eventos modesto, demostrado sumada a estatina"},
+   {n:"Inhibidor PCSK9", eff:"−50 a −60%", ev:"A", cost:"Inyectable cada 2–4 semanas; costo alto; también baja Lp(a) ~25%"},
+   {n:"Score de calcio antes de decidir", eff:"Reclasifica el riesgo", ev:"A", cost:"Tomografía sin contraste, baja radiación; un calcio de 0 a los 51 cambia la urgencia de todo lo anterior"}
+  ]},
+ {k:"ldl",  name:"LDL",  v:247, u:"mg/dL", opt:[0,100], sev:[0,300], w:2, mod:{hab:30,med:55,fix:15}, pillar:"Cardiometabólico",
+  lv:{dieta:[3,"A"], ejercicio:[1,"B"], medico:[3,"A"]}, hz:"6–8 semanas"},
+ {k:"lpa",  name:"Lp(a)", v:133, u:"nmol/L", opt:[0,75], sev:[0,200], w:4, mod:{hab:0,med:15,fix:85}, pillar:"Cardiometabólico",
+  lv:{medico:[1,"B"], emergente:[2,"C"]}, hz:"Fija de por vida · siRNA/antisentido en fase 3",
+  why:"Genética pura: no se mueve con dieta ni ejercicio. Lo único que la mueve hoy es un fármaco, y poco.",
+  pharm:[
+   {n:"Inhibidor PCSK9", eff:"Lp(a) −20 a −30%", ev:"B", cost:"Inyectable, costo alto; no está aprobado por la Lp(a) en sí sino por el LDL"},
+   {n:"siRNA / antisentido (pelacarsen, olpasiran)", eff:"Lp(a) −80 a −95%", ev:"C", cost:"Fase 3 en curso; no se sabe aún si bajar Lp(a) reduce infartos"}
+  ]},
+ {k:"tg",   name:"Triglicéridos", v:100, u:"mg/dL", opt:[0,100], sev:[0,200], w:2, mod:{hab:85,med:10,fix:5}, pillar:"Cardiometabólico",
+  lv:{dieta:[3,"A"], ejercicio:[2,"A"], alcohol:[2,"A"]}},
+ {k:"hdl",  name:"HDL", v:58, u:"mg/dL", opt:[60,120], sev:[35,120], w:1, mod:{hab:60,med:10,fix:30}, pillar:"Cardiometabólico",
+  lv:{ejercicio:[2,"A"], alcohol:[1,"B"], dieta:[1,"B"]}},
+ {k:"hba1c",name:"HbA1c", v:5.24, u:"%", opt:[0,5.4], sev:[0,6.5], w:4, mod:{hab:85,med:10,fix:5}, pillar:"Glucosa e insulina",
+  lv:{dieta:[3,"A"], ejercicio:[3,"A"], sueno:[2,"B"], estres:[1,"B"]}},
+ {k:"ins",  name:"Insulina", v:4.2, u:"µU/mL", opt:[0,6], sev:[0,15], w:3, mod:{hab:90,med:5,fix:5}, pillar:"Glucosa e insulina",
+  lv:{dieta:[3,"A"], ejercicio:[3,"A"], sueno:[2,"B"]}},
+ {k:"glu",  name:"Glucosa", v:83, u:"mg/dL", opt:[70,90], sev:[55,126], w:2, mod:{hab:85,med:10,fix:5}, pillar:"Glucosa e insulina",
+  lv:{dieta:[3,"A"], ejercicio:[2,"A"]}},
+ {k:"uric", name:"Ácido úrico", v:8.7, u:"mg/dL", opt:[0,6], sev:[0,10], w:3, mod:{hab:60,med:35,fix:5}, pillar:"Hígado y alcohol",
+  lv:{dieta:[3,"A"], alcohol:[2,"A"], medico:[2,"A"], ejercicio:[1,"B"]}, hz:"Dieta/alcohol: 4–8 semanas"},
+ {k:"ggt",  name:"GGT", v:27, u:"U/L", opt:[0,25], sev:[0,80], w:1, mod:{hab:90,med:0,fix:10}, pillar:"Hígado y alcohol",
+  lv:{alcohol:[3,"A"], dieta:[1,"B"], ejercicio:[1,"B"]}},
+ {k:"mcv",  name:"VCM", v:97.3, u:"fL", opt:[84,95], sev:[70,105], w:1, mod:{hab:85,med:0,fix:15}, pillar:"Hígado y alcohol",
+  lv:{alcohol:[3,"A"], suplem:[2,"A"]}, hz:"3–4 meses (vida del glóbulo rojo)"},
+ {k:"ferr", name:"Ferritina", v:430, u:"ng/mL", opt:[50,150], sev:[15,600], w:2, mod:{hab:85,med:5,fix:10}, pillar:"Hierro y sangre",
+  lv:{donacion:[3,"A"], alcohol:[2,"B"], dieta:[1,"B"]}, hz:"Donación: cada unidad baja ~30–50 ng/mL"},
+ {k:"wbc",  name:"Leucocitos", v:4370, u:"/mm³", opt:[4500,8000], sev:[2500,12000], w:1, mod:{hab:40,med:0,fix:60}, pillar:"Hierro y sangre",
+  lv:{ejercicio:[1,"B"]}},
+ {k:"hcy",  name:"Homocisteína", v:14.9, u:"µmol/L", opt:[0,10], sev:[0,20], w:3, mod:{hab:75,med:10,fix:15}, pillar:"Inflamación y vascular",
+  lv:{suplem:[3,"A"], dieta:[2,"A"], alcohol:[2,"B"]}, hz:"Folato/B6/B12: 6–8 semanas"},
+ {k:"crp",  name:"PCR", v:0.1, u:"mg/dL", opt:[0,0.1], sev:[0,1.0], w:3, mod:{hab:70,med:20,fix:10}, pillar:"Inflamación y vascular",
+  lv:{ejercicio:[2,"A"], dieta:[2,"A"], sueno:[2,"B"], estres:[2,"B"]}},
+ {k:"vitd", name:"Vitamina D", v:31, u:"ng/mL", opt:[40,60], sev:[12,100], w:2, mod:{hab:95,med:0,fix:5}, pillar:"Nutrientes",
+  lv:{suplem:[3,"A"], sol:[2,"A"]}, hz:"8–12 semanas"},
+ {k:"t3",   name:"T3 total", v:56.8, u:"ng/dL", opt:[80,152], sev:[40,152], w:2, mod:{hab:80,med:15,fix:5}, pillar:"Hormonal",
+  lv:{dieta:[3,"B"], sueno:[1,"B"], estres:[1,"B"], medico:[1,"B"]}, hz:"Semanas, si es energía que entra"},
+ {k:"igf1", name:"IGF-1", v:85.8, u:"ng/mL", opt:[110,200], sev:[60,300], w:1, mod:{hab:70,med:10,fix:20}, pillar:"Hormonal",
+  lv:{dieta:[2,"B"], ejercicio:[2,"B"], sueno:[2,"B"], emergente:[1,"C"]}, hz:"Días a semanas (proteína, calorías)"},
+ {k:"tt",   name:"Testosterona", v:653, u:"ng/dL", opt:[550,900], sev:[300,1200], w:2, mod:{hab:60,med:25,fix:15}, pillar:"Hormonal",
+  lv:{sueno:[2,"A"], ejercicio:[2,"A"], alcohol:[1,"B"], estres:[1,"B"]}},
+ {k:"tsh",  name:"TSH", v:2.08, u:"mUI/L", opt:[0.5,2.5], sev:[0.1,6], w:1, mod:{hab:20,med:70,fix:10}, pillar:"Hormonal", lv:{medico:[2,"A"]}},
+ {k:"psa",  name:"PSA", v:2.46, u:"ng/mL", opt:[0,2.5], sev:[0,6], w:2, mod:{hab:20,med:20,fix:60}, pillar:"Órganos", lv:{ejercicio:[1,"B"]}},
+ {k:"creat",name:"Creatinina", v:1.05, u:"mg/dL", opt:[0.7,1.2], sev:[0.5,1.8], w:2, mod:{hab:30,med:10,fix:60}, pillar:"Órganos", lv:{dieta:[1,"B"]}}
+],
+  STORIES:[
+ {t:"Lípidos altos con metabolismo sano", tone:"var(--high)",
+  mk:["ApoB 176","LDL 247","Lp(a) 133","Insulina 4.2","TG 100","HbA1c 5.24","PCR 0.1"],
+  txt:"El LDL no viene de resistencia a la insulina: insulina, triglicéridos, glucosa e inflamación están impecables. Es el patrón descrito en personas delgadas, activas y bajas en carbohidratos, montado sobre un rasgo familiar (LDL >230 desde 2020) y una Lp(a) heredada.",
+  so:"La dieta mueve una parte real de ApoB/LDL, pero la genética pone el piso. Lp(a) no se negocia con hábitos. El dato que decide todo es el score de calcio."},
+ {t:"El eje alcohol", tone:"var(--high)",
+  mk:["GGT 27 (era 45)","VCM 97.3","Ferritina 430","Ácido úrico 8.7","Homocisteína 14.9","TG 100 (borde)"],
+  txt:"Seis marcadores que el alcohol empuja en la misma dirección, con unas 10 copas de vino a la semana. La GGT ya bajó de 45 a 27: el hígado responde rápido cuando el consumo cambia.",
+  so:"Es la contrapropuesta más potente del tablero porque una sola decisión mueve seis números. Aquí los hábitos alcanzan en casi todo; lo único que además pide una salida es la ferritina (donar)."},
+ {t:"Energía que entra", tone:"var(--low)",
+  mk:["T3 total 56.8","IGF-1 85.8","Leucocitos 4370","TSH 2.08 (normal)"],
+  txt:"T3 baja con TSH normal no es tiroides enferma: es el cuerpo ahorrando. IGF-1 en el piso responde a proteína y calorías de los últimos días. La muestra se tomó tras 20 horas de ayuno, con ventanas 18:6 habituales y entrenamiento fuerte.",
+  so:"No hay fármaco que proponer ni que rechazar. La contrapropuesta es comida: más proteína, ventanas más cortas en días de entrenamiento, y repetir con ayuno de 12 horas antes de sacar conclusiones."}
+],
+  CP:[
+ {name:"ApoB (y LDL)", cur:176, unit:"mg/dL", goal:80, hab:[132,158], drug:[88,114], lowerBetter:true,
+  doc:"Estatina de intensidad moderada o alta, posiblemente con ezetimiba.",
+  you:[
+   ["Sustituir la grasa saturada (queso, carne grasa, coco) por oliva, pescado, nueces, aguacate","A","ApoB −10 a −15%"],
+   ["Fibra soluble: psyllium 10 g/día, avena, legumbres","A","LDL −5 a −10%"],
+   ["Si el patrón es hiperrespondedor magro, reintroducir 50–100 g/día de carbohidrato complejo","C","LDL −20 a −40% en series pequeñas"],
+   ["Ejercicio: ya lo hacés; sobre ApoB mueve poco","A","−0 a −5%"]
+  ],
+  test:"Repetir ApoB y LDL a las 8–12 semanas con ayuno de 12 h. Antes o en paralelo: score de calcio coronario.",
+  verdict:"Parcial", vtxt:"Los hábitos cierran entre un 20% y un 45% de la brecha hasta 80. Con hábitos solos no llegás al objetivo; sí podés llegar a 130–150, que cambia el riesgo pero no lo cierra.",
+  when:"Reconsiderar el fármaco si a las 12 semanas ApoB sigue >110 con la dieta hecha, o si el score de calcio es >0. Con calcio 0 y ApoB ~130, la decisión es legítimamente tuya."},
+ {name:"Lp(a)", cur:133, unit:"nmol/L", goal:75, hab:null, drug:[93,106], lowerBetter:true,
+  doc:"Probablemente nada específico; a lo sumo PCSK9 (por el LDL) o mencionar que hay fármacos en fase 3.",
+  you:[
+   ["No hay hábito que la mueva: ni dieta, ni ejercicio, ni alcohol","A","0%"],
+   ["Lo que sí: bajar todo lo que la multiplica (ApoB, presión, glucosa, inflamación)","A","riesgo total, no Lp(a)"],
+   ["Pregunta para el médico, no propuesta: aspirina en dosis baja con Lp(a) alta","C","señal en subgrupos, sin ensayo dedicado"]
+  ],
+  test:"Una sola vez en la vida alcanza; no hace falta repetirla. Pedir Lp(a) a hermanos e hijos.",
+  verdict:"Sin alternativa", vtxt:"Aquí no hay contrapropuesta de hábitos y es importante saberlo antes de la consulta: es la razón por la que el resto del plan tiene que ser más estricto, no menos.",
+  when:"Si aparecen placa (calcio >0) o eventos en la familia antes de los 60, la conversación sobre PCSK9 o un ensayo de siRNA deja de ser teórica."},
+ {name:"Ácido úrico", cur:8.7, unit:"mg/dL", goal:6, hab:[6.7,7.7], drug:[4.5,6], lowerBetter:true,
+  doc:"Alopurinol si se mantiene >7–8 o si hay gota o cálculos.",
+  you:[
+   ["Alcohol a ≤3 copas/semana (la cerveza es la peor; el vino, intermedio)","A","−0.5 a −1.0"],
+   ["Menos fructosa y azúcar añadida; menos purinas concentradas: sardinas, vísceras, carne roja diaria","A","−0.5 a −1.0"],
+   ["Hidratación 2–3 L/día; cereza ácida o vitamina C 500 mg","B","−0.3 a −0.5"],
+   ["Repetir en condiciones estándar primero: 20 h de ayuno, carne y ejercicio intenso lo inflaron","A","la cifra real puede ser menor"]
+  ],
+  test:"Repetir con ayuno de 8–12 h, sin alcohol ni carne roja el día previo, sin entreno intenso 48 h antes. Luego de 8 semanas de hábitos, otra vez.",
+  verdict:"Probable", vtxt:"Los hábitos llevan de 8.7 a la zona de 7; llegar a 6 es posible si el alcohol baja de verdad. Sin síntomas, no hay prisa farmacológica.",
+  when:"Reconsiderar si tras 8 semanas sigue >7.5, o ante cualquier crisis de gota o cálculo renal."},
+ {name:"Ferritina", cur:430, unit:"ng/mL", goal:150, hab:[340,400], drug:[150,250], lowerBetter:true, drugLabel:"donación",
+  doc:"Medir saturación de transferrina; si está alta, estudio genético de hemocromatosis y flebotomias.",
+  you:[
+   ["Donar sangre cada 3–4 meses, si saturación de transferrina y hemoglobina lo permiten","A","−30 a −50 por unidad"],
+   ["Alcohol abajo: aumenta la absorción de hierro y libera ferritina del hígado","B","−10 a −20%"],
+   ["Menos carne roja diaria; café o té con las comidas de carne","B","absorción −20 a −40%"]
+  ],
+  test:"Saturación de transferrina y TIBC la próxima vez; es el dato que separa reserva alta de acumulación. Ferritina a los 6 meses.",
+  verdict:"Sí", vtxt:"La donación es a la vez hábito y tratamiento: tres o cuatro al año devuelven la ferritina al rango en un año. Nunca has donado en 51 años.",
+  when:"Si la saturación sale >45%, pedir el estudio HFE; ahí la frecuencia de flebotomia la define el médico, no el calendario de donación."},
+ {name:"Homocisteína", cur:14.9, unit:"µmol/L", goal:10, hab:[9.7,12], drug:null, lowerBetter:true,
+  doc:"Casi nunca recomiendan nada: 14.9 está dentro del rango del laboratorio. El objetivo de longevidad es otro.",
+  you:[
+   ["Verduras de hoja, legumbres, huevo: folato y B6 que la dieta baja en carbohidratos suele dejar cortos","A","−10 a −20%"],
+   ["Metilfolato 400–800 µg + B6 25–50 mg (B12 ya está en 604)","A","−20 a −30%"],
+   ["Alcohol abajo: consume folato y sube la homocisteína","B","−5 a −10%"]
+  ],
+  test:"Folato y B6 la próxima vez (nunca se midieron). Homocisteína a las 8 semanas.",
+  verdict:"Sí", vtxt:"Es el marcador donde la contrapropuesta es también la única propuesta: no hay fármaco, hay nutrientes.",
+  when:"Si con suplemento sigue >12, vale medir la variante MTHFR; cambia la forma de folato, no la estrategia."},
+ {name:"Vitamina D", cur:31, unit:"ng/mL", goal:45, hab:[40,60], drug:null, lowerBetter:false,
+  doc:"Suplementar; el rango que se estudia es 1000–4000 UI/día, la dosis la define el médico.",
+  you:[
+   ["Sol de media mañana, brazos y piernas, 15–20 min","A","+5 a +10 en 3 meses"],
+   ["Vitamina D3 con una comida con grasa","A","+10 a +20 en 3 meses"]
+  ],
+  test:"Repetir a los 3 meses.",
+  verdict:"Sí", vtxt:"Aquí hábito y suplemento son lo mismo; no hay nada que negociar.",
+  when:"Si no sube con suplemento, mirar absorción (grasa en la dieta, intestino)."},
+ {name:"T3 total e IGF-1", cur:56.8, unit:"ng/dL", goal:80, hab:[75,110], drug:null, lowerBetter:false,
+  doc:"Un buen médico, nada: TSH normal. Uno apurado, levotiroxina, que sería un error.",
+  you:[
+   ["Proteína 1.6–2 g/kg/día, repartida; es lo que IGF-1 y T3 están pidiendo","B","ambos suben en semanas"],
+   ["Ventanas de ayuno más cortas (12–14 h) los días de entrenamiento fuerte","B",""],
+   ["Repetir con ayuno nocturno normal antes de concluir nada","A","la muestra se tomó a las 20 h"]
+  ],
+  test:"T3 libre, IGF-1 y hemograma con ayuno de 12 h, en 8 semanas.",
+  verdict:"Sí", vtxt:"Es una historia de combustible, no de glándula. La contrapropuesta es comer más y medir mejor.",
+  when:"Si con ingesta normal y ayuno de 12 h la T3 sigue baja, ahí sí endocrinología."}
+],
+  KEEP:{tg:"Alcohol y carbohidrato: el primero en moverse si suben las copas",hdl:"Ejercicio; sube despacio",hba1c:"Dieta baja en carbohidrato y entrenamiento",ins:"Igual que HbA1c; es la base del metabolismo sano",glu:"Igual que HbA1c",crp:"Entrenamiento, sueño, sin fritos; 0.1 es casi cero inflamación",tt:"Sueño y fuerza; el alcohol la baja",tsh:"Nada que hacer; eje normal",psa:"Repetir sin bicicleta ni entreno 48 h antes; seguir anual",creat:"Masa muscular; 1.05 es lo esperable en alguien que entrena",ggt:"Bajó de 45 a 27 entre paneles: el hígado responde al alcohol en semanas",mcv:"Alcohol y folato; 97.3 todavía algo grande",wbc:"Frecuente en quien entrena mucho; sin peso solo",hdl:"Ejercicio; el alcohol moderado lo sube pero no compensa lo demás"},
+  hideFromOk:["apob","ldl","lpa","uric","ferr","hcy","vitd","t3","igf1"], showLeve:["ggt","mcv","wbc","hdl"]
+ },
+ b: {
+  name:"Participante B", date:"Panel 25 de septiembre de 2026 · 47 años · tomado durante la menstruación",
+  partial:"El panel de B no trae LDL, colesterol total, glucosa, HbA1c ni ferritina, así que este score cubre solo lo medido: lípidos por ApoB, hierro por saturación, vitamina D y el eje hormonal. Además, tomaba biotina: estradiol, progesterona, testosterona y vitamina D pueden haber salido falsamente altos, y FSH, SHBG e IGF-1 falsamente bajos. Todo lo hormonal se lee como orientativo hasta repetir sin biotina 72 h antes.",
+  headline:(c,p,m)=>`Riesgo cardiovascular limpio, transición hormonal en curso y una vitamina D que hay que subir. ${c} de 100 en lo que controlás; la mitad de lo que falta es vitamina D, y lo hormonal se decide después de repetir sin biotina.`,
+  act1:(inRange,n,out)=>`${inRange} de ${n} marcadores en objetivo. Lo que falta está en <b>${out}</b>.`,
+  act3:`<b>Lp(a) 9</b>: la carta genética más importante está limpia. La transición hormonal a los 47 es una etapa, no una herencia, y no entra en el score. Historia familiar: sin registrar.`,
+  inhPillar:"Cardiometabólico", inhLabel:"carga heredada en lípidos",
+  M:[
+   {k:"apob", name:"ApoB", v:84, u:"mg/dL", opt:[0,80], sev:[0,160], w:5, mod:{hab:40,med:45,fix:15}, pillar:"Cardiometabólico", lv:{dieta:[3,"A"], ejercicio:[1,"B"], medico:[3,"A"]}},
+   {k:"lpa",  name:"Lp(a)", v:9, u:"nmol/L", opt:[0,75], sev:[0,200], w:4, mod:{hab:0,med:15,fix:85}, pillar:"Cardiometabólico", lv:{}},
+   {k:"tg",   name:"Triglicéridos", v:47, u:"mg/dL", opt:[0,100], sev:[0,200], w:2, mod:{hab:85,med:10,fix:5}, pillar:"Cardiometabólico", lv:{dieta:[3,"A"], ejercicio:[2,"A"], alcohol:[2,"A"]}},
+   {k:"hdl",  name:"HDL", v:76, u:"mg/dL", opt:[65,120], sev:[35,120], w:1, mod:{hab:60,med:10,fix:30}, pillar:"Cardiometabólico", lv:{ejercicio:[2,"A"]}},
+   {k:"fe",   name:"Hierro sérico", v:83.5, u:"µg/dL", opt:[60,150], sev:[30,200], w:1, mod:{hab:80,med:10,fix:10}, pillar:"Hierro", lv:{dieta:[2,"A"]}},
+   {k:"tsat", name:"Saturación de transferrina", v:24.45, u:"%", opt:[20,45], sev:[10,60], w:1, mod:{hab:80,med:10,fix:10}, pillar:"Hierro", lv:{dieta:[2,"A"]}},
+   {k:"vitd", name:"Vitamina D", v:15, u:"ng/mL", opt:[40,60], sev:[8,100], w:3, mod:{hab:95,med:0,fix:5}, pillar:"Nutrientes", lv:{suplem:[3,"A"], sol:[2,"A"]}},
+   {k:"igf1", name:"IGF-1", v:70.4, u:"ng/mL", opt:[110,220], sev:[50,330], w:1, mod:{hab:70,med:10,fix:20}, pillar:"Hormonal", lv:{dieta:[2,"B"], ejercicio:[2,"B"], sueno:[2,"B"], emergente:[1,"C"]}},
+   {k:"tt",   name:"Testosterona", v:2.52, u:"ng/dL", opt:[15,45], sev:[2,70], w:2, mod:{hab:35,med:50,fix:15}, pillar:"Hormonal", lv:{dieta:[2,"B"], ejercicio:[2,"B"], sueno:[1,"B"], medico:[2,"B"]}},
+   {k:"shbg", name:"SHBG", v:170, u:"nmol/L", opt:[40,110], sev:[20,200], w:2, mod:{hab:60,med:20,fix:20}, pillar:"Hormonal", lv:{dieta:[3,"B"], ejercicio:[1,"B"], medico:[1,"B"]}},
+   {k:"dheas",name:"DHEA-S", v:68.4, u:"µg/dL", opt:[80,200], sev:[20,300], w:1, mod:{hab:30,med:40,fix:30}, pillar:"Hormonal", lv:{sueno:[1,"B"], estres:[1,"B"], medico:[1,"C"]}},
+   {k:"e2",   name:"Estradiol (fase folicular)", v:5, u:"pg/mL", opt:[30,90], sev:[0,300], w:3, mod:{hab:0,med:70,fix:30}, pillar:"Transición", lv:{medico:[3,"A"]}},
+   {k:"fsh",  name:"FSH (fase folicular)", v:46.4, u:"mUI/mL", opt:[3.5,12.5], sev:[1,100], w:2, mod:{hab:0,med:50,fix:50}, pillar:"Transición", lv:{medico:[2,"A"]}},
+   {k:"prog", name:"Progesterona (fase folicular)", v:0.43, u:"ng/mL", opt:[0,0.5], sev:[0,3], w:1, mod:{hab:0,med:50,fix:50}, pillar:"Transición", lv:{}}
+  ],
+  STORIES:[
+   {t:"Riesgo cardiovascular: el mejor perfil del tablero", tone:"var(--ok)",
+    mk:["ApoB 84","Lp(a) 9","TG 47","HDL 76"],
+    txt:"ApoB en 84 contra un objetivo de 80, Lp(a) en 9 (la parte genética del riesgo, limpia), triglicéridos muy bajos con HDL alto. Faltan LDL y colesterol total, pero con esta ApoB no cambian la lectura.",
+    so:"Aquí no hay nada que contraproponer porque nadie va a recomendar nada. Mantener y medir una vez al año."},
+   {t:"Transición hormonal", tone:"var(--high)",
+    mk:["FSH 46.4","Estradiol <5","Progesterona 0.43","47 años, menstruando"],
+    txt:"Ovarios que responden con poco estradiol mientras la hipófisis empuja con mucha FSH, en fase folicular temprana: el patrón que la ginecología evalúa como perimenopausia. Una sola medición no lo define; la FSH oscila de ciclo a ciclo.",
+    so:"Es una etapa, no un déficit, y el score no la castiga. Ningún hábito mueve FSH ni estradiol; la decisión sobre terapia hormonal es médica y personal. Lo que sí es tuyo: hueso (vitamina D + fuerza), sueño y masa muscular, que es lo que la transición erosiona."},
+   {t:"Energía que entra", tone:"var(--low)",
+    mk:["IGF-1 70.4","SHBG 170","Testosterona 2.52","TG 47","20 h de ayuno"],
+    txt:"SHBG alta con IGF-1 bajo, testosterona casi indetectable y triglicéridos en 47 es el patrón de ingesta corta y ayuno largo, superpuesto a la transición. La biotina pudo exagerar la testosterona hacia abajo y la SHBG hacia arriba.",
+    so:"Antes de cualquier contrapropuesta hormonal: repetir con ayuno de 12 h, sin biotina 72 h antes, y testosterona por espectrometría de masas. Comer más, con proteína suficiente, es la palanca que mueve SHBG e IGF-1 a la vez."}
+  ],
+  CP:[
+   {name:"Vitamina D", cur:15, unit:"ng/mL", goal:45, hab:[40,60], drug:null, lowerBetter:false,
+    doc:"Suplementar; el rango que se estudia es 1000–4000 UI/día, la dosis la define el médico. Aquí recomendación y hábito coinciden.",
+    you:[["Vitamina D3 con una comida con grasa, dosis acordada con el médico","A","+20 a +30 en 3 meses"],["Sol de media mañana, brazos y piernas, 15–20 min","A","+5 a +10 en 3 meses; solo no alcanza desde 15"],["Pescado graso y huevo suman poco pero suman","B","+2 a +5"]],
+    test:"Repetir a los 3 meses, sin biotina 72 h antes (puede haber salido falsamente alta: la real podría ser menor).", verdict:"Sí", vtxt:"Es el hallazgo más claro y el más fácil de mover. En la transición hormonal el hueso pierde densidad más rápido; subir la D no es cosmético.",
+    when:"Si no sube con suplemento, mirar absorción (grasa en la dieta, intestino). Densitometría basal ahora, para tener línea de partida."},
+   {name:"Testosterona y SHBG", cur:2.52, unit:"ng/dL", goal:15, hab:[4,10], drug:[20,40], lowerBetter:false,
+    doc:"O nada, o testosterona transdérmica en dosis femenina (fuera de ficha en la mayoría de países; evidencia A solo para libido en posmenopausia, C para energía y músculo).",
+    you:[["Primero repetir sin biotina y con ayuno de 12 h, por espectrometría de masas: la cifra puede ser falsa","A","la real puede ser varias veces mayor"],["Comer más, con proteína 1.6 g/kg: la SHBG baja cuando sube la ingesta","B","SHBG −20 a −35%"],["Fuerza 3 veces por semana y dormir 7–8 h","B","testosterona +20 a +40% sobre un valor tan bajo"]],
+    test:"Testosterona por espectrometría, SHBG, TSH (falta) e IGF-1, con ayuno de 12 h, sin biotina. Después de eso, 8 semanas de hábitos y repetir.", verdict:"Parcial", vtxt:"Los hábitos bajan la SHBG y suben algo la testosterona libre, pero parte de la caída es la transición. Decidir sobre terapia con el valor actual sería decidir sobre un dato que puede estar mal medido.",
+    when:"Si tras repetir bien y 8 semanas de hábitos sigue <8 con síntomas (energía, libido, fuerza), la conversación sobre terapia es legítima; sin síntomas, el número solo no la justifica."},
+   {name:"IGF-1", cur:70.4, unit:"ng/mL", goal:110, hab:[95,135], drug:null, lowerBetter:false,
+    doc:"Nada. Un IGF-1 bajo con ayuno de 20 h no es un hallazgo todavía.",
+    you:[["Proteína 1.6 g/kg/día repartida en 3 comidas","B","sube en días a semanas"],["Ventanas de ayuno de 12–14 h los días de entrenamiento","B",""],["Repetir con ayuno nocturno normal antes de concluir","A","la muestra se tomó a las 20 h"]],
+    test:"IGF-1 con ayuno de 12 h, en 8 semanas, junto con el resto del panel hormonal.", verdict:"Sí", vtxt:"Responde a comida de los últimos días, no de los últimos meses. La contrapropuesta es comer y medir bien.",
+    when:"Si con ingesta normal sigue <90 y hay pérdida de fuerza o masa muscular, ahí sí endocrinología."},
+   {name:"Estradiol y FSH (transición)", cur:5, unit:"pg/mL", goal:30, hab:null, drug:[40,100], lowerBetter:false, drugLabel:"terapia hormonal",
+    doc:"Terapia hormonal menopáusica (estradiol transdérmico + progesterona) si hay síntomas; o esperar y repetir. Evidencia A para sofocos y sueño, B para hueso; el balance de riesgos depende de edad de inicio y vía.",
+    you:[["No hay hábito que mueva FSH ni estradiol en la transición","A","0%"],["Lo que sí es tuyo: fuerza para hueso y músculo, vitamina D, sueño","A","protege lo que la transición erosiona"],["Repetir FSH y estradiol entre el día 2 y 4 de otro ciclo","A","una medición no define la etapa"]],
+    test:"FSH y estradiol día 2–4 del próximo ciclo, sin biotina. Densitometría basal. Registrar síntomas (sueño, sofocos, ánimo) durante 2 ciclos: la decisión se toma sobre síntomas, no sobre el número.", verdict:"Sin alternativa", vtxt:"Para el número no hay contrapropuesta y conviene saberlo antes de la consulta. La decisión real no es sobre FSH: es sobre síntomas, hueso y preferencia, y es tuya con la ginecóloga.",
+    when:"Si aparecen síntomas que afectan sueño o calidad de vida, o la densitometría muestra pérdida, la conversación sobre terapia deja de ser teórica."}
+  ],
+  KEEP:{apob:"Sobre 80 por 4 puntos; dieta mediterránea lo sostiene. Nada que negociar",lpa:"Una vez en la vida alcanza; está limpia",tg:"47 refleja en parte las 20 h de ayuno; con HDL 76 es un patrón favorable, no un problema",hdl:"Ejercicio; 76 es alto para cualquier edad",fe:"Transporte de hierro bien; falta ferritina para ver la reserva",tsat:"24% es el centro del rango",dheas:"Zona baja del rango, acorde a la edad; sueño y estrés",prog:"Fase folicular; 0.43 es irrelevante en esta fase"},
+  hideFromOk:["vitd","igf1","tt","shbg","e2","fsh"], showLeve:["apob","dheas"]
+ }
+};
+
+// ---------- Cálculo ----------
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+const sum=(arr,f)=>arr.reduce((a,x)=>a+f(x),0);
+function score(m){ const [ol,oh]=m.opt,[sl,sh]=m.sev,v=m.v; if(v>oh) return 1-clamp((v-oh)/(sh-oh),0,1); if(v<ol) return 1-clamp((ol-v)/(ol-sl),0,1); return 1; }
+function compute(R){
+  const M=R.M; M.forEach(m=>{ m.s=score(m); m.side=m.v>m.opt[1]?"hi":(m.v<m.opt[0]?"lo":"ok"); });
+  const habDen=sum(M,m=>m.w*m.mod.hab/100);
+  const control=100*sum(M,m=>m.w*(m.mod.hab/100)*m.s)/habDen;
+  const lvPts={}; Object.keys(LEVERS).forEach(k=>lvPts[k]=0);
+  M.forEach(m=>{
+    const dH=100*m.w*(m.mod.hab/100)*(1-m.s)/habDen, dM=100*m.w*(m.mod.med/100)*(1-m.s)/habDen;
+    const hl=Object.entries(m.lv).filter(([k])=>HAB_LEVERS.includes(k)), ml=Object.entries(m.lv).filter(([k])=>MED_LEVERS.includes(k));
+    const th=sum(hl,x=>x[1][0]), tm=sum(ml,x=>x[1][0]);
+    if(dH>0 && th) hl.forEach(([k,[imp]])=>lvPts[k]+=dH*imp/th);
+    if(dM>0){ if(tm) ml.forEach(([k,[imp]])=>lvPts[k]+=dM*imp/tm); else lvPts.medico+=dM; }
+  });
+  const potMed=lvPts.medico+lvPts.emergente, potential=100-control;
+  const fixIdx=p=>sum(M.filter(m=>m.pillar===p),m=>m.w*(m.mod.fix/100)*(1-m.s));
+  return {M,control,potential,potMed,lvPts,fixIdx};
+}
+
+// ---------- Render ----------
+const $=id=>document.getElementById(id);
+const fmt=n=>Math.round(n);
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const lab=i=>i>=1?["Alta","var(--high)"]:i>=0.4?["Media","var(--high)"]:["Limpia","var(--ok)"];
+const edge=m=>{ const [ol,oh]=m.opt, span=(oh-ol)||oh; return m.s===1 && ((oh-m.v)<=0.1*span || (ol>0 && (m.v-ol)<=0.1*span)); };
+const VC={ "Sí":"var(--ok)", "Probable":"var(--ok)", "Parcial":"var(--high)", "Sin alternativa":"var(--fix)" };
+
+function rangeBar(c){
+  const vals=[c.cur,c.goal,...(c.hab||[]),...(c.drug||[])];
+  let lo=Math.min(...vals), hi=Math.max(...vals); const pad=(hi-lo)*0.12||1; lo-=pad; hi+=pad;
+  const W=600,H=78,x=v=>20+(W-40)*(v-lo)/(hi-lo);
+  const band=(r,color,label,y)=>r?`<rect x="${x(Math.min(...r))}" y="${y}" width="${Math.max(6,Math.abs(x(r[1])-x(r[0])))}" height="12" rx="6" fill="${color}" opacity=".85"/><text x="${(x(r[0])+x(r[1]))/2}" y="${y-5}" font-size="11" text-anchor="middle" fill="${css('--muted')}">${label} ${r[0]}–${r[1]}</text>`:"";
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;margin:8px 0 2px">
+    <line x1="20" y1="60" x2="${W-20}" y2="60" stroke="${css('--line')}" stroke-width="2"/>
+    ${band(c.hab,css('--hab'),"hábitos",22)}${band(c.drug,css('--med'),c.drugLabel||"fármaco",46)}
+    <line x1="${x(c.goal)}" y1="12" x2="${x(c.goal)}" y2="68" stroke="${css('--ink')}" stroke-width="2" stroke-dasharray="3 3"/>
+    <text x="${x(c.goal)}" y="${H-2}" font-size="11" text-anchor="middle" fill="${css('--ink')}">objetivo ${c.lowerBetter?"<":">"} ${c.goal}</text>
+    <circle cx="${x(c.cur)}" cy="60" r="7" fill="${css('--high')}" stroke="${css('--panel')}" stroke-width="2"/>
+    <text x="${x(c.cur)}" y="${H-2}" font-size="11" font-weight="700" text-anchor="middle" fill="${css('--high')}">actual ${c.cur}</text></svg>`;
+}
+const H=t=>`<div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px">${t}</div>`;
+
+function render(id){
+  const R=RESEARCH[id]; const {M,control,potential,potMed,lvPts,fixIdx}=compute(R);
+  document.title=`Healthspan · Active research · ${R.name}`;
+  $("title").textContent=`Active research · ${R.name}`;
+  $("subtitle").textContent=R.date+(R.partial?" · score parcial":"");
+  $("headline").textContent=R.headline(fmt(control),fmt(potential),fmt(potMed));
+  // strip
+  $("kControl").textContent=fmt(control);
+  const inRange=M.filter(m=>m.s===1).length;
+  const outHab=M.filter(m=>m.s<1&&m.mod.hab>=50).sort((a,b)=>(b.w*b.mod.hab*(1-b.s))-(a.w*a.mod.hab*(1-a.s)));
+  $("act1").innerHTML=R.act1(inRange,M.length,outHab.slice(0,3).map(m=>m.name).join(", "))+(R.partial?` <span style="color:var(--high)">Score parcial: faltan marcadores.</span>`:"");
+  const habLv=HAB_LEVERS.filter(k=>lvPts[k]>0.05).sort((a,b)=>lvPts[b]-lvPts[a]); const scale=Math.max(potential,potMed,1);
+  $("gainHab").innerHTML=habLv.map(k=>`<span title="${LEVERS[k].name} +${lvPts[k].toFixed(1)}" style="width:${100*lvPts[k]/scale}%;background:${LEVERS[k].color}"></span>`).join("");
+  $("gainMed").innerHTML=`<span style="width:${100*potMed/scale}%;background:var(--med)"></span>`;
+  $("kPot").textContent="+"+fmt(potential); $("kMed").textContent="+"+fmt(potMed);
+  const medTop=M.filter(m=>m.mod.med>0&&m.s<1).map(m=>({n:m.name,d:m.w*m.mod.med*(1-m.s)})).sort((a,b)=>b.d-a.d);
+  $("act2").innerHTML=`Los ${fmt(potential)} son tuyos: <b>${habLv.slice(0,2).map(k=>LEVERS[k].name.toLowerCase()).join(" y ")}</b> son la mayor parte. Los ${fmt(potMed)} del fármaco están casi todos en <b>${medTop[0]?medTop[0].n:"—"}</b>: esa es la conversación con el médico.`;
+  const inh=fixIdx(R.inhPillar); $("kInh").textContent=lab(inh)[0]; $("kInh").style.color=lab(inh)[1]; $("kInhL").textContent=R.inhLabel; $("act3").innerHTML=R.act3;
+  // stories
+  $("stories").innerHTML=R.STORIES.map(s=>`<div class="card" style="border-top:4px solid ${s.tone}"><h3>${s.t}</h3><div class="pill-row" style="margin:10px 0 12px">${s.mk.map(m=>`<span class="pill">${m}</span>`).join("")}</div><p style="margin:0 0 10px;font-size:14px">${s.txt}</p><p style="margin:0;font-size:14px;color:var(--muted)"><b style="color:var(--ink)">Para contraproponer:</b> ${s.so}</p></div>`).join("");
+  // cards
+  $("cps").innerHTML=(R.partial?`<div class="warn" style="margin-bottom:14px">${R.partial}</div>`:"")+R.CP.map(c=>`<div class="card" style="margin-bottom:14px">
+    <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between"><h3>${c.name} <span style="font-family:'Public Sans',sans-serif;font-weight:400;color:var(--muted);font-size:14px">${c.cur} ${c.unit}</span></h3><span style="font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#fff;background:${VC[c.verdict]};border-radius:999px;padding:4px 12px">${c.verdict}</span></div>
+    ${rangeBar(c)}
+    <div class="grid g2" style="margin-top:14px">
+      <div>${H("Lo que probablemente te recomienden")}<p style="margin:0 0 14px;font-size:14px;color:var(--muted)">${c.doc}</p>${H("Tu contrapropuesta")}
+      ${c.you.slice(0,3).map(([t,ev,eff])=>`<div style="font-size:13.5px;margin-bottom:7px;display:grid;grid-template-columns:1fr auto;gap:8px"><span>${t}</span><span style="white-space:nowrap;color:var(--muted)">${eff} <b style="color:${ev==="C"?"var(--high)":"var(--ok)"}">${ev}</b></span></div>`).join("")}</div>
+      <div>${H("¿Alcanza?")}<p style="margin:0 0 14px;font-size:14px">${c.vtxt}</p>${H("Qué sigue")}<p style="margin:0;font-size:14px">${c.test} <span style="color:var(--muted)">${c.when}</span></p></div>
+    </div></div>`).join("");
+  // ok table
+  const rows=M.filter(m=>(m.s===1||R.showLeve.includes(m.k))&&!R.hideFromOk.includes(m.k)).sort((a,b)=>(edge(b)?1:0)-(edge(a)?1:0)||b.w-a.w);
+  const tgt=m=>m.opt[0]>0?`${m.opt[0]}–${m.opt[1]}`:`< ${m.opt[1]}`;
+  $("okTable").innerHTML=`<thead><tr><th>Marcador</th><th>Valor</th><th>Objetivo</th><th>Qué lo sostiene</th></tr></thead><tbody>`+rows.map(m=>`<tr><td class="m">${m.name}${edge(m)?' <span class="tag" style="margin-left:4px;color:var(--high);border-color:var(--high)">borde</span>':(m.s<1?' <span class="tag" style="margin-left:4px">leve</span>':'')}</td><td style="font-variant-numeric:tabular-nums;font-weight:600">${m.v} <span style="color:var(--muted);font-weight:400">${m.u}</span></td><td style="color:var(--muted)">${tgt(m)}</td><td>${R.KEEP[m.k]||"—"}</td></tr>`).join("")+`</tbody>`;
+}
+const sel=$("member"); sel.innerHTML=Object.entries(RESEARCH).map(([k,r])=>`<option value="${k}">${r.name}</option>`).join("");
+const initial=new URLSearchParams(location.search).get("p"); if(initial&&RESEARCH[initial]) sel.value=initial;
+sel.addEventListener("change",()=>{ history.replaceState(null,"",`?p=${sel.value}`); render(sel.value); });
+render(sel.value);
+</script>
+</body>
+</html>

@@ -37,6 +37,8 @@ h2{font-size:22px;margin-bottom:14px}
 .controls{display:flex;gap:8px;flex-wrap:wrap}
 select{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
 select:focus-visible{outline:2px solid var(--ok);outline-offset:2px}
+.navlink{font:inherit;font-size:14px;font-weight:600;color:var(--ok);text-decoration:none;border:1px solid var(--ok);border-radius:8px;padding:8px 12px;display:inline-block}
+.navlink:hover{background:var(--band)}
 
 .tally{display:flex;gap:28px;flex-wrap:wrap;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:34px}
 .tally div{min-width:110px}
@@ -119,6 +121,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--line);paddin
     <div class="controls">
       <label><span class="sr" hidden>Persona</span><select id="member" aria-label="Persona"></select></label>
       <label><span class="sr" hidden>Panel</span><select id="panel" aria-label="Fecha del panel"></select></label>
+      <a class="navlink" href="research.html">Active research →</a>
     </div>
   </header>
 

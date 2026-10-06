@@ -6,6 +6,7 @@ Tablero de biomarcadores para seguir la salud de un grupo pequeño de personas a
 
 ## Qué contiene
 
+- `research.html` — **Active research · Contrapropuestas.** Capa de investigación sobre el panel: para cada marcador que puede generar una recomendación médica, qué podría recomendar un médico, qué alternativa de hábitos existe, hasta dónde llega según la literatura (con evidencia A/B/C), el veredicto (Sí / Probable / Parcial / Sin alternativa) y cómo comprobarlo. Incluye un score de hábitos (solo lo que la persona controla; el fármaco se muestra como potencial, no suma) y la carga heredada por sistema. Pesos, objetivos y rangos son editoriales y están a la vista. No es consejo médico.
 - `DATA.md` — copia legible de todos los datos (paneles, valores, rangos, lecturas, próximo panel). Se regenera desde `index.html`.
 - `index.html` — el tablero completo, autocontenido (HTML + CSS + JS, sin dependencias ni build). Los datos viven en el objeto `DATA` al final del archivo.
 
