@@ -275,10 +275,19 @@ const RESEARCH = {
  {name:"ApoB (y LDL)", cur:176, unit:"mg/dL", goal:80, hab:[132,158], drug:[88,114], lowerBetter:true,
   doc:"Estatina de intensidad moderada o alta, posiblemente con ezetimiba.",
   you:[
-   ["Sustituir la grasa saturada (queso, carne grasa, coco) por oliva, pescado, nueces, aguacate","A","ApoB −10 a −15%"],
+   ["Sustituir mantequilla, coco y grasa de carne por oliva, pescado, nueces, aguacate. El queso sube el LDL bastante menos que la misma grasa en mantequilla (efecto matriz)","A","ApoB −10 a −15%"],
    ["Fibra soluble: psyllium 10 g/día, avena, legumbres","A","LDL −5 a −10%"],
-   ["Si el patrón es hiperrespondedor magro, reintroducir 50–100 g/día de carbohidrato complejo","C","LDL −20 a −40% en series pequeñas"],
-   ["Ejercicio: ya lo hacés; sobre ApoB mueve poco","A","−0 a −5%"]
+   ["Si el patrón es hiperrespondedor magro, reintroducir 50–100 g/día de carbohidrato complejo","C","LDL −20 a −40% en series pequeñas"]
+  ],
+  claims:[
+   {q:"¿La grasa saturada sube el LDL y la ApoB?", a:"Sí, y la evidencia es de alimentación controlada, no de encuestas.", ev:"A",
+    src:["Mensink & Katan 2003, AJCN: 60 ensayos controlados; reemplazar saturada por insaturada baja el LDL de forma lineal y reproducible","Mensink 2016, informe OMS: 84 ensayos, misma conclusión","Neelakantan 2020, Circulation: metaanálisis de aceite de coco; sube LDL frente a aceites insaturados","de Goede 2015 / Hjerpsted 2011: el queso sube el LDL menos que la mantequilla con igual grasa saturada"]},
+   {q:"¿Bajar el LDL con dieta hace vivir más?", a:"No está demostrado. Los ensayos que bajaron el colesterol con dieta no redujeron la mortalidad.", ev:"—",
+    src:["Minnesota Coronary Experiment, reanálisis Ramsden 2016, BMJ: 9,423 pacientes, el colesterol bajó, la mortalidad no mejoró","Sydney Diet Heart, Ramsden 2013, BMJ: 458 hombres, más mortalidad en el grupo con aceites vegetales","Hooper 2020, Cochrane: reducir saturadas baja ~17% los eventos cardiovasculares; sin efecto en mortalidad total ni cardiovascular"]},
+   {q:"¿El LDL/ApoB causa placa y eventos?", a:"Sí. La evidencia más fuerte es genética y no depende de dieta ni de fármacos.", ev:"A",
+    src:["Cohen 2006, NEJM: variantes de pérdida de función en PCSK9 (LDL bajo de por vida) → hasta 88% menos enfermedad coronaria","Ference 2017, Eur Heart J, consenso EAS: randomización mendeliana con relación dosis-respuesta entre exposición acumulada a LDL y eventos","Hipercolesterolemia familiar: LDL alto desde el nacimiento, infartos décadas antes que la población general"]},
+   {q:"¿Y en el fenotipo delgado, activo y bajo en carbohidratos con LDL muy alto?", a:"Abierto. Un solo estudio, sin grupo control, un año.", ev:"C",
+    src:["KETO-CTA, Norwitz/Budoff 2025, JACC: Advances: 100 personas con este patrón, LDL mediano ~250, tomografía coronaria a 0 y 12 meses. La placa progresó en muchos; la progresión no se asoció al LDL ni a la ApoB sino a la placa inicial. Críticas: sin control, tasa de progresión alta, plazo corto","Lo que sí dice en ambas lecturas: la placa presente predice la placa futura. Por eso el dato decisivo es el score de calcio o la angiotomografía, no la ApoB"]}
   ],
   test:"Repetir ApoB y LDL a las 8–12 semanas con ayuno de 12 h. Antes o en paralelo: score de calcio coronario.",
   verdict:"Parcial", vtxt:"Los hábitos cierran entre un 20% y un 45% de la brecha hasta 80. Con hábitos solos no llegás al objetivo; sí podés llegar a 130–150, que cambia el riesgo pero no lo cierra.",
@@ -483,7 +492,9 @@ function render(id){
       <div>${H("Lo que probablemente te recomienden")}<p style="margin:0 0 14px;font-size:14px;color:var(--muted)">${c.doc}</p>${H("Tu contrapropuesta")}
       ${c.you.slice(0,3).map(([t,ev,eff])=>`<div style="font-size:13.5px;margin-bottom:7px;display:grid;grid-template-columns:1fr auto;gap:8px"><span>${t}</span><span style="white-space:nowrap;color:var(--muted)">${eff} <b style="color:${ev==="C"?"var(--high)":"var(--ok)"}">${ev}</b></span></div>`).join("")}</div>
       <div>${H("¿Alcanza?")}<p style="margin:0 0 14px;font-size:14px">${c.vtxt}</p>${H("Qué sigue")}<p style="margin:0;font-size:14px">${c.test} <span style="color:var(--muted)">${c.when}</span></p></div>
-    </div></div>`).join("");
+    </div>
+    ${c.claims?`<div style="margin-top:16px;border-top:1px dashed var(--line);padding-top:12px">${H("Quién dijo que esto es cierto")}${c.claims.map(k=>`<details style="margin-bottom:8px"><summary style="cursor:pointer;font-size:14px"><b>${k.q}</b> <span style="color:var(--muted)">${k.a}</span> ${k.ev!=="—"?`<b style="color:${k.ev==="C"?"var(--high)":"var(--ok)"}">${k.ev}</b>`:""}</summary><ul style="margin:8px 0 0;padding-left:18px;font-size:13px;color:var(--muted)">${k.src.map(x=>`<li style="margin-bottom:4px">${x}</li>`).join("")}</ul></details>`).join("")}</div>`:""}
+    </div>`).join("");
   // ok table
   const rows=M.filter(m=>(m.s===1||R.showLeve.includes(m.k))&&!R.hideFromOk.includes(m.k)).sort((a,b)=>(edge(b)?1:0)-(edge(a)?1:0)||b.w-a.w);
   const tgt=m=>m.opt[0]>0?`${m.opt[0]}–${m.opt[1]}`:`< ${m.opt[1]}`;
