@@ -200,19 +200,19 @@ const RESEARCH = {
   partial:null,
   headline:(c,p,m)=>`Metabolismo excelente, lípidos heredados y un hábito que toca seis marcadores a la vez. ${c} de 100 en lo que controlás; ${p} puntos más dependen de vos, ${m} de un fármaco, y la única carta fija es la Lp(a).`,
   act1:(inRange,n,out)=>`${inRange} de ${n} marcadores en objetivo de longevidad. Lo que falta está en <b>${out}</b> y ApoB.`,
-  act3:`<b>Lp(a) 133</b> (corte 125), LDL >230 desde 2020, mamá con stent a los 76. Fuera de lípidos, nada heredado. El dato que falta: <b>score de calcio</b>.`,
+  act3:`<b>Lp(a) 133</b> (corte 125), LDL >230 desde 2020, mamá con stent a los 76, y la prueba de la casa: <b>B come igual y tiene ApoB 84</b>. Fuera de lípidos, nada heredado. El dato que falta: <b>score de calcio</b>.`,
   inhPillar:"Cardiometabólico", inhLabel:"carga heredada, solo en lípidos",
   M:[
- {k:"apob", name:"ApoB", v:176, u:"mg/dL", opt:[0,80], sev:[0,200], w:5, mod:{hab:30,med:55,fix:15}, pillar:"Cardiometabólico",
+ {k:"apob", name:"ApoB", v:176, u:"mg/dL", opt:[0,80], sev:[0,200], w:5, mod:{hab:25,med:45,fix:30}, pillar:"Cardiometabólico",
   lv:{dieta:[3,"A"], ejercicio:[1,"B"], alcohol:[1,"B"], medico:[3,"A"]}, hz:"Dieta: 6–8 semanas · Fármaco: 4–6 semanas",
-  why:"Cuenta partículas que dañan la arteria. Un tercio responde a grasa saturada; la mayor parte, a fármacos. Rasgo estable desde 2020.",
+  why:"Cuenta partículas que dañan la arteria. Rasgo estable desde 2020 y, sobre todo, independiente de la dieta: Participante B come igual y tiene 84. La parte que responde a comida es menor que la que pone la genética.",
   pharm:[
    {n:"Estatina", eff:"ApoB/LDL −30 a −50%", ev:"A", cost:"Mialgias (5–10% en práctica, menos en ensayos); +riesgo de diabetes tipo 2 (~0.2%/año); beneficio en eventos sólido en prevención secundaria, más discutido y de menor magnitud absoluta en primaria sin placa demostrada"},
    {n:"Ezetimiba", eff:"−15 a −20% adicional", ev:"A", cost:"Bien tolerada; beneficio en eventos modesto, demostrado sumada a estatina"},
    {n:"Inhibidor PCSK9", eff:"−50 a −60%", ev:"A", cost:"Inyectable cada 2–4 semanas; costo alto; también baja Lp(a) ~25%"},
    {n:"Score de calcio antes de decidir", eff:"Reclasifica el riesgo", ev:"A", cost:"Tomografía sin contraste, baja radiación; un calcio de 0 a los 51 cambia la urgencia de todo lo anterior"}
   ]},
- {k:"ldl",  name:"LDL",  v:247, u:"mg/dL", opt:[0,100], sev:[0,300], w:2, mod:{hab:30,med:55,fix:15}, pillar:"Cardiometabólico",
+ {k:"ldl",  name:"LDL",  v:247, u:"mg/dL", opt:[0,100], sev:[0,300], w:2, mod:{hab:25,med:45,fix:30}, pillar:"Cardiometabólico",
   lv:{dieta:[3,"A"], ejercicio:[1,"B"], medico:[3,"A"]}, hz:"6–8 semanas"},
  {k:"lpa",  name:"Lp(a)", v:133, u:"nmol/L", opt:[0,75], sev:[0,200], w:4, mod:{hab:0,med:15,fix:85}, pillar:"Cardiometabólico",
   lv:{medico:[1,"B"], emergente:[2,"C"]}, hz:"Fija de por vida · siRNA/antisentido en fase 3",
@@ -260,8 +260,8 @@ const RESEARCH = {
   STORIES:[
  {t:"Lípidos altos con metabolismo sano", tone:"var(--high)",
   mk:["ApoB 176","LDL 247","Lp(a) 133","Insulina 4.2","TG 100","HbA1c 5.24","PCR 0.1"],
-  txt:"El LDL no viene de resistencia a la insulina: insulina, triglicéridos, glucosa e inflamación están impecables. Es el patrón descrito en personas delgadas, activas y bajas en carbohidratos, montado sobre un rasgo familiar (LDL >230 desde 2020) y una Lp(a) heredada.",
-  so:"La dieta mueve una parte real de ApoB/LDL, pero la genética pone el piso. Lp(a) no se negocia con hábitos. El dato que decide todo es el score de calcio."},
+  txt:"El LDL no viene de resistencia a la insulina: insulina, triglicéridos, glucosa e inflamación están impecables. Y no viene de la dieta: Participante B come exactamente lo mismo, en la misma casa, con el mismo ayuno, y tiene ApoB 84 y Lp(a) 9. Con la variable dieta fija, el resultado es el doble. Lo que queda es la persona: un rasgo familiar (LDL >230 desde 2020, colesterol alto en toda la familia) y una Lp(a) heredada.",
+  so:"La dieta es una palanca chica contra un piso genético alto; si querés probarla, se prueba en tu sangre, no se asume. Lp(a) no se negocia con hábitos. Lo que decide es si hay placa: score de calcio."},
  {t:"El eje alcohol", tone:"var(--high)",
   mk:["GGT 27 (era 45)","VCM 97.3","Ferritina 430","Ácido úrico 8.7","Homocisteína 14.9","TG 100 (borde)"],
   txt:"Seis marcadores que el alcohol empuja en la misma dirección, con unas 10 copas de vino a la semana. La GGT ya bajó de 45 a 27: el hígado responde rápido cuando el consumo cambia.",
@@ -298,7 +298,7 @@ const RESEARCH = {
     src:["KETO-CTA, Norwitz/Budoff 2025, JACC: Advances: 100 personas con este patrón, LDL mediano ~250, tomografía coronaria a 0 y 12 meses. La placa progresó en muchos; la progresión no se asoció al LDL ni a la ApoB sino a la placa inicial. Críticas: sin control, tasa de progresión alta, plazo corto","Lo que sí dice en ambas lecturas: la placa presente predice la placa futura. Por eso el dato decisivo es el score de calcio o la angiotomografía, no la ApoB"]}
   ],
   test:"Repetir ApoB y LDL a las 8–12 semanas con ayuno de 12 h. Antes o en paralelo: score de calcio coronario.",
-  verdict:"Parcial", vtxt:"Los hábitos cierran entre un 20% y un 45% de la brecha hasta 80. Con hábitos solos no llegás al objetivo; sí podés llegar a 130–150, que cambia el riesgo pero no lo cierra.",
+  verdict:"Parcial", vtxt:"Los hábitos cierran entre un 20% y un 45% de la brecha hasta 80, y en tu caso probablemente menos: la misma dieta le da 84 a Participante B, así que tu piso lo pone la genética, no el plato. Con hábitos solos no llegás al objetivo; podés llegar a 130–150, que cambia el riesgo pero no lo cierra.",
   when:"Reconsiderar el fármaco si a las 12 semanas ApoB sigue >110 con la dieta hecha, o si el score de calcio es >0. Con calcio 0 y ApoB ~130, la decisión es legítimamente tuya."},
  {name:"Lp(a)", cur:133, premise:{gain:"Ninguna: no podés bajarla. La ventaja está en saberla: tu riesgo de base es cerca del doble a igualdad de todo lo demás, y eso cambia cuánto te conviene mover lo que sí se mueve. Y le dice a hermanos e hijos con qué cuentan.", t:"La Lp(a) alta aumenta el riesgo de infarto y ACV.", st:"consenso", why:"Aceptada en los dos modelos: la genética la señala como causal, y Kendrick la pone en el centro del modelo del coágulo (hace los coágulos resistentes a degradarse)."}, unit:"nmol/L", goal:75, hab:null, drug:[93,106], lowerBetter:true,
   doc:"Probablemente nada específico; a lo sumo PCSK9 (por el LDL) o mencionar que hay fármacos en fase 3.",
