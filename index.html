@@ -121,7 +121,8 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--line);paddin
     <div class="controls">
       <label><span class="sr" hidden>Persona</span><select id="member" aria-label="Persona"></select></label>
       <label><span class="sr" hidden>Panel</span><select id="panel" aria-label="Fecha del panel"></select></label>
-      <a class="navlink" href="glossary.html">Glosario</a>
+      <button id="langBtn" class="navlink" type="button" style="cursor:pointer;background:var(--panel)">EN</button>
+      <a class="navlink" href="glossary.html" data-i18n="nav_gloss">Glosario</a>
       <a class="navlink" href="research.html">Active research →</a>
     </div>
   </header>
@@ -129,49 +130,49 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--line);paddin
   <div class="tally" id="tally"></div>
 
   <section>
-    <h2>Marcadores frente al rango del laboratorio</h2>
+    <h2 data-i18n="h_markers">Marcadores frente al rango del laboratorio</h2>
     <div id="groups"></div>
   </section>
 
   <section id="notesSec">
-    <h2>Qué mirar</h2>
+    <h2 data-i18n="h_look">Qué mirar</h2>
     <div class="notes" id="notes"></div>
   </section>
 
   <section id="trendSec">
-    <h2>Evolución</h2>
+    <h2 data-i18n="h_trend">Evolución</h2>
     <p class="trendSub" id="trendSub"></p>
     <div class="trendGroup" id="trends"></div>
   </section>
 
   <section id="bodySec">
-    <h2>Cuerpo y entrenamiento</h2>
+    <h2 data-i18n="h_body">Cuerpo y entrenamiento</h2>
     <div class="fit" id="body"></div>
   </section>
 
   <section id="fitSec">
-    <h2>Condición física</h2>
+    <h2 data-i18n="h_fit">Condición física</h2>
     <div class="fit" id="fit"></div>
   </section>
 
   <section>
     <div class="two">
       <div class="box">
-        <h2>Contexto de la toma</h2>
+        <h2 data-i18n="h_ctx">Contexto de la toma</h2>
         <ul id="ctx"></ul>
-        <h2 class="pending" style="margin-top:20px">Por confirmar</h2>
-        <p class="pending">Cambia la lectura de varios marcadores. Respóndelo en el chat y queda registrado aquí.</p>
+        <h2 class="pending" style="margin-top:20px" data-i18n="h_pending">Por confirmar</h2>
+        <p class="pending" data-i18n="p_pending">Cambia la lectura de varios marcadores. Respóndelo en el chat y queda registrado aquí.</p>
         <ul id="verify"></ul>
       </div>
       <div class="box">
-        <h2>Para el próximo panel</h2>
+        <h2 data-i18n="h_next">Para el próximo panel</h2>
         <p>Marcadores que faltan para leer cada sistema completo.</p>
         <ul id="next"></ul>
       </div>
     </div>
   </section>
 
-  <footer>Este tablero organiza resultados; no es un diagnóstico ni reemplaza la consulta médica. Los rangos son los del laboratorio que emitió cada informe. Los participantes están anonimizados.</footer>
+  <footer data-i18n="foot">Este tablero organiza resultados; no es un diagnóstico ni reemplaza la consulta médica. Los rangos son los del laboratorio que emitió cada informe. Los participantes están anonimizados.</footer>
 </div>
 
 <script>
@@ -383,9 +384,45 @@ const DATA = {
   }]
 };
 
+
+// ---------- i18n (chrome, marker and group names; panel notes stay in Spanish for now) ----------
+let LANG = (()=>{ try{ const q=new URLSearchParams(location.search).get("lang"); if(q==="en"||q==="es") return q; const l=localStorage.getItem("hs_lang"); if(l==="en"||l==="es") return l; }catch(e){} return "es"; })();
+const UI = {
+ nav_gloss:{es:"Glosario",en:"Glossary"},
+ h_markers:{es:"Marcadores frente al rango del laboratorio",en:"Markers against the lab range"},
+ h_look:{es:"Qué mirar",en:"What to look at"}, h_trend:{es:"Evolución",en:"Trends"},
+ h_body:{es:"Cuerpo y entrenamiento",en:"Body and training"}, h_fit:{es:"Condición física",en:"Fitness"},
+ h_ctx:{es:"Contexto de la toma",en:"Sample conditions"}, h_pending:{es:"Por confirmar",en:"To confirm"},
+ p_pending:{es:"Cambia la lectura de varios marcadores. Respóndelo en el chat y queda registrado aquí.",en:"It changes the reading of several markers. Answer it in the chat and it gets recorded here."},
+ h_next:{es:"Para el próximo panel",en:"For the next panel"},
+ foot:{es:"Este tablero organiza resultados; no es un diagnóstico ni reemplaza la consulta médica. Los rangos son los del laboratorio que emitió cada informe. Los participantes están anonimizados.",
+       en:"This board organizes results; it is not a diagnosis and does not replace a medical visit. Ranges are those of the laboratory that issued each report. Participants are anonymized."},
+ t_meas:{es:"marcadores medidos",en:"markers measured"}, t_ok:{es:"en rango",en:"in range"}, t_h:{es:"por encima",en:"above"}, t_l:{es:"por debajo",en:"below"}, t_na:{es:"según fase del ciclo",en:"by cycle phase"},
+ ok:{es:"En rango",en:"In range"}, h:{es:"Alto",en:"High"}, l:{es:"Bajo",en:"Low"}, na:{es:"Según fase",en:"By phase"},
+ sub:{es:"Panel del",en:"Panel of"}, years:{es:"años",en:"years"},
+ trend:{es:"marcadores medidos dos o más veces entre",en:"markers measured two or more times between"}, trend2:{es:"El punto de cada fecha se colorea según el rango del laboratorio de esa fecha; la franja verde es el rango del panel más reciente.",en:"Each date’s point is colored by that date’s lab range; the green band is the most recent panel’s range."},
+ and:{es:"y",en:"and"}, rango:{es:"rango",en:"range"}, a:{es:"a",en:"to"},
+ bmi:{es:"Índice de masa corporal",en:"Body mass index"}, weight:{es:"Peso",en:"Weight"}, height:{es:"Talla",en:"Height"}, waist:{es:"Cintura",en:"Waist"}, whtr:{es:"Cintura / talla",en:"Waist / height"},
+ bmi_note:{es:"Rango de referencia OMS 18.5–24.9. No distingue músculo de grasa.",en:"WHO reference range 18.5–24.9. Does not distinguish muscle from fat."},
+ height_note:{es:"Talla aproximada",en:"Approximate height"}, waist_note:{es:"Medida con cinta a la altura del ombligo",en:"Tape-measured at navel height"},
+ whtr_note:{es:"Referencia habitual: por debajo de 0.5. Estima grasa abdominal mejor que el IMC.",en:"Usual reference: below 0.5. Estimates abdominal fat better than BMI."},
+ recorded:{es:"Registrado el",en:"Recorded on"}, since:{es:"desde",en:"from"}, noctx:{es:"Sin registrar todavía",en:"Not recorded yet"},
+ notes_es:{es:"",en:"<div class=\"warn\" style=\"background:var(--panel);border:1px dashed var(--line);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--muted);margin-bottom:14px\">Readings, sample conditions and follow-up notes are shown in Spanish for now; English versions are being added panel by panel.</div>"},
+};
+const ui = k => (UI[k]||{})[LANG] || (UI[k]||{}).es || k;
+const MEMBER_EN = {"Participante A":"Participant A","Participante B":"Participant B"};
+const GROUP_EN = {"Lípidos":"Lipids","Metabolismo":"Metabolism","Hígado":"Liver","Riñón":"Kidney","Hierro":"Iron","Hormonas":"Hormones","Tiroides":"Thyroid","Micronutrientes":"Micronutrients","Inflamación":"Inflammation","Sangre":"Blood","Próstata":"Prostate"};
+const MARK_EN = {tg:["Triglycerides"],uric:["Uric acid"],ast:["AST (GOT)","Transaminase"],alt:["ALT (GPT)","Transaminase"],tt:["Total testosterone"],ft:["Free testosterone"],ft4:["Free T4","Thyroxine"],t3:["Total T3","Triiodothyronine"],b12:["Vitamin B12"],vitd:["Vitamin D","25-hydroxy total"],hdl:["HDL cholesterol","No risk in women: above 65"],fe:["Serum iron"],uibc:["Unsaturated iron-binding capacity","UIBC"],tibc:["Total iron-binding capacity","TIBC"],tsat:["Transferrin saturation"],e2:["Total estradiol","Follicular 30.9–90.4 · Ovulatory 60.4–533 · Luteal 60.4–232 · Postmenopause <5–138"],fsh:["FSH","Follicular 3.5–12.5 · Ovulatory 4.7–21.5 · Luteal 1.7–7.7 · Postmenopause 26–135"],prog:["Progesterone","Follicular <0.05–0.193 · Ovulation 0.055–4.14 · Luteal 4.11–14.5 · Postmenopause <0.05–0.126"],dheas:["DHEA-S","Dehydroepiandrosterone sulfate"],apob:["Apolipoprotein B","ApoB"],lpa:["Lipoprotein (a)","Lp(a)"],shbg:["SHBG","Sex hormone-binding globulin"],igf1:["IGF-1","Somatomedin C"],chol:["Total cholesterol"],ldl:["LDL cholesterol","Direct"],glu:["Fasting glucose"],ins:["Fasting insulin"],hba1c:["Glycated hemoglobin","HbA1c"],ggt:["GGT","Gamma-glutamyl transferase"],creat:["Creatinine"],bun:["Blood urea nitrogen","BUN"],ferr:["Ferritin"],tsh:["TSH","Thyroid-stimulating hormone"],crp:["C-reactive protein"],hcy:["Homocysteine","Without folate supplement: up to 15"],rbc:["Red blood cells"],hb:["Hemoglobin"],hct:["Hematocrit"],mcv:["Mean corpuscular volume","MCV"],mch:["Mean corpuscular hemoglobin","MCH"],rdw:["Red cell distribution width","RDW"],wbc:["White blood cells"],neut:["Neutrophils"],lymph:["Lymphocytes"],plt:["Platelets"],psa:["Total PSA","Prostate-specific antigen"]};
+const SUB_EN = {"Protector: más de 60":"Protective: above 60","Sin riesgo en hombres: más de 55":"No risk in men: above 55","Rango del laboratorio para fase folicular":"Lab range for follicular phase"};
+const mname = (k,m) => LANG==="en" && MARK_EN[k] ? MARK_EN[k][0] : m.name;
+const msub  = (k,m) => LANG==="en" ? (SUB_EN[m.sub] || (MARK_EN[k]&&MARK_EN[k][1]&&m.sub===MARKERS[k].sub ? MARK_EN[k][1] : m.sub)) : m.sub;
+const gname = g => LANG==="en" ? (GROUP_EN[g]||g) : g;
+const pname = n => LANG==="en" ? (MEMBER_EN[n]||n) : n;
+function applyStatic(){ document.querySelectorAll("[data-i18n]").forEach(el=>{ el.innerHTML=ui(el.dataset.i18n); }); document.documentElement.lang=LANG; const b=document.getElementById("langBtn"); if(b) b.textContent = LANG==="en" ? "ES" : "EN"; }
+
 const $ = id => document.getElementById(id);
 const fmt = n => n.toLocaleString("es-CO",{maximumFractionDigits:2});
-const fmtDate = s => new Date(s+"T12:00:00").toLocaleDateString("es-CO",{day:"numeric",month:"long",year:"numeric"});
+const fmtDate = s => new Date(s+"T12:00:00").toLocaleDateString(LANG==="en"?"en-GB":"es-CO",{day:"numeric",month:"long",year:"numeric"});
 const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
 const num = x => typeof x==="object" ? x.v : x;
@@ -403,7 +440,7 @@ function gauge(m,v){
   max = Math.max(max, v + span*0.08);
   const p = x => ((x-min)/(max-min))*100;
   const s = status(m,v);
-  return `<div class="gauge" role="img" aria-label="${esc(m.name)}: ${fmt(v)} ${m.unit}, rango ${fmt(m.lo)} a ${fmt(m.hi)}">
+  return `<div class="gauge" role="img" aria-label="${esc(m.name)}: ${fmt(v)} ${m.unit}, ${ui("rango")} ${fmt(m.lo)} ${ui("a")} ${fmt(m.hi)}">
     <div class="track"></div>
     <div class="band" style="left:${p(m.lo)}%;width:${(m.openHi?100:p(m.hi))-p(m.lo)}%"></div>
     <div class="dot ${s==="ok"?"":s}" style="left:${p(v)}%"></div>
@@ -419,12 +456,12 @@ function renderTrends(mem){
   sec.hidden = false;
   const first = panels[0].date, last = panels[panels.length-1].date;
   const keys = Object.keys(MARKERS).filter(k => panels.filter(p=>p.results[k]!=null && !MARKERS[k].phase).length>=2);
-  $("trendSub").textContent = `${keys.length} marcadores medidos dos o más veces entre ${fmtDate(first)} y ${fmtDate(last)}. El punto de cada fecha se colorea según el rango del laboratorio de esa fecha; la franja verde es el rango del panel más reciente.`;
+  $("trendSub").textContent = `${keys.length} ${ui("trend")} ${fmtDate(first)} ${ui("and")} ${fmtDate(last)}. ${ui("trend2")}`;
   const yr = d => d.slice(0,4);
   $("trends").innerHTML = GROUP_ORDER.map(g=>{
     const ks = keys.filter(k=>MARKERS[k].group===g);
     if(!ks.length) return "";
-    return `<h3>${g}</h3><div class="tgrid">${ks.map(k=>{
+    return `<h3>${gname(g)}</h3><div class="tgrid">${ks.map(k=>{
       const pts = panels.filter(p=>p.results[k]!=null).map(p=>({date:p.date, v:num(p.results[k]), s:status(marker(p,k),num(p.results[k]))}));
       const mLast = marker(panels[panels.length-1],k);
       const vals = pts.map(x=>x.v);
@@ -463,23 +500,23 @@ function render(){
   const prevIdx = mem.panels.indexOf(panel)-1;
   const prev = prevIdx>=0 ? mem.panels[prevIdx] : null;
 
-  $("title").textContent = "Healthspan · " + mem.name;
-  $("subtitle").textContent = `Panel del ${fmtDate(panel.date)}, ${panel.age} años, ${panel.lab}`;
+  $("title").textContent = "Healthspan · " + pname(mem.name);
+  $("subtitle").textContent = `${ui("sub")} ${fmtDate(panel.date)}, ${panel.age} ${ui("years")}, ${panel.lab}`;
 
   const keys = Object.keys(panel.results).filter(k=>MARKERS[k]);
   const counts = {ok:0,h:0,l:0,na:0};
   keys.forEach(k=>counts[status(marker(panel,k),num(panel.results[k]))]++);
   $("tally").innerHTML = `
-    <div><b>${keys.length}</b><span>marcadores medidos</span></div>
-    <div><b>${counts.ok}</b><span>en rango</span></div>
-    <div class="h"><b>${counts.h}</b><span>por encima</span></div>
-    <div class="l"><b>${counts.l}</b><span>por debajo</span></div>
-    ${counts.na?`<div><b>${counts.na}</b><span>según fase del ciclo</span></div>`:""}`;
+    <div><b>${keys.length}</b><span>${ui("t_meas")}</span></div>
+    <div><b>${counts.ok}</b><span>${ui("t_ok")}</span></div>
+    <div class="h"><b>${counts.h}</b><span>${ui("t_h")}</span></div>
+    <div class="l"><b>${counts.l}</b><span>${ui("t_l")}</span></div>
+    ${counts.na?`<div><b>${counts.na}</b><span>${ui("t_na")}</span></div>`:""}`;
 
   $("groups").innerHTML = GROUP_ORDER.map(g=>{
     const ks = keys.filter(k=>MARKERS[k].group===g);
     if(!ks.length) return "";
-    return `<div class="group"><h3>${g}</h3>${ks.map(k=>{
+    return `<div class="group"><h3>${gname(g)}</h3>${ks.map(k=>{
       const m = marker(panel,k), v = num(panel.results[k]), s = status(m,v);
       let delta = "";
       if(prev && prev.results[k]!=null && !m.phase){
@@ -487,10 +524,10 @@ function render(){
         delta = ` <small>${d>0?"+":""}${fmt(d)} vs. anterior</small>`;
       }
       return `<div class="row">
-        <div class="name">${esc(m.name)}${m.sub?`<small>${esc(m.sub)}</small>`:""}</div>
+        <div class="name">${esc(mname(k,m))}${m.sub?`<small>${esc(msub(k,m))}</small>`:""}</div>
         <div class="val">${txt(panel.results[k])}<small>${m.unit}</small>${delta}</div>
         ${gauge(m,v)}
-        <div class="status ${s}">${LABEL[s]}</div>
+        <div class="status ${s}">${ui(s)}</div>
       </div>`;}).join("")}</div>`;
   }).join("");
 
@@ -504,13 +541,13 @@ function render(){
   $("bodySec").hidden = !b;
   if(b){
     const bmi = b.weight/(b.height*b.height);
-    const bm = {name:"Índice de masa corporal", unit:"kg/m²", lo:18.5, hi:24.9};
+    const bm = {name:ui("bmi"), unit:"kg/m²", lo:18.5, hi:24.9};
     $("body").innerHTML = `
-      <div class="fcard"><div class="k">Peso</div><div class="v">${fmt(b.weight)} <span style="font-size:14px;font-family:'Public Sans',sans-serif;color:var(--muted)">kg</span></div><div class="k">${esc(b.note)} Registrado el ${fmtDate(b.date)}.</div></div>
-      <div class="fcard"><div class="k">Talla</div><div class="v">${fmt(b.height)} <span style="font-size:14px;font-family:'Public Sans',sans-serif;color:var(--muted)">m</span></div><div class="k">Talla aproximada</div></div>
-      <div class="fcard"><div class="k">Cintura</div><div class="v">${fmt(b.waistCm)} <span style="font-size:14px;font-family:'Public Sans',sans-serif;color:var(--muted)">cm</span></div><div class="k">Medida con cinta a la altura del ombligo</div></div>
-      <div class="fcard"><div class="k">Cintura / talla</div><div class="v">${fmt(Math.round(b.waistCm/(b.height*100)*100)/100)}</div>${gauge({name:"Cintura / talla",unit:"",lo:0.4,hi:0.5},b.waistCm/(b.height*100))}<div class="k" style="margin-top:6px">Referencia habitual: por debajo de 0.5. Estima grasa abdominal mejor que el IMC.</div></div>
-      <div class="fcard"><div class="k">${bm.name}</div><div class="v">${fmt(Math.round(bmi*10)/10)} <span style="font-size:14px;font-family:'Public Sans',sans-serif;color:var(--muted)">${bm.unit}</span></div>${gauge(bm,bmi)}<div class="k" style="margin-top:6px">Rango de referencia OMS 18.5–24.9. No distingue músculo de grasa.</div></div>
+      <div class="fcard"><div class="k">${ui("weight")}</div><div class="v">${fmt(b.weight)} <span style="font-size:14px;font-family:'Public Sans',sans-serif;color:var(--muted)">kg</span></div><div class="k">${esc(b.note)} ${ui("recorded")} ${fmtDate(b.date)}.</div></div>
+      <div class="fcard"><div class="k">${ui("height")}</div><div class="v">${fmt(b.height)} <span style="font-size:14px;font-family:'Public Sans',sans-serif;color:var(--muted)">m</span></div><div class="k">${ui("height_note")}</div></div>
+      <div class="fcard"><div class="k">${ui("waist")}</div><div class="v">${fmt(b.waistCm)} <span style="font-size:14px;font-family:'Public Sans',sans-serif;color:var(--muted)">cm</span></div><div class="k">${ui("waist_note")}</div></div>
+      <div class="fcard"><div class="k">${ui("whtr")}</div><div class="v">${fmt(Math.round(b.waistCm/(b.height*100)*100)/100)}</div>${gauge({name:ui("whtr"),unit:"",lo:0.4,hi:0.5},b.waistCm/(b.height*100))}<div class="k" style="margin-top:6px">${ui("whtr_note")}</div></div>
+      <div class="fcard"><div class="k">${bm.name}</div><div class="v">${fmt(Math.round(bmi*10)/10)} <span style="font-size:14px;font-family:'Public Sans',sans-serif;color:var(--muted)">${bm.unit}</span></div>${gauge(bm,bmi)}<div class="k" style="margin-top:6px">${ui("bmi_note")}</div></div>
       <div class="fcard"><div class="k">Entrenamiento</div><div class="v" style="font-size:24px">${esc(b.training.freq)}</div><div class="k">${b.training.types.map(esc).join(", ")}</div></div>`;
   }
 
@@ -525,7 +562,7 @@ function render(){
       return `<div class="fcard">
         <div class="k">${esc(x.k)}</div>
         <div class="v">${fmt(x.to)} <span style="font-size:14px;font-family:'Public Sans',sans-serif;color:var(--muted)">${x.unit}</span></div>
-        <div class="d">${d>0?"+":""}${fmt(d)} (${pct}%) desde ${fmt(x.from)}</div>
+        <div class="d">${d>0?"+":""}${fmt(d)} (${pct}%) ${ui("since")} ${fmt(x.from)}</div>
         <svg viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">
           <line x1="6" y1="${y(x.from)}" x2="194" y2="${y(x.to)}" stroke="var(--ok)" stroke-width="2.5" stroke-linecap="round"/>
           <circle cx="6" cy="${y(x.from)}" r="3.5" fill="var(--muted)"/>
@@ -534,14 +571,15 @@ function render(){
       </div>`;}).join("") + `<div style="grid-column:1/-1;color:var(--muted);font-size:13px">${esc(f.label)}</div>`;
   }
 
-  $("ctx").innerHTML = ((panel.context&&panel.context.length)?panel.context:["Sin registrar todavía"]).map(v=>`<li>${esc(v)}</li>`).join("");
+  { const n=$("notes"); if(n && !document.getElementById("notesLangNote")){ const d=document.createElement("div"); d.id="notesLangNote"; n.parentNode.insertBefore(d,n);} const d=document.getElementById("notesLangNote"); if(d) d.innerHTML = LANG==="en" ? ui("notes_es") : ""; }
+  $("ctx").innerHTML = ((panel.context&&panel.context.length)?panel.context:[ui("noctx")]).map(v=>`<li>${esc(v)}</li>`).join("");
   $("verify").innerHTML = (mem.verify||[]).map(v=>`<li>${esc(v)}</li>`).join("");
   document.querySelectorAll(".pending").forEach(el=>el.hidden = !(mem.verify||[]).length);
   $("next").innerHTML = (mem.next||[]).map(v=>`<li>${esc(v)}</li>`).join("");
 }
 
 function init(){
-  $("member").innerHTML = DATA.members.map(m=>`<option value="${m.id}">${esc(m.name)}</option>`).join("");
+  const fillMembers=()=>{ const v=$("member").value; $("member").innerHTML = DATA.members.map(m=>`<option value="${m.id}">${esc(pname(m.name))}</option>`).join(""); if(v) $("member").value=v; }; fillMembers();
   const fillPanels = ()=>{
     const mem = DATA.members.find(x=>x.id===$("member").value);
     $("panel").innerHTML = mem.panels.slice().reverse().map(p=>`<option value="${p.date}">${fmtDate(p.date)}</option>`).join("");
@@ -549,7 +587,8 @@ function init(){
   fillPanels();
   $("member").addEventListener("change",()=>{fillPanels();render();});
   $("panel").addEventListener("change",render);
-  render();
+  $("langBtn").addEventListener("click",()=>{ LANG = LANG==="en"?"es":"en"; try{ localStorage.setItem("hs_lang",LANG); }catch(e){} const u=new URL(location); u.searchParams.set("lang",LANG); history.replaceState(null,"",u); applyStatic(); fillMembers(); fillPanels(); render(); });
+  applyStatic(); render();
 }
 init();
 </script>

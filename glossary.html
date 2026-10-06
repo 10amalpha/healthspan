@@ -130,13 +130,13 @@ select{font:inherit;color:var(--ink);background:var(--panel);border:1px solid va
 <body>
 <div class="wrap">
   <header class="top">
-    <div><h1>Glosario</h1><div class="sub">Qué es cada marcador, por qué se mide, cómo se lee y qué se discute. Sin conclusiones.</div></div>
-    <div class="controls"><a class="navlink" href="index.html">← Panel</a><a class="navlink" href="research.html">Active research →</a></div>
+    <div><h1 data-i18n="title">Glosario</h1><div class="sub" data-i18n="sub">Qué es cada marcador, por qué se mide, cómo se lee y qué se discute. Sin conclusiones.</div></div>
+    <div class="controls"><button id="langBtn" class="navlink" type="button" style="cursor:pointer;background:var(--panel)">EN</button><a class="navlink" href="index.html">← Panel</a><a class="navlink" href="research.html">Active research →</a></div>
   </header>
-  <div class="warn">Esta sección es para entender, no para decidir. No interpreta los valores de ningún participante ni recomienda nada. Cada entrada tiene cuatro partes: <b>qué es</b> (biología), <b>por qué se mide</b> (qué pregunta responde), <b>cómo se lee</b> (qué lo mueve en el cuerpo y en la toma de la muestra) y <b>qué se discute</b> (dónde la ciencia no está de acuerdo, para seguir investigando).</div>
+  <div class="warn" data-i18n="warn">Esta sección es para entender, no para decidir. No interpreta los valores de ningún participante ni recomienda nada. Cada entrada tiene cuatro partes: <b>qué es</b> (biología), <b>por qué se mide</b> (qué pregunta responde), <b>cómo se lee</b> (qué lo mueve en el cuerpo y en la toma de la muestra) y <b>qué se discute</b> (dónde la ciencia no está de acuerdo, para seguir investigando).</div>
   <nav class="toc" id="toc"></nav>
   <div id="gl"></div>
-  <footer>Glosario · Healthspan. Contenido editorial en revisión; se corrige y amplía con cada panel nuevo. Lo marcado como "qué se discute" señala debates abiertos, no toma partido.</footer>
+  <footer data-i18n="foot">Glosario · Healthspan. Contenido editorial en revisión; se corrige y amplía con cada panel nuevo. Lo marcado como "qué se discute" señala debates abiertos, no toma partido.</footer>
 </div>
 <script>
 
@@ -385,16 +385,35 @@ const GL=[
  deb:"El cribado: los dos grandes ensayos dieron resultados distintos (ERSPC redujo mortalidad por cáncer de próstata; PLCO no), con mucho sobrediagnóstico de tumores que nunca habrían dado problemas. La tendencia actual es decidir caso a caso y usar resonancia antes de biopsia."}
 ];
 
+
+let LANG = (()=>{ try{ const q=new URLSearchParams(location.search).get("lang"); if(q==="en"||q==="es") return q; const l=localStorage.getItem("hs_lang"); if(l==="en"||l==="es") return l; }catch(e){} return "es"; })();
+const UI={
+ title:{es:"Glosario",en:"Glossary"},
+ sub:{es:"Qué es cada marcador, por qué se mide, cómo se lee y qué se discute. Sin conclusiones.",en:"What each marker is, why it is measured, how it is read and what is debated. No conclusions."},
+ warn:{es:"Esta sección es para entender, no para decidir. No interpreta los valores de ningún participante ni recomienda nada. Cada entrada tiene cuatro partes: <b>qué es</b> (biología), <b>por qué se mide</b> (qué pregunta responde), <b>cómo se lee</b> (qué lo mueve en el cuerpo y en la toma de la muestra) y <b>qué se discute</b> (dónde la ciencia no está de acuerdo, para seguir investigando).",
+       en:"This section is for understanding, not deciding. It interprets no participant’s values and recommends nothing. Each entry has four parts: <b>what it is</b> (biology), <b>why it is measured</b> (what question it answers), <b>how it is read</b> (what moves it in the body and at sampling) and <b>what is debated</b> (where the science disagrees, to keep researching). <span style=\"color:var(--high)\">Entry texts are in Spanish for now; English versions are being added.</span>"},
+ foot:{es:"Glosario · Healthspan. Contenido editorial en revisión; se corrige y amplía con cada panel nuevo. Lo marcado como \"qué se discute\" señala debates abiertos, no toma partido.",
+       en:"Glossary · Healthspan. Editorial content under review; corrected and extended with every new panel. What is marked “what is debated” points to open debates and takes no side."},
+ que:{es:"Qué es",en:"What it is"}, por:{es:"Por qué se mide",en:"Why it is measured"}, lee:{es:"Cómo se lee · qué lo mueve",en:"How it is read · what moves it"}, deb:{es:"Qué se discute",en:"What is debated"}
+};
+const ui=k=>(UI[k]||{})[LANG]||(UI[k]||{}).es||k;
+const GROUP_EN={"Lípidos":"Lipids","Metabolismo":"Metabolism","Hígado":"Liver","Riñón":"Kidney","Hierro":"Iron","Hormonas":"Hormones","Tiroides":"Thyroid","Micronutrientes":"Micronutrients","Inflamación":"Inflammation","Sangre":"Blood","Próstata":"Prostate"};
+const gname=g=>LANG==="en"?(GROUP_EN[g]||g):g;
+function applyStatic(){ document.querySelectorAll("[data-i18n]").forEach(el=>{ el.innerHTML=ui(el.dataset.i18n); }); document.documentElement.lang=LANG; const b=document.getElementById("langBtn"); if(b) b.textContent=LANG==="en"?"ES":"EN"; }
 const $=id=>document.getElementById(id);
 const slug=s=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
-$("toc").innerHTML=GROUPS.map(g=>`<a href="#${slug(g)}">${g} <span style="color:var(--muted)">${GL.filter(x=>x.g===g).length}</span></a>`).join("");
-$("gl").innerHTML=GROUPS.map(g=>`<section id="${slug(g)}"><h2>${g}</h2><div class="gl">${GL.filter(x=>x.g===g).map(x=>`<div class="card">
-  <h3>${x.n}<small>${x.u}</small></h3>
-  <div class="q">Qué es</div><p>${x.que}</p>
-  <div class="q">Por qué se mide</div><p>${x.por}</p>
-  <div class="q">Cómo se lee · qué lo mueve</div><p>${x.lee}</p>
-  <div class="q" style="color:var(--high)">Qué se discute</div><p class="deb">${x.deb}</p>
+function render(){
+$("toc").innerHTML=GROUPS.map(g=>`<a href="#${slug(g)}">${gname(g)} <span style="color:var(--muted)">${GL.filter(x=>x.g===g).length}</span></a>`).join("");
+$("gl").innerHTML=GROUPS.map(g=>`<section id="${slug(g)}"><h2>${gname(g)}</h2><div class="gl">${GL.filter(x=>x.g===g).map(x=>`<div class="card">
+  <h3>${(LANG==="en"&&x.n_en)||x.n}<small>${x.u}</small></h3>
+  <div class="q">${ui("que")}</div><p>${(LANG==="en"&&x.que_en)||x.que}</p>
+  <div class="q">${ui("por")}</div><p>${(LANG==="en"&&x.por_en)||x.por}</p>
+  <div class="q">${ui("lee")}</div><p>${(LANG==="en"&&x.lee_en)||x.lee}</p>
+  <div class="q" style="color:var(--high)">${ui("deb")}</div><p class="deb">${(LANG==="en"&&x.deb_en)||x.deb}</p>
 </div>`).join("")}</div></section>`).join("");
+}
+$("langBtn").addEventListener("click",()=>{ LANG=LANG==="en"?"es":"en"; try{ localStorage.setItem("hs_lang",LANG); }catch(e){} const u=new URL(location); u.searchParams.set("lang",LANG); history.replaceState(null,"",u); applyStatic(); render(); });
+applyStatic(); render();
 </script>
 </body>
 </html>
