@@ -252,10 +252,13 @@ Aorta ascendente 32.8 mm y descendente 24.5 mm, dentro de lo normal (se habla de
 
 ## Panel 25 de septiembre de 2026 — 47 años — Ayudas Diagnósticas Sura
 
+Informe de hierro y colesterol anonimizado: [`reports/2026-09-25_sura_participante-b.md`](reports/2026-09-25_sura_participante-b.md) · [PDF tachado](reports/2026-09-25_sura_participante-b.pdf)
+
 **Condiciones de la toma**
 
 - Toma de la muestra a las 9:00 a. m., el mismo día y en las mismas condiciones que Participante A
 - Última comida a la 1:00 p. m. del día anterior (unas 20 horas de ayuno)
+- Colesterol total 183 recibido en el impreso de Sura del 6 de octubre (mismo servicio del 25 de septiembre)
 - Muestra tomada durante la menstruación (fase folicular temprana)
 
 **Resultados**
@@ -263,6 +266,7 @@ Aorta ascendente 32.8 mm y descendente 24.5 mm, dentro de lo normal (se habla de
 | Grupo | Marcador | Valor | Unidad | Rango lab | Estado | Panel anterior |
 |---|---|---|---|---|---|---|
 | Lípidos | Apolipoproteína B (ApoB) | 84 | mg/dL | 60 – 141 | en rango | — |
+| Lípidos | Colesterol total | 183 | mg/dL | 0 – 200 | en rango | — |
 | Lípidos | Colesterol HDL (Sin riesgo en mujeres: más de 65) | 76 | mg/dL | > 65 | en rango | — |
 | Lípidos | Lipoproteína (a) (Lp(a)) | 9 | nmol/L | 0 – 75 | en rango | — |
 | Lípidos | Triglicéridos | 47 | mg/dL | 50 – 150 | **BAJO** | — |
@@ -303,7 +307,7 @@ El IGF-1 es la señal con la que el cuerpo responde a la hormona de crecimiento 
 
 ### En rango · Riesgo cardiovascular por lípidos: el mejor perfil del panel
 
-ApoB en 84 (60–141) es el marcador que mejor resume cuántas partículas capaces de dañar la arteria circulan; está en rango, y los clínicos enfocados en longevidad suelen buscar valores por debajo de 90 en personas sin otros factores, así que queda bien. Lp(a) en 9 nmol/L, muy por debajo del corte de 75: esta es la parte genética del riesgo, no cambia con hábitos y solo hace falta medirla una vez en la vida. Triglicéridos en 47, por debajo del 50 que el laboratorio pone como piso, con HDL en 76 (sin riesgo en mujeres desde 65): un triglicérido bajo con HDL alto es un patrón favorable, no un problema. Para cerrar el bloque solo faltan colesterol total y LDL, que son de rutina.
+ApoB en 84 (60–141) es el marcador que mejor resume cuántas partículas capaces de dañar la arteria circulan; está en rango, y los clínicos enfocados en longevidad suelen buscar valores por debajo de 90 en personas sin otros factores, así que queda bien. Lp(a) en 9 nmol/L, muy por debajo del corte de 75: esta es la parte genética del riesgo, no cambia con hábitos y solo hace falta medirla una vez en la vida. Triglicéridos en 47, por debajo del 50 que el laboratorio pone como piso, con HDL en 76 (sin riesgo en mujeres desde 65): un triglicérido bajo con HDL alto es un patrón favorable, no un problema. Colesterol total 183 (del impreso de Sura, 6 de octubre), por debajo de 200. El LDL no se midió directo; estimado por Friedewald (183 − 76 − 47/5) da unos 98 mg/dL, coherente con la ApoB de 84. Para cerrar el bloque solo falta el LDL directo.
 
 ### En rango · Hierro completo en rango
 
